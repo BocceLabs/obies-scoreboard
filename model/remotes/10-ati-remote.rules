@@ -1,0 +1,1 @@
+ACTION=="add", ATTRS{product}=="USB Receiver", ATTRS{idVendor}=="0bc7", ATTRS{idProduct}=="0004", SYMLINK+="ATI_Remote"
