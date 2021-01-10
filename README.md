@@ -32,7 +32,17 @@ The controller is the program that kicks off the app -- `obies_scoreboard.py`.
 
 # Dependencies
 
-pass
+Python packages (this should be all you need for macOS -- drivers were plug 'n play):
+
+```
+pyusb
+pyqt5
+opencv-contrib-python
+imutils
+```
+
+If you're running Raspbian you'll need all of the above Python packages.  You may also need to install USB Core Dev libraries in your Raspberry Pi system.  Furthermore, you'll need to create a USB Device Rule.  Details are in the following repo: [OddballSports-tv/hid_wireless_remote](https://github.com/OddballSports-tv/hid_wireless_remote).
+
 
 # Running the program
 

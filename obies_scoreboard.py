@@ -1,7 +1,7 @@
 # import packages, modules, classes, and functions
-from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtGui
-from views.viewsui import MainWindow
+from PyQt5.QtWidgets import QApplication
+from views.bocce.bocceui import MainWindow
 
 # start application with windows for each camera
 app = QApplication([])

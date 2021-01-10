@@ -3,6 +3,7 @@ import usb.core
 import usb.util
 import time
 import pandas as pd
+from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
 USB_IF = 0
 USB_TIMEOUT = 5
@@ -56,6 +57,8 @@ BUTTONS = {
     BTN("VOL_UP")   : ( 77, 136),
     BTN("VOL_DOWN") : ( 78, 137),
     BTN("VOL_DOWN") : (206,   9),
+    BTN("ATI")      : (114, 173),
+    BTN("ATI")      : (242,  45),
     BTN("MUTE")     : ( 79, 138),
     BTN("MUTE")     : (207,  10),
     BTN("CH_UP")    : ( 80, 139),
@@ -111,8 +114,13 @@ BUTTONS = {
 }
 
 
-class ATI:
-    def __init__(self, debug=False):
+class ATI(QThread):
+    # indicates new unique key press with an event signal
+    newUniqueKeyPress = pyqtSignal(BTN)
+    finished = pyqtSignal()
+
+    def __init__(self, debug=False, *args, **kwargs):
+        super(QThread, self).__init__(*args, **kwargs)
         self.debug = debug
         self.dev = None
         self._prevButton = None
@@ -145,15 +153,15 @@ class ATI:
         # set button timestamp
         ts = time.time()
 
-        # duplicate
+        # duplicate or bounced button
         if button == self._prevButton \
-            or (str(button) == str(self._prevButton) and ts - self._prevTs < 0.5):
+            or (str(button) == str(self._prevButton) and ts - self._prevTs < 0.1):
             self.doublePress = True
             self.mostRecentButton = None
             if self.debug:
                 print("* double press filterd *" if self.doublePress else "")
 
-        # new
+        # new unique button press
         else:
             self._prevButton = button
             self.mostRecentButton = button
@@ -162,10 +170,12 @@ class ATI:
             if self.debug:
                 print(str(button))
 
+            self.newUniqueKeyPress.emit(self.mostRecentButton)
+
         # set the previous timestamp
         self._prevTs = ts
 
-    def receive(self):
+    def run(self):
         """
         This method should be run as a process or thread
         """
@@ -207,17 +217,17 @@ class ATI:
 
             except Exception as e:
                 # print the exception if you'd like
-                if "Errno 110" not in str(e): # don't print the timeout error
+                if "Operation timed out" not in str(e): # don't print the timeout error
                     print(str(e))
 
                 # do nothing because we didn't receive data
                 pass
 
             # half a second should be enough time to capture each press of a button
-            time.sleep(0.5)
+            time.sleep(0.05)
 
     def disconnect(self):
-        pass
+        self.finished.emit()
 
 if __name__ == "__main__":
     # create an ATI remote object

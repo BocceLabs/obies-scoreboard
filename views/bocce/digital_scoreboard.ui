@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1085</width>
-    <height>748</height>
+    <width>1166</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="palette">
@@ -25,9 +25,9 @@
      <colorrole role="Window">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>214</red>
-        <green>214</green>
-        <blue>214</blue>
+        <red>128</red>
+        <green>128</green>
+        <blue>128</blue>
        </color>
       </brush>
      </colorrole>
@@ -45,9 +45,9 @@
      <colorrole role="Window">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>214</red>
-        <green>214</green>
-        <blue>214</blue>
+        <red>128</red>
+        <green>128</green>
+        <blue>128</blue>
        </color>
       </brush>
      </colorrole>
@@ -56,18 +56,18 @@
      <colorrole role="Base">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>214</red>
-        <green>214</green>
-        <blue>214</blue>
+        <red>128</red>
+        <green>128</green>
+        <blue>128</blue>
        </color>
       </brush>
      </colorrole>
      <colorrole role="Window">
       <brush brushstyle="SolidPattern">
        <color alpha="255">
-        <red>214</red>
-        <green>214</green>
-        <blue>214</blue>
+        <red>128</red>
+        <green>128</green>
+        <blue>128</blue>
        </color>
       </brush>
      </colorrole>
@@ -84,9 +84,9 @@
       <item>
        <layout class="QGridLayout" name="gridLayout_homeballs">
         <item row="1" column="0">
-         <widget class="QLabel" name="label_homeballa">
+         <widget class="QLabel" name="label_homeballb">
           <property name="text">
-           <string>a</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -94,9 +94,9 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLabel" name="label_homeballd">
+         <widget class="QLabel" name="label_homeballc">
           <property name="text">
-           <string>d</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -104,9 +104,9 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_homeballc">
+         <widget class="QLabel" name="label_homeballd">
           <property name="text">
-           <string>c</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -114,9 +114,9 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLabel" name="label_homeballb">
+         <widget class="QLabel" name="label_homeballa">
           <property name="text">
-           <string>b</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -230,7 +230,7 @@
         <item row="0" column="1">
          <widget class="QLabel" name="label_awayballb">
           <property name="text">
-           <string>b</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -240,7 +240,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_awayballc">
           <property name="text">
-           <string>c</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -250,7 +250,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="label_awayballd">
           <property name="text">
-           <string>d</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -260,7 +260,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_awayballa">
           <property name="text">
-           <string>a</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -386,7 +386,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>70</height>
+            <height>300</height>
            </size>
           </property>
           <property name="palette">
@@ -449,6 +449,12 @@ WordWrapping</string>
         </item>
         <item row="2" column="2">
          <widget class="QLabel" name="label_awayteam">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>300</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -496,6 +502,9 @@ WordWrapping</string>
            <string>TextLabel
 WordWrapping</string>
           </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -511,7 +520,7 @@ WordWrapping</string>
     <item row="0" column="1">
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="2">
-       <widget class="QLCDNumber" name="lcdNumber_timerseconds">
+       <widget class="QLCDNumber" name="lcdNumber_game_time_remaining_sec">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -561,7 +570,7 @@ WordWrapping</string>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLCDNumber" name="lcdNumber_timerminutes">
+       <widget class="QLCDNumber" name="lcdNumber_game_time_remaining_min">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -678,7 +687,7 @@ WordWrapping</string>
       <item>
        <widget class="QLabel" name="label_logoadvertisement">
         <property name="text">
-         <string>logo</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -692,26 +701,19 @@ WordWrapping</string>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Maximum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <layout class="QHBoxLayout" name="horizontalLayout_2"/>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_downandback">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -729,9 +731,9 @@ WordWrapping</string>
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>98</red>
-                <green>196</green>
-                <blue>179</blue>
+                <red>253</red>
+                <green>128</green>
+                <blue>8</blue>
                </color>
               </brush>
              </colorrole>
@@ -740,9 +742,9 @@ WordWrapping</string>
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>98</red>
-                <green>196</green>
-                <blue>179</blue>
+                <red>253</red>
+                <green>128</green>
+                <blue>8</blue>
                </color>
               </brush>
              </colorrole>
@@ -773,9 +775,9 @@ WordWrapping</string>
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>98</red>
-                <green>196</green>
-                <blue>179</blue>
+                <red>253</red>
+                <green>128</green>
+                <blue>8</blue>
                </color>
               </brush>
              </colorrole>
@@ -784,9 +786,9 @@ WordWrapping</string>
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>98</red>
-                <green>196</green>
-                <blue>179</blue>
+                <red>253</red>
+                <green>128</green>
+                <blue>8</blue>
                </color>
               </brush>
              </colorrole>
@@ -819,7 +821,7 @@ WordWrapping</string>
       </item>
      </layout>
     </item>
-    <item row="4" column="1">
+    <item row="4" column="0" colspan="3">
      <widget class="QLabel" name="label_bottomadvertisement">
       <property name="palette">
        <palette>
@@ -865,7 +867,7 @@ WordWrapping</string>
        </font>
       </property>
       <property name="text">
-       <string>oddballsports.tv</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -879,7 +881,7 @@ WordWrapping</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1085</width>
+     <width>1166</width>
      <height>22</height>
     </rect>
    </property>
