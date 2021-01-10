@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5 import uic
 from PyQt5.QtGui import QImage, QPixmap, QColor
 from PyQt5.QtCore import QThread, QTimer
+from PyQt5.QtWidgets import QInputDialog
 
 # other imports
 import numpy as np
@@ -101,10 +102,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # minimal game info
         # todo fix later
-        self.homeTeam = Team("Ragin' Potatoes")
+        self.homeTeam = Team("Press A + OK then type team name")
         self.homeTeam.teamBallColor = TEAL
         self.homeTeam.teamObieColor = "Teal"
-        self.awayTeam = Team("Four Seasons Total Landscaping")
+        self.awayTeam = Team("Press B + OK then type team name")
         self.awayTeam.teamBallColor = PINK
         self.awayTeam.teamObieColor = "Pink"
 
@@ -142,6 +143,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # run the ATI remote task (it is threaded with signals)
         self._prevButton_str = None
+        self._wait_for_ok = False
         self.waitForRemoteButtonPressSignal()
 
     def waitForRemoteButtonPressSignal(self):
@@ -180,8 +182,12 @@ class MainWindow(QtWidgets.QMainWindow):
         button_str = str(button)
 
         # handle waiting for a "TIME" + "OK" two-button sequence or "STOP" + "OK" two-button sequence
-        if (self._prevButton_str == "TIME" or self._prevButton_str == "STOP") \
-            and button_str != "OK":
+        if button_str != "OK" \
+            and (self._prevButton_str == "TIME"
+            or self._prevButton_str == "STOP"
+            or self._prevButton_str == "A"
+            or self._prevButton_str == "B"):
+
             self._wait_for_ok = False
 
         # switch case
@@ -202,16 +208,22 @@ class MainWindow(QtWidgets.QMainWindow):
         elif button_str == "TIME":
             self._wait_for_ok = True
         elif button_str == "OK":
-            if self._wait_for_ok and self._prevButton_str == "TIME":
-                self.start_game_timer()
+            # if we're waiting for ok
+            if self._wait_for_ok:
+                # handle key press sequence
+                if self._prevButton_str == "TIME":
+                    self.start_game_timer()
+                elif self._prevButton_str == "STOP":
+                    self.stop_game_timer()
+                elif self._prevButton_str == "A":
+                    print("you pressed ok + a")
+                    self.show_team_change_popup(self.homeTeam)
+                elif self._prevButton_str == "B":
+                    self.show_team_change_popup(self.awayTeam)
+
+                # reset the wait for ok boolean
                 self._wait_for_ok = False
-            if self._wait_for_ok and self._prevButton_str == "STOP":
-                self.stop_game_timer()
-                self._wait_for_ok = False
-            if self._wait_for_ok and self._prevButton_str == "A":
-                self.set_team_name(self.homeTeam)
-            if self._wait_for_ok and self._prevButton_str == "B":
-                self.set_team_name(self.awayTeam)
+
         elif button_str == "STOP":
             self._wait_for_ok = True
         elif button_str == "A":
@@ -230,13 +242,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self._prevButton_str = button_str
 
         # debug messages:
-        print("\nFrameCount={}, Time={}:{}".format(self.frame_count, str(self.time_min_left).zfill(2), str(self.time_sec_left).zfill(2)))
-        print("Team={}, BallsThrown={}, BallsIn={}".format(self.homeTeam,
-                                                           self.homeTeam.ballsThrown,
-                                                           self.homeTeam.ballsIn))
-        print("Team={}, BallsThrown={}, BallsIn={}".format(self.awayTeam,
-                                                           self.awayTeam.ballsThrown,
-                                                           self.awayTeam.ballsIn))
+        # print("\nFrameCount={}, Time={}:{}".format(self.frame_count, str(self.time_min_left).zfill(2), str(self.time_sec_left).zfill(2)))
+        # print("Team={}, BallsThrown={}, BallsIn={}".format(self.homeTeam,
+        #                                                    self.homeTeam.ballsThrown,
+        #                                                    self.homeTeam.ballsIn))
+        # print("Team={}, BallsThrown={}, BallsIn={}".format(self.awayTeam,
+        #                                                    self.awayTeam.ballsThrown,
+        #                                                    self.awayTeam.ballsIn))
 
     def increment_score(self, team):
         team.score += 1
@@ -613,21 +625,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     team.teamObieColor), 100)
                 self.draw_rgba_qimg(ballIndicator, qImg)
 
-    def set_team_name(self, team):
-        if team is self.homeTeam:
-            # prompt for the team name in the terminal
-            newTeamName = input("Enter the {} name: ".format("HOME"))
-            # change the team name
-            team.change_team_name(newTeamName)
-            # update the team name display
-            self.label_hometeam.setText(str(self.homeTeam))
-        elif team is self.awayTeam:
-            # prompt for the team name in the terminal
-            newTeamName = input("Enter the {} name: ".format("AWAY"))
-            # change the team name
-            team.change_team_name(newTeamName)
-            # update the team name display
-            self.label_awayteam.setText(str(self.awayTeam))
+
 
     def time_tick(self):
         """
@@ -676,8 +674,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.time_min_left = self.GAME_MINUTES - 1
         self.time_sec_left = 60
 
-        # increment the frame count
-        self.increment_frame_count()
+        # set the frame count
+        self.frame_count = 0
+        self.lcdNumber_framenumber.display(str(self.frame_count))
+
+        # clear the down and back top right image
+        self.label_downandback.clear()
 
     def increment_frame_count(self):
         self.frame_count += 1
@@ -691,6 +693,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.down_and_back = True
         qImg = self.load_logo_qImg('views/oddball_graphics/down_and_back.png', 200)
         self.draw_rgba_qimg(self.label_downandback, qImg)
+
+    def set_team_name(self, team, newTeamName):
+        if team is self.homeTeam:
+            self.homeTeam.change_team_name(newTeamName)
+            self.label_hometeam.setText(str(self.homeTeam))
+        elif team is self.awayTeam:
+            self.awayTeam.change_team_name(newTeamName)
+            self.label_awayteam.setText(str(self.awayTeam))
+
+    def show_team_change_popup(self, team):
+        if team is self.homeTeam:
+            teamText = "HOME"
+        elif team is self.awayTeam:
+            teamText = "AWAY"
+
+        # pop up a text entry dialog
+        newTeamName, ok = QInputDialog.getText(self, "Team Name Change", "Enter new {} team name".format(teamText))
+
+        # if the ok button was pressed, then change the team name
+        if ok:
+            self.set_team_name(team, newTeamName)
 
 
 if __name__ == '__main__':
