@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1166</width>
+    <width>2774</width>
     <height>923</height>
    </rect>
   </property>
@@ -133,6 +133,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>500</height>
+         </size>
+        </property>
         <property name="palette">
          <palette>
           <active>
@@ -182,6 +188,12 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>500</height>
+         </size>
         </property>
         <property name="palette">
          <palette>
@@ -326,7 +338,7 @@
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>60</pointsize>
+            <pointsize>70</pointsize>
            </font>
           </property>
           <property name="text">
@@ -385,7 +397,7 @@
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>60</pointsize>
+            <pointsize>70</pointsize>
            </font>
           </property>
           <property name="text">
@@ -450,7 +462,7 @@
           <property name="font">
            <font>
             <family>BPdotsDiamond</family>
-            <pointsize>70</pointsize>
+            <pointsize>200</pointsize>
            </font>
           </property>
           <property name="text">
@@ -522,7 +534,7 @@ WordWrapping</string>
           <property name="font">
            <font>
             <family>BPdotsDiamond</family>
-            <pointsize>70</pointsize>
+            <pointsize>180</pointsize>
            </font>
           </property>
           <property name="text">
@@ -553,6 +565,12 @@ WordWrapping</string>
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
         </property>
         <property name="palette">
          <palette>
@@ -604,6 +622,12 @@ WordWrapping</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="palette">
          <palette>
           <active>
@@ -649,7 +673,7 @@ WordWrapping</string>
       <item row="0" column="1">
        <widget class="QLabel" name="label_timercolon">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -770,6 +794,12 @@ WordWrapping</string>
             <height>100</height>
            </size>
           </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>150</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -819,6 +849,18 @@ WordWrapping</string>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>150</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -932,7 +974,7 @@ WordWrapping</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1166</width>
+     <width>2774</width>
      <height>22</height>
     </rect>
    </property>

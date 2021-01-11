@@ -7,10 +7,10 @@ from views.bocce.bocceui import MainWindow
 app = QApplication([])
 
 # load and set the application icon (Obie)
-app.setWindowIcon(QtGui.QIcon("views/ui/obie.png"))
+app.setWindowIcon(QtGui.QIcon("views/oddball_graphics/obie.png"))
 
 # set the application title
-app.setApplicationName("Obie's Eyes")
+app.setApplicationName("Obie's Scoreboard")
 
 # start windows
 win = MainWindow()

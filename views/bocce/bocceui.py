@@ -37,6 +37,16 @@ PINK = (186, 137, 219)
 # MAX BALLS per team
 MAX_BALLS_PER_TEAM = 4
 
+# INDICATOR AND GRAPHIC SIZES
+BALL_INDICATOR_SIZE = 200
+TOP_LEFT_LOGO_SIZE = 600
+BOTTOM_LOGO_WIDTH = 1800
+TOP_RIGHT_LOGO_SIZE = 600
+
+# DEFAULT MINUTES
+DEFAULT_MINUTES = 20
+
+
 class Team:
     def __init__(self, teamName):
         self.players = []
@@ -90,11 +100,19 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             raise NotImplementedError
 
+        # MainWindow settings
+        # set the window title
+        self.setWindowTitle("Obie's Scoreboard - {} - {}".format(args["game"], args["view"]))
+        # maximize the window
+        self.showMaximized()
+
+
         # game timer and down/back setting
-        self.GAME_MINUTES = 20
+        self.GAME_MINUTES = DEFAULT_MINUTES
         self.DOWN_BACK_ENABLED = None
         self.gameTimer = QTimer()
-        self.time_min_left = 20
+        self.gameTimer.setInterval(1000) # milli-seconds in one second
+        self.time_min_left = DEFAULT_MINUTES
         self.time_sec_left = 0
         self.time_is_out = False
         self.down_and_back = False
@@ -130,16 +148,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.label_awayteam.setText(str(self.awayTeam))
 
         # update the top left corner logo to indicating that the pallino needs to be thrown
-        qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png', 200)
+        qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png', TOP_LEFT_LOGO_SIZE)
         self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
         # draw the bottom logo
-        qImg = self.load_logo_qImg('views/oddball_graphics/oddballsports_logo.png', 800)
+        qImg = self.load_logo_qImg('views/oddball_graphics/oddballsports_logo.png', BOTTOM_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_bottomadvertisement, qImg)
 
         # draw home balls
-        self.draw_balls(self.homeTeam, ballsIn=0, ballsThrown=0)
-        self.draw_balls(self.awayTeam, ballsIn=0, ballsThrown=0)
+        self.draw_balls(self.homeTeam)
+        self.draw_balls(self.awayTeam)
 
         # run the ATI remote task (it is threaded with signals)
         self._prevButton_str = None
@@ -259,10 +277,16 @@ class MainWindow(QtWidgets.QMainWindow):
         if team.score < 0: team.score = 0
         self.update_score_widget(team)
 
+    def game_in_progress(self):
+        if self.gameTimer.isActive():
+            return True
+        elif self.down_and_back:
+            return True
+        print("Game is not in progress")
+        return False
+
     def verify_increment_in_valid(self, team):
-        if not self.gameTimer.isActive() or self.down_and_back:
-            print("Game is not in progress")
-            return False
+        if not self.game_in_progress(): return False
 
         # the home team's first ball thrown is never considered "in", therefore, we'll
         # ignore this increment so that the Umpire learns to press the correct button!
@@ -275,6 +299,22 @@ class MainWindow(QtWidgets.QMainWindow):
         # ignore the Umpire's press of the wrong button for the first throw fo the frame
         if team.ballsThrown == 0 \
                 and self.other_team(team).ballsThrown == 0:
+            return False
+
+        # if Umpire measured and adjusted in balls down then they can't add another in ball
+        elif self._prevButton_str == "VOL_DOWN" or self._prevButton_str == "CH_DOWN":
+            return False
+
+        # a team's throw could result in more than one ball being in (riochets) without incrementing ball count
+        elif self._prevButton_str == "VOL_UP" and team == self.homeTeam and self.homeTeam.ballsIn < self.homeTeam.ballsThrown:
+            self.homeTeam.ballsIn += 1
+            self.draw_balls(self.homeTeam)
+            return False
+
+        # a team's throw could result in more than one ball being in (riochets) without incrementing ball count
+        elif self._prevButton_str == "CH_UP" and team == self.awayTeam and self.awayTeam.ballsIn < self.awayTeam.ballsThrown:
+            self.awayTeam.ballsIn += 1
+            self.draw_balls(self.awayTeam)
             return False
 
         # the away team never throws first
@@ -305,6 +345,16 @@ class MainWindow(QtWidgets.QMainWindow):
         elif self.recent_frame_winner is not None \
             and (team is self.homeTeam and team.ballsThrown == 1) \
             and self.awayTeam.ballsThrown == 0:
+            return False
+
+        # a team can't throw if it is in -- the other team throws until it is in or until
+        # it hits its max ball count
+        elif team.ballsIn > self.other_team(team).ballsIn and self.other_team(team).ballsThrown == MAX_BALLS_PER_TEAM:
+            return True
+
+        # a team can't throw if it is in -- the other team throws until it is in or until
+        # it hits its max ball count
+        elif team.ballsIn > self.other_team(team).ballsIn and self.other_team(team).ballsThrown < MAX_BALLS_PER_TEAM:
             return False
 
         return True
@@ -340,20 +390,18 @@ class MainWindow(QtWidgets.QMainWindow):
             self.other_team(team).ballsIn = 0
 
             # update the ball indicators
-            self.draw_balls(self.homeTeam, self.homeTeam.ballsIn, self.homeTeam.ballsThrown)
-            self.draw_balls(self.awayTeam, self.awayTeam.ballsIn, self.awayTeam.ballsThrown)
+            self.draw_balls(self.homeTeam)
+            self.draw_balls(self.awayTeam)
 
             # update the top left corner logo to indicate who is in
-            qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-2C-{}.png'.format(team.teamObieColor), 200)
+            qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-2C-{}.png'.format(team.teamObieColor), TOP_LEFT_LOGO_SIZE)
             self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
     def verify_increment_out_valid(self, team, override=False):
         if override:
             return override
 
-        if not self.gameTimer.isActive() or self.down_and_back:
-            print("Game is not in progress")
-            return False
+        if not self.game_in_progress(): return False
 
         # train the umpire that the first bocce ball of the game thrown can't be the away
         # ball
@@ -368,9 +416,12 @@ class MainWindow(QtWidgets.QMainWindow):
             and team.ballsThrown == 0 and self.other_team(team).ballsThrown == 0:
             return False
 
-        # a team can't increment its balls thrown until the other team has balls
+        # a team can increment its balls thrown if the other team has balls
+        # BUT that automatically means the other team's ball is set to "in"
         elif team.ballsThrown == 0 and self.other_team(team).ballsThrown == 1:
-            return False
+            self.other_team(team).ballsIn = 1
+            self.draw_balls(self.other_team(team))
+            return True
 
         # a team can't increment its balls thrown until the other team has balls
         elif team.ballsThrown == 1 and self.other_team(team).ballsThrown == 0:
@@ -379,6 +430,16 @@ class MainWindow(QtWidgets.QMainWindow):
         # a team can't have two balls thrown before the other team has any balls thrown
         elif team.ballsThrown == 2 and self.other_team(team).ballsThrown == 0:
             team.ballsThrown -= 1
+            return False
+
+        # a team can't throw if it is in -- the other team throws until it is in or until
+        # it hits its max ball count
+        elif team.ballsIn > self.other_team(team).ballsIn and self.other_team(team).ballsThrown == MAX_BALLS_PER_TEAM:
+            return True
+
+        # a team can't throw if it is in -- the other team throws until it is in or until
+        # it hits its max ball count
+        elif team.ballsIn > self.other_team(team).ballsIn and self.other_team(team).ballsThrown < MAX_BALLS_PER_TEAM:
             return False
 
         return True
@@ -394,12 +455,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 team.ballsThrown += 1
 
             # update the ball indicators
-            self.draw_balls(team, team.ballsIn, team.ballsThrown)
+            self.draw_balls(team)
 
     def decrement_in(self, team):
         if team.ballsIn > 0:
             team.ballsIn -= 1
-            self.draw_balls(team, team.ballsIn, team.ballsThrown)
+            self.draw_balls(team)
 
     def lock_in_frame_score(self):
         # if both teams' balls are all thrown, then update the score
@@ -430,11 +491,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.homeTeam.ballsIn = 0
             self.awayTeam.ballsThrown = 0
             self.awayTeam.ballsIn = 0
-            self.draw_balls(self.homeTeam, self.homeTeam.ballsIn, self.homeTeam.ballsThrown)
-            self.draw_balls(self.awayTeam, self.awayTeam.ballsIn, self.awayTeam.ballsThrown)
+            self.draw_balls(self.homeTeam)
+            self.draw_balls(self.awayTeam)
 
             # update the top left corner logo to indicating that the pallino needs to be thrown
-            qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png', 200)
+            qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png', TOP_LEFT_LOGO_SIZE)
             self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
             # increment the frame count
@@ -511,7 +572,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def make_ball(self, color=GRAY):
         # create a white box for the circle to reside in; NOTE: this box has an alpha channel
-        image = np.zeros(shape=[200, 200, 4], dtype=np.uint8)
+        image = np.zeros(shape=[BALL_INDICATOR_SIZE, BALL_INDICATOR_SIZE, 4], dtype=np.uint8)
         colorWithAlpha = (color[0], color[1], color[2], 255)
 
         # extract the dimensions
@@ -519,12 +580,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # draw the filled in circle in the box
         center = (int(width/2), int(height/2))
-        radius = int(width/2) - 2
+        radius = int(width/2) - 40
         cv2.circle(image, center, radius, colorWithAlpha, -1)
 
         return image
 
-    def draw_balls(self, team, ballsIn=0, ballsThrown=0):
+    def draw_balls(self, team):
         # set three flags
         NOT_THROWN = 0
         THROWN = 1
@@ -610,19 +671,19 @@ class MainWindow(QtWidgets.QMainWindow):
             if ballFlag == NOT_THROWN:
                 color = GRAY
                 image = self.make_ball(color)
-                qImg = self.cv2img_to_qImg(image, 50)
+                qImg = self.cv2img_to_qImg(image, BALL_INDICATOR_SIZE)
                 self.draw_rgba_qimg(ballIndicator, qImg)
 
             elif ballFlag == THROWN:
                 color = team.teamBallColor
                 image = self.make_ball(color)
-                qImg = self.cv2img_to_qImg(image, 50)
+                qImg = self.cv2img_to_qImg(image, BALL_INDICATOR_SIZE)
                 self.draw_rgba_qimg(ballIndicator, qImg)
 
             # otherwise, hurray! let's draw obie!
             elif ballFlag == OBIE:
                 qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-2C-{}.png'.format(
-                    team.teamObieColor), 100)
+                    team.teamObieColor), BALL_INDICATOR_SIZE)
                 self.draw_rgba_qimg(ballIndicator, qImg)
 
 
@@ -664,18 +725,32 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def start_game_timer(self):
         # repaint the down and back area
-        if self.down_and_back:
-            self.label_downandback.repaint()
-            self.down_and_back = False
+        self.down_and_back = False
+        self.label_downandback.repaint()
+
+        # repaints balls
+        self.homeTeam.ballsThrown = 0
+        self.awayTeam.ballsThrown = 0
+        self.homeTeam.ballsIn = 0
+        self.awayTeam.ballsIn = 0
+        self.draw_balls(self.homeTeam)
+        self.draw_balls(self.awayTeam)
+
+        # repaint the top left logo to Yello
+        # update the top left corner logo to indicate who is in
+        # update the top left corner logo to indicating that the pallino needs to be thrown
+        qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png',
+                                   TOP_LEFT_LOGO_SIZE)
+        self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
         # start timer
         self.gameTimer.timeout.connect(self.time_tick)
-        self.gameTimer.start(60 * self.GAME_MINUTES)
+        self.gameTimer.start()
         self.time_min_left = self.GAME_MINUTES - 1
         self.time_sec_left = 60
 
         # set the frame count
-        self.frame_count = 0
+        self.frame_count = 1
         self.lcdNumber_framenumber.display(str(self.frame_count))
 
         # clear the down and back top right image
@@ -691,7 +766,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def draw_down_and_back(self):
         self.down_and_back = True
-        qImg = self.load_logo_qImg('views/oddball_graphics/down_and_back.png', 200)
+        qImg = self.load_logo_qImg('views/oddball_graphics/down_and_back.png', TOP_RIGHT_LOGO_SIZE)
         self.draw_rgba_qimg(self.label_downandback, qImg)
 
     def set_team_name(self, team, newTeamName):
