@@ -1,3 +1,7 @@
+# Attributions
+# this is a Google-provided example with a couple minor hacks
+
+# imports
 from __future__ import print_function
 import pickle
 import os.path

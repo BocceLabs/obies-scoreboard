@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1780</width>
+    <width>1868</width>
     <height>894</height>
    </rect>
   </property>
@@ -225,14 +225,14 @@
         <item row="2" column="1">
          <widget class="QLabel" name="label_hometeam">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>0</width>
+            <width>900</width>
             <height>300</height>
            </size>
           </property>
@@ -300,10 +300,16 @@ WordWrapping</string>
         <item row="0" column="3">
          <widget class="QLabel" name="label_awaylabel">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>900</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -359,10 +365,16 @@ WordWrapping</string>
         <item row="0" column="1">
          <widget class="QLabel" name="label_homelabel">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>900</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -419,6 +431,9 @@ WordWrapping</string>
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -507,6 +522,9 @@ WordWrapping</string>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -954,7 +972,7 @@ WordWrapping</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1780</width>
+     <width>1868</width>
      <height>22</height>
     </rect>
    </property>

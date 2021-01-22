@@ -12,7 +12,20 @@ This project uses Model-View-Controller archicture (MVC).
 
 We currently have the following models:
 
-* remotes/ati (works with the ATI Remote Wonder Plus wireless RF remote)
+* models/remotes/ati (works with the ATI Remote Wonder Plus wireless RF remote)
+* models/googlesheets/gsheet
+
+For the game of bocce:
+
+* models/bocce/team
+* models/bocce/ballflag
+
+Coming very soon (for examples, refer to the `obies-eyes` project):
+
+* models/bocce/player
+* models/bocce/score
+* models/curling/*
+* models/shuffleboard/*
 
 We'll be adding scoring models for the following sports:
 
@@ -30,6 +43,9 @@ This app supports multiple views that are separate from the business logic.  Of 
 Currently there is one view(s) with more coming:
 
 * --game bocce --view digital
+
+Coming soon:
+
 * --game bocce --view traditional (coming soon)
 * --game curling --view yourclub (coming soon)
 * --game shuffleboard --view royalpalms (coming soon)
@@ -55,6 +71,10 @@ pyqt5
 opencv-contrib-python
 imutils
 pillow
+playsound
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
 ```
 
 If you're running Raspbian you'll need all of the above Python packages.  You may also need to install USB Core Dev libraries in your Raspberry Pi system.  Furthermore, you'll need to create a USB Device Rule.  Details are in the following repo: [OddballSports-tv/hid_wireless_remote](https://github.com/OddballSports-tv/hid_wireless_remote).
@@ -82,8 +102,9 @@ python obies_scoreboard.py --game curling --view yourclubnamehere
 
 # Future features
 
+* Model bocce score as a class rather than managing in the bocce team class
 * Integration into `obies-eyes` (i.e., messages are passed to control the scoreboard when Obie detects a change in the game score)
-* Integration with an LED-matrix / 7-segment display
+* Integration with an LED-matrix / 7-segment display (if there is demand; HDTVs are much cheaper in this millenium)
 * Support other games (contributers encouraged!)
 
 # Contributing

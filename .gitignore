@@ -173,3 +173,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+############## project specific ##############
+credentials.json
+token.pickle
