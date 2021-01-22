@@ -2,7 +2,7 @@
 
 This is a PyQT Scoreboard that supports a wireless/infrared remote control and an TV/computer monitor screen.  It could be adapted to suport an LED-matrix / 7-segment display if you have the budget for one of those (\$2,000+ for custom displays).
 
-![obie's-scoreboard](https://GitHub.com/OddballSports-tv/obies-scoreboard/scoreboard.png)
+![obie's-scoreboard](https://github.com/OddballSports-tv/obies-scoreboard/blob/main/scoreboard.png)
 
 # Architecture
 
