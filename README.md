@@ -10,25 +10,40 @@ This project uses Model-View-Controller archicture (MVC).
 
 ## model
 
-pass
+We currently have the following models:
+
+* remotes/ati (works with the ATI Remote Wonder Plus wireless RF remote)
+
+We'll be adding scoring models for the following sports:
+
+* Bocce
+* Curling
+* Shuffleboard
+* Wiffleball
+* Croquet
+* insert your favorite sport here
 
 ## view
 
 This app supports multiple views that are separate from the business logic.  Of course this project has a heavy focus on User Experience and the User Interface, so arguably the View is the most important part.
 
-Currently there are two views:
+Currently there is one view(s) with more coming:
 
-* bocce - digital
-* bocce - traditional
+* --game bocce --view digital
+* --game bocce --view traditional (coming soon)
+* --game curling --view yourclub (coming soon)
+* --game shuffleboard --view royalpalms (coming soon)
 
 Feel free to create your custom view for your odd game / sport.  
 
 The above views are implemented in PyQt. If you are more comfortable with a different GUI toolkit such as Tk, Wx, Kivy, etc. go for it!  It would actually be nice to have multiple examples in this project, so please fork the project, implement it, and then submit a pull request.
 
+NOTE: currently the bocce view file has both the UI widgets and the model logic for bocce (this was due to so many live changes being done during and between games; we definitely has room for improvement to move the bocce business logic into the model side of the architecture and we will get to it soon)
+
 
 ## controller
 
-The controller is the program that kicks off the app -- `obies_scoreboard.py`.
+The controller is the program that kicks off the app -- `obies_scoreboard.py`.  This controller also sets the app icon.  The app icon needs to be tested in Ubuntu, Raspbian, and Windows (works great in macOS with no issues).
 
 # Dependencies
 
@@ -39,9 +54,12 @@ pyusb
 pyqt5
 opencv-contrib-python
 imutils
+pillow
 ```
 
 If you're running Raspbian you'll need all of the above Python packages.  You may also need to install USB Core Dev libraries in your Raspberry Pi system.  Furthermore, you'll need to create a USB Device Rule.  Details are in the following repo: [OddballSports-tv/hid_wireless_remote](https://github.com/OddballSports-tv/hid_wireless_remote).
+
+If you set up a Raspberry Pi, we recommend using the Raspbian BusterOS.  This OS has pre-compiled binaries for PyQt5 a pip install away.  Be sure to read the PyQt license agreement.
 
 
 # Running the program
@@ -50,10 +68,16 @@ If you're running Raspbian you'll need all of the above Python packages.  You ma
 python obies_scoreboard.py --game bocce --view digital
 ```
 
-or
+or (example):
 
 ```
 python obies_scoreboard.py --game bocce --view traditional
+```
+
+or (example):
+
+```
+python obies_scoreboard.py --game curling --view yourclubnamehere
 ```
 
 # Future features
