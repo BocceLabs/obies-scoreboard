@@ -261,4 +261,4 @@ if __name__ == "__main__":
     # create an ATI remote object
     a = ATI(debug=True)
     a.connect()
-    a.receive()
+    a.run()

@@ -19,6 +19,7 @@ from model.games.bocce.ballflag import BallFlag
 
 # tv remote import
 from model.remotes.ati import ATI
+from model.remotes.flirc.sparkfun import Sparkfun
 
 # Google sheet interface import
 from model.googlesheets.gsheet import GSheet
@@ -106,44 +107,18 @@ class Animation():
 
 class MainWindow(QtWidgets.QMainWindow):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, ui, clargs, *args, **kwargs):
         """
         constructor
         """
         super().__init__(*args, **kwargs)
 
-        # construct the argument parser and parse the arguments
-        ap = argparse.ArgumentParser()
-        ap.add_argument("-g", "--game", default="bocce", help="what game are you playing?")
-        ap.add_argument("-v", "--view", required=True, help="which ui do you want to run?")
-        args = vars(ap.parse_args())
-
-        # load the ui file which was made with Qt Creator
-        if args["game"] == "bocce":
-            if args["view"] == "digital":
-                uic.loadUi("views/bocce/digital_scoreboard.ui", self)
-            elif args["view"] == "traditional":
-                uic.loadUi("views/bocce/traditional_scoreboard.ui", self)
-        elif args["game"] == "shuffleboard":
-            raise NotImplementedError
-        elif args["game"] == "axethrowing":
-            raise NotImplementedError
-        elif args["game"] == "croquet":
-            raise NotImplementedError
-        elif args["game"] == "curling":
-            raise NotImplementedError
-        elif args["game"] == "kubb":
-            raise NotImplementedError
-        elif args["game"] == "shuffleboard":
-            raise NotImplementedError
-        elif args["game"] == "wiffleball":
-            raise NotImplementedError
-        else:
-            raise NotImplementedError
+        # load the user interface
+        uic.loadUi(ui, self)
 
         # MainWindow settings
         # set the window title
-        self.setWindowTitle("Obie's Scoreboard - {} - {}".format(args["game"], args["view"]))
+        self.setWindowTitle("Obie's Scoreboard - {} - {}".format(clargs["game"], clargs["view"]))
         # maximize the window
         self.showMaximized()
 
@@ -154,12 +129,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.gameTimer = QTimer()
         self.gameTimer.setInterval(1000) # milli-seconds in one second
         self.gameTimer.timeout.connect(self.time_tick)
-        self.time_min_left = 0
+        self.time_min_left = self.GAME_MINUTES
         self.time_sec_left = 0
         self.time_is_out = False
         self.down_and_back = False
         self.game_time_ui_update()
         self.timer_paused = False
+        self.clock_edit_mode = False
+        self.wait_for_clock_edit_or_start = False
 
         # minimal game info
         self.homeTeam = Team("A cycles team names in Google Sheet")
@@ -203,15 +180,24 @@ class MainWindow(QtWidgets.QMainWindow):
         qImg = self.load_logo_qImg('views/packaworldintegration/long_white.png', BOTTOM_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_bottomadvertisement, qImg)
 
-        # run the ATI remote task (it is threaded with signals)
+        # run the TV remote receiver task (it is threaded with signals)
+        self.enableKeyPressEventHandler = False
+        self.add_points_mode = False
         self._prevButton_str = None
+        self._prevButton = None
         self._wait_for_ok = False
-        self.waitForRemoteButtonPressSignal()
+        self.waitForRemoteButtonPressSignal(clargs["remote"])
 
         # load team name data from Google Sheet
         self.gs = GSheet()
         self.team_name_values = self.gs.get_values(1)
         self.value_idx = 0
+
+        # display the game clock value
+        self.lcdNumber_game_time_remaining_min.display(
+            str(self.time_min_left).zfill(2))
+        self.lcdNumber_game_time_remaining_sec.display(
+            str(self.time_sec_left).zfill(2))
 
     def load_animation(self, gif_path, timeout=8):
         self.animation = Animation(gif_path, timeout)
@@ -252,35 +238,185 @@ class MainWindow(QtWidgets.QMainWindow):
             return True
         return False
 
-    def waitForRemoteButtonPressSignal(self):
-        """uses PyQt QThread, signals, and slots concepts"""
-        # Step 1: implement a QObject with a signal `models.remote.ATI(QObject)`
-        # Step 2: Create a QThread object
-        self.thread = QThread()
+    def waitForRemoteButtonPressSignal(self, remote):
+        if remote == "ati":
+            """uses PyQt QThread, signals, and slots concepts"""
+            # Step 1: implement a QObject with a signal `models.remote.ATI(QObject)`
+            # Step 2: Create a QThread object
+            self.thread = QThread()
 
-        # Step 3: Create a worker object
-        self.worker = ATI()
-        self.worker.connect()
+            # Step 3: Create a worker object
+            if remote.lower() == "ati":
+                self.worker = ATI()
+            elif remote.lower() == "sparkfun":
+                self.worker = Sparkfun()
 
-        # Step 4: Move worker to the thread
-        self.worker.moveToThread(self.thread)
+            self.worker.connect()
 
-        # Step 5: Connect signals and slots
-        self.thread.started.connect(self.worker.run)
-        # finished could be when the power button is pressed
-        #self.worker.finished.connect(self.thread.quit)
-        #self.worker.finished.connect(self.worker.deleteLater)
-        # end finished
-        # call a function when there is a new unique ATI remote keypress
-        self.worker.newUniqueKeyPress.connect(self.handle_tv_remote_button_press)
+            # Step 4: Move worker to the thread
+            self.worker.moveToThread(self.thread)
 
-        # Step 6: Start the thread
-        self.thread.start()
+            # Step 5: Connect signals and slots
+            self.thread.started.connect(self.worker.run)
+            # finished could be when the power button is pressed
+            #self.worker.finished.connect(self.thread.quit)
+            #self.worker.finished.connect(self.worker.deleteLater)
+            # end finished
+            # call a function when there is a new unique ATI remote keypress
+            if remote.lower() == "ati":
+                self.worker.newUniqueKeyPress.connect(self.handle_ati_remote_button_press)
+            elif remote.lower() == "sparkfun":
+                self.worker.newUniqueKeyPress.connect(self.handle_sparkfun_remote_button_press)
 
-        # Step 7: Final resets
-        #nothing in this case
+            # Step 6: Start the thread
+            self.thread.start()
 
-    def handle_tv_remote_button_press(self, button):
+            # Step 7: Final resets
+            #nothing in this case
+
+        elif remote == "sparkfun":
+            self.enableKeyPressEventHandler = True
+
+    def keyPressEvent(self, event):
+        if not self.enableKeyPressEventHandler:
+            return
+        if event.key() == QtCore.Qt.Key_A:
+            if not self.add_points_mode:
+                # home is in
+                self.homeTeam.ballFlag.toggle_in(True)
+                self.awayTeam.ballFlag.toggle_in(False)
+                self.draw_ball_indicator(self.homeTeam)
+                self.draw_ball_indicator(self.awayTeam)
+                self.label_logoadvertisement.clear()
+                self.label_logoadvertisement.repaint()
+            elif self.add_points_mode:
+                # begin cycling points and clear other team's temp score
+                self.homeTeam.cycle_score()
+                self.awayTeam.temp_points = 0
+                # display both team scores
+                self.update_score_widget(self.homeTeam, showTempPoints=True)
+                self.update_score_widget(self.awayTeam, showTempPoints=True)
+
+        elif event.key() == QtCore.Qt.Key_B:
+            if not self.add_points_mode:
+                # away is in
+                self.homeTeam.ballFlag.toggle_in(False)
+                self.awayTeam.ballFlag.toggle_in(True)
+                self.draw_ball_indicator(self.homeTeam)
+                self.draw_ball_indicator(self.awayTeam)
+                self.label_logoadvertisement.clear()
+                self.label_logoadvertisement.repaint()
+            elif self.add_points_mode:
+                # begin cycling points and clear other team's temp score
+                self.awayTeam.cycle_score()
+                self.homeTeam.temp_points = 0
+                # display both team scores
+                self.update_score_widget(self.awayTeam, showTempPoints=True)
+                self.update_score_widget(self.homeTeam, showTempPoints=True)
+
+        elif event.key() == QtCore.Qt.Key_C:
+            # wait for PWR
+            if not self.clock_edit_mode:
+                self.clock_edit_mode = True
+                self.add_points_mode = False
+
+                # if the game isn't in session, wait for edit or start
+                if not self.game_in_progress():
+                    self.wait_for_clock_edit_or_start = True
+
+            elif self.clock_edit_mode:
+                self.clock_edit_mode = False
+                self.wait_for_clock_edit_or_start = False
+
+
+        # pwr key
+        elif event.key() == QtCore.Qt.Key_S:
+            # DOUBLE PRESS LOGIC
+            if self._prevButton == event.key():
+                if not self.timer_paused:
+                    self.timer_paused = True
+
+                elif self.timer_paused:
+                    self.timer_paused = False
+
+            # SINGLE PRESS LOGIC
+            else:
+                if self.clock_edit_mode and self.wait_for_clock_edit_or_start:
+                    if not self.game_in_progress():
+                        self.start_game_timer(self.GAME_MINUTES)
+                        self.add_points_mode = False
+
+                        # reset modes
+                        self.clock_edit_mode = False
+                        self.wait_for_clock_edit_or_start = False
+
+                # if we're in add points mode, lock in the points
+                if self.add_points_mode:
+                    self.lock_in_frame_score()
+                    # reset mode
+                    self.add_points_mode = False
+
+                # if we're not adding points, activate add points mode
+                elif not self.add_points_mode:
+                    self.add_points_mode = True
+
+
+
+
+        elif event.key() == QtCore.Qt.Key_Return:
+            if self.timer_paused:
+                self.stop_game_timer()
+
+
+        elif event.key() == QtCore.Qt.Key_Right:
+            # play "good shot"
+            # play a random sound and gif
+            play_random_sound("sounds/good_shot")
+            self.play_random_animation("animations/good_shot")
+
+        elif event.key() == QtCore.Qt.Key_Left:
+            # play "bad shot"
+            # play a random sound and gif
+            play_random_sound("sounds/bad_shot")
+            self.play_random_animation("animations/bad_shot")
+
+        elif event.key() == QtCore.Qt.Key_Up:
+            # increment minutes in clock edit mode
+            if self.clock_edit_mode and not self.game_in_progress():
+                self.GAME_MINUTES += 1
+                self.time_min_left = self.GAME_MINUTES
+                self.lcdNumber_game_time_remaining_min.display(
+                    str(self.time_min_left).zfill(2))
+                self.lcdNumber_game_time_remaining_sec.display(
+                    str(self.time_sec_left).zfill(2))
+
+            # play "too long"
+            else:
+                # play a random sound and gif
+                play_random_sound("sounds/too_long")
+                self.play_random_animation("animations/too_long")
+
+
+        elif event.key() == QtCore.Qt.Key_Down:
+            # decrement minutes in clock edit mode
+            if self.clock_edit_mode and not self.game_in_progress():
+                self.GAME_MINUTES -= 1
+                self.time_min_left = self.GAME_MINUTES
+                self.lcdNumber_game_time_remaining_min.display(
+                    str(self.time_min_left).zfill(2))
+                self.lcdNumber_game_time_remaining_sec.display(
+                    str(self.time_sec_left).zfill(2))
+
+            # play "too short"
+            else:
+                # play a random sound and gif
+                play_random_sound("sounds/too_short")
+                self.play_random_animation("animations/too_short")
+
+        # set the previous button
+        self._prevButton = event.key()
+
+    def handle_ati_remote_button_press(self, button):
         # grab the button string
         button_str = str(button)
 
@@ -800,6 +936,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
         # start timer
+        self.timer_paused = False
         self.gameTimer.start()
         self.time_min_left = MINUTES - 1
         self.time_sec_left = 60
