@@ -19,7 +19,7 @@ from model.games.bocce.ballflag import BallFlag
 
 # tv remote import
 from model.remotes.ati import ATI
-from model.remotes.flirc.sparkfun import Sparkfun
+#from model.remotes.flirc.sparkfun import Sparkfun
 
 # Google sheet interface import
 from model.googlesheets.gsheet import GSheet
@@ -35,6 +35,7 @@ from imutils import paths
 import argparse
 from playsound import playsound
 import random
+import threading
 
 # INDICATOR AND GRAPHIC SIZES
 BALL_INDICATOR_SIZE = 250
@@ -65,7 +66,9 @@ def play_random_sound(sound_dir):
     if len(sounds) == 0:
         return
     sound_filename = random.choice(sounds)
-    playsound(sound_filename, False)
+
+    threading.Thread(target=playsound, args=(sound_filename,)).start()
+    
 
 def list_animations(dir, contains=None):
     """grabs all animations in a directory path"""
@@ -281,38 +284,58 @@ class MainWindow(QtWidgets.QMainWindow):
         if not self.enableKeyPressEventHandler:
             return
         if event.key() == QtCore.Qt.Key_A:
-            if not self.add_points_mode:
-                # home is in
-                self.homeTeam.ballFlag.toggle_in(True)
-                self.awayTeam.ballFlag.toggle_in(False)
-                self.draw_ball_indicator(self.homeTeam)
-                self.draw_ball_indicator(self.awayTeam)
-                self.label_logoadvertisement.clear()
-                self.label_logoadvertisement.repaint()
-            elif self.add_points_mode:
-                # begin cycling points and clear other team's temp score
-                self.homeTeam.cycle_score()
-                self.awayTeam.temp_points = 0
-                # display both team scores
-                self.update_score_widget(self.homeTeam, showTempPoints=True)
-                self.update_score_widget(self.awayTeam, showTempPoints=True)
+            if not self.game_in_progress():
+                self.value_idx += 1
+                if self.value_idx >= len(self.team_name_values):
+                    self.value_idx = 1
+                try:
+                    self.set_team_name(self.homeTeam, str(self.team_name_values[self.value_idx])[2:-2])
+                except Exception as e:
+                    print(str(e))
+                    pass
+            else:
+                if not self.add_points_mode:
+                    # home is in
+                    self.homeTeam.ballFlag.toggle_in(True)
+                    self.awayTeam.ballFlag.toggle_in(False)
+                    self.draw_ball_indicator(self.homeTeam)
+                    self.draw_ball_indicator(self.awayTeam)
+                    self.label_logoadvertisement.clear()
+                    self.label_logoadvertisement.repaint()
+                elif self.add_points_mode:
+                    # begin cycling points and clear other team's temp score
+                    self.homeTeam.cycle_score()
+                    self.awayTeam.temp_points = 0
+                    # display both team scores
+                    self.update_score_widget(self.homeTeam, showTempPoints=True)
+                    self.update_score_widget(self.awayTeam, showTempPoints=True)
 
         elif event.key() == QtCore.Qt.Key_B:
-            if not self.add_points_mode:
-                # away is in
-                self.homeTeam.ballFlag.toggle_in(False)
-                self.awayTeam.ballFlag.toggle_in(True)
-                self.draw_ball_indicator(self.homeTeam)
-                self.draw_ball_indicator(self.awayTeam)
-                self.label_logoadvertisement.clear()
-                self.label_logoadvertisement.repaint()
-            elif self.add_points_mode:
-                # begin cycling points and clear other team's temp score
-                self.awayTeam.cycle_score()
-                self.homeTeam.temp_points = 0
-                # display both team scores
-                self.update_score_widget(self.awayTeam, showTempPoints=True)
-                self.update_score_widget(self.homeTeam, showTempPoints=True)
+            if not self.game_in_progress():
+                self.value_idx += 1
+                if self.value_idx >= len(self.team_name_values):
+                    self.value_idx = 1
+                try:
+                    self.set_team_name(self.awayTeam, str(self.team_name_values[self.value_idx])[2:-2])
+                except Exception as e:
+                    print(str(e))
+                    pass
+            else:
+                if not self.add_points_mode:
+                    # home is in
+                    self.homeTeam.ballFlag.toggle_in(False)
+                    self.awayTeam.ballFlag.toggle_in(True)
+                    self.draw_ball_indicator(self.homeTeam)
+                    self.draw_ball_indicator(self.awayTeam)
+                    self.label_logoadvertisement.clear()
+                    self.label_logoadvertisement.repaint()
+                elif self.add_points_mode:
+                    # begin cycling points and clear other team's temp score
+                    self.awayTeam.cycle_score()
+                    self.homeTeam.temp_points = 0
+                    # display both team scores
+                    self.update_score_widget(self.homeTeam, showTempPoints=True)
+                    self.update_score_widget(self.awayTeam, showTempPoints=True)
 
         elif event.key() == QtCore.Qt.Key_C:
             # wait for PWR
@@ -366,6 +389,11 @@ class MainWindow(QtWidgets.QMainWindow):
         elif event.key() == QtCore.Qt.Key_Return:
             if self.timer_paused:
                 self.stop_game_timer()
+            else:
+                # play "good shot"
+                # play a random sound and gif
+                play_random_sound("sounds/casino")
+                self.play_random_animation("animations/casino")
 
 
         elif event.key() == QtCore.Qt.Key_Right:
