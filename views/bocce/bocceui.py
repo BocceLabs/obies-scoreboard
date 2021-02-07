@@ -66,9 +66,7 @@ def play_random_sound(sound_dir):
     if len(sounds) == 0:
         return
     sound_filename = random.choice(sounds)
-
     threading.Thread(target=playsound, args=(sound_filename,)).start()
-    
 
 def list_animations(dir, contains=None):
     """grabs all animations in a directory path"""
@@ -283,6 +281,10 @@ class MainWindow(QtWidgets.QMainWindow):
     def keyPressEvent(self, event):
         if not self.enableKeyPressEventHandler:
             return
+
+        # play a beep
+        threading.Thread(target=playsound, args=("sounds/beep/tone-beep.wav",)).start()
+
         if event.key() == QtCore.Qt.Key_A:
             if not self.game_in_progress():
                 self.value_idx += 1
@@ -356,22 +358,26 @@ class MainWindow(QtWidgets.QMainWindow):
         elif event.key() == QtCore.Qt.Key_S:
             # DOUBLE PRESS LOGIC
             if self._prevButton == event.key():
-                if not self.timer_paused:
-                    self.timer_paused = True
-
-                elif self.timer_paused:
-                    self.timer_paused = False
+                # toggle the timer being paused
+                self.timer_paused = not self.timer_paused
+                self.clock_edit_mode = False
+                self.add_points_mode = False
 
             # SINGLE PRESS LOGIC
             else:
                 if self.clock_edit_mode and self.wait_for_clock_edit_or_start:
+                    # start the game
                     if not self.game_in_progress():
                         self.start_game_timer(self.GAME_MINUTES)
-                        self.add_points_mode = False
 
                         # reset modes
+                        self.add_points_mode = False
                         self.clock_edit_mode = False
                         self.wait_for_clock_edit_or_start = False
+
+                        # clear the previous key
+                        self._prevButton = None
+                        return
 
                 # if we're in add points mode, lock in the points
                 if self.add_points_mode:
@@ -383,14 +389,18 @@ class MainWindow(QtWidgets.QMainWindow):
                 elif not self.add_points_mode:
                     self.add_points_mode = True
 
-
-
-
         elif event.key() == QtCore.Qt.Key_Return:
             if self.timer_paused:
                 self.stop_game_timer()
-            else:
-                # play "good shot"
+                return
+
+            elif not self.timer_paused and self.game_in_progress():
+                # ball drawing bottom left and bottom right
+                self.homeTeam.ballFlag.toggle_in(False)
+                self.awayTeam.ballFlag.toggle_in(True, casino=True)
+                self.draw_ball_indicator(self.homeTeam)
+                self.draw_ball_indicator(self.awayTeam)
+
                 # play a random sound and gif
                 play_random_sound("sounds/casino")
                 self.play_random_animation("animations/casino")
