@@ -283,7 +283,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return
 
         # play a beep
-        threading.Thread(target=playsound, args=("sounds/beep/tone-beep.wav",)).start()
+        threading.Thread(target=playsound, args=("sounds/beep/beep_padded.mp3",)).start()
 
         if event.key() == QtCore.Qt.Key_A:
             if not self.game_in_progress():
@@ -683,7 +683,6 @@ class MainWindow(QtWidgets.QMainWindow):
             return True
         elif self.down_and_back:
             return True
-        print("Game is not in progress")
         return False
 
     def lock_in_frame_score(self):
