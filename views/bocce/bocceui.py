@@ -55,6 +55,9 @@ SOUND_TYPES = (".m4a", ".mp3", ".wav")
 # ANIMATION TYPES
 ANIMATION_TYPES = (".gif", ".GIF")
 
+###### SET ME!!!!!!!!!!!!!!!!!!! ####################
+RFID_READER_CONNECTED = False
+
 def list_sounds(dir, contains=None):
     """grabs all sound file paths in a directory"""
     return list(paths.list_files(dir, validExts=SOUND_TYPES, contains=contains))
@@ -140,10 +143,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.wait_for_clock_edit_or_start = False
 
         # minimal game info
-        self.homeTeam = Team("A cycles team names in Google Sheet")
+        self.homeTeam = Team("TeamA")
         self.homeTeam.teamBallColor = TEAL
         self.homeTeam.teamObieColor = "Teal"
-        self.awayTeam = Team("B cycles team names in Google Sheet")
+        self.awayTeam = Team("TeamB")
         self.awayTeam.teamBallColor = PINK
         self.awayTeam.teamObieColor = "Pink"
 
@@ -152,7 +155,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.awayTeam.score = 0
         self.homeTeamCycleScore = 0
         self.awayTeamCycleScore = 0
-
 
         self.frame_count = 0
         self.recent_frame_winner = None
@@ -192,9 +194,14 @@ class MainWindow(QtWidgets.QMainWindow):
         # load team name data from Google Sheet
         self.gs = GSheet()
         self.team_name_values = self.gs.get_values("teams!A:A")
-        self.court_and_games = self.gs.get_values("2020-02-11_games!A2:D")
+        self.court_and_games = self.gs.get_values("2020-02-11_games!A2:F")
         self.court_and_games_idx = 0
+        self.display_game_info_at_bottom_of_screen()
         self.value_idx = 0
+
+        # load graphic instruction to set game
+        qImg = self.load_logo_qImg('views/oddball_graphics/select_game.png', TOP_LEFT_LOGO_SIZE)
+        self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
         # display the game clock value
         self.lcdNumber_game_time_remaining_min.display(
@@ -280,6 +287,118 @@ class MainWindow(QtWidgets.QMainWindow):
         elif remote == "sparkfun":
             self.enableKeyPressEventHandler = True
 
+
+    def update_gsheet_score(self):
+        # grab game
+        ROW = self.court_and_games_idx + 2
+        A_SCORE_COLUMN = 4
+        B_SCORE_COLUMN = 5
+
+        values = [
+            [self.homeTeam.score, self.awayTeam.score]
+        ]
+
+        self.gs.set_values("2020-02-11_games!E{}:F{}".format(ROW, ROW), values)
+
+    def display_game_info_at_bottom_of_screen(self):
+        try:
+            court = self.court_and_games[self.court_and_games_idx][0]
+            ttime = self.court_and_games[self.court_and_games_idx][1]
+            ta = self.court_and_games[self.court_and_games_idx][2]
+            tb = self.court_and_games[self.court_and_games_idx][3]
+            self.homeTeam.change_team_name(ta)
+            self.awayTeam.change_team_name(tb)
+            self.label_hometeam.setText(str(self.homeTeam))
+            self.label_awayteam.setText(str(self.awayTeam))
+            print("Court: {}, Time: {}, {} vs. {}".format(court, ttime, ta, tb))
+            self.label_court_and_game.setText("Court: {}, Time: {}".format(court, ttime)) #, {} vs. {}".format(court, ttime, ta, tb))
+        except:
+            print("empty cell in list of games")
+            return
+
+    def play_entry_announcement(self, RFID_READER_CONNECTED):
+        NAME_COLUMN = 0
+        RFID_COLUMN = 1
+        NICKNAME_COLUMN = 3
+        GIF_COLUMN = 4
+        AUDIO_COLUMN = 5
+
+        # grab Team A player names
+        ta = self.court_and_games[self.court_and_games_idx][2]
+        tap1 = ta.split(" & ")[0]
+        tap2 = ta.split(" & ")[1]
+
+        # grab Team B player names
+        tb = self.court_and_games[self.court_and_games_idx][3]
+        tbp1 = tb.split(" & ")[0]
+        tbp2 = tb.split(" & ")[1]
+
+        # lookup name in players sheet, and determine audio and gif
+        player_info = self.gs.get_values("players!A2:F")
+
+        def grab_RFIDs_required():
+            rfids_required = {}
+            for player in player_info:
+                if player[NAME_COLUMN] == team_player_name:
+                    rfids_required[player[RFID_COLUMN]] = False
+
+        def play_team_player_name(team_player_name):
+            for player in player_info:
+                if player[NAME_COLUMN] == team_player_name:
+                    sound_filename = os.path.join("sounds", "player_announcement", player[AUDIO_COLUMN])
+                    #threading.Thread(target=playsound, args=(sound_filename,)).start()
+                    playsound(sound_filename)
+                    sleep(1)
+
+        # go ahead and play player names
+        if not RFID_READER_CONNECTED:
+            play_team_player_name(tap1)
+            play_team_player_name(tap2)
+            play_team_player_name(tbp1)
+            play_team_player_name(tbp2)
+
+        # otherwise, wait for them to badge in
+        elif RFID_READER_CONNECTED:
+            # grab rfids required
+            rfids_required = grab_RFIDs_required()
+
+            # import the RFID reader
+            import RPi.GPIO as GPIO
+            from mfrc522 import SimpleMFRC522
+            GPIO.setwarnings(False)
+
+            # initialize the reader
+            reader = SimpleMFRC522()
+
+            # set the previous id and previous read time
+            prevID = None
+            prevReadTime = time.time()
+
+            # loop until everyone is present
+            while True:
+                try:
+                    ID, name = reader.read()
+                    readTime = time.time()
+                    elapsed = readTime - prevReadTime
+                    ID = str(ID).zfill(16)
+                    name = name.strip()
+                    for requiredID, isPresent in rfids_required.items():
+                        if ID == requiredID and not isPresent:
+                            rfids_required[ID] = True
+                    if False in rfids_required.values():
+                        continue
+                    else:
+                        break
+                except Exception as e:
+                    print(str(e))
+                    continue
+
+            # everyone badged in, so play the names!
+            play_team_player_name(tap1)
+            play_team_player_name(tap2)
+            play_team_player_name(tbp1)
+            play_team_player_name(tbp2)
+
     def keyPressEvent(self, event):
         if not self.enableKeyPressEventHandler:
             return
@@ -288,72 +407,78 @@ class MainWindow(QtWidgets.QMainWindow):
         threading.Thread(target=playsound, args=("sounds/beep/beep_padded.mp3",)).start()
 
         if event.key() == QtCore.Qt.Key_A:
-            if not self.game_in_progress():
-                self.court_and_games_idx += 1
-                if self.court_and_games_idx >= len(self.court_and_games):
-                    self.court_and_games_idx = 0
-                try:
-                    self.label_court_and_game.setText("Court: {}, Time: {}, {} vs. {}".format(
-                        self.court_and_games[self.court_and_games_idx][0],
-                        self.court_and_games[self.court_and_games_idx][1],
-                        self.court_and_games[self.court_and_games_idx][2],
-                        self.court_and_games[self.court_and_games_idx][3]))
-                except Exception as e:
-                    print(str(e))
-                    pass
+            # must be in clock mode to edit teams
+            if self.clock_edit_mode:
+                if not self.game_in_progress():
+                    self.court_and_games_idx += 1
+                    if self.court_and_games_idx >= len(self.court_and_games):
+                        self.court_and_games_idx = 0
+
+                    try:
+                        self.display_game_info_at_bottom_of_screen()
+                    except:
+                        self.court_and_games_idx = 0
+                        print("resetting index to 0")
+                        self.display_game_info_at_bottom_of_screen()
+
             else:
-                if not self.add_points_mode:
-                    # home is in
-                    self.homeTeam.ballFlag.toggle_in(True)
-                    self.awayTeam.ballFlag.toggle_in(False)
-                    self.draw_ball_indicator(self.homeTeam)
-                    self.draw_ball_indicator(self.awayTeam)
-                    self.label_logoadvertisement.clear()
-                    self.label_logoadvertisement.repaint()
-                elif self.add_points_mode:
-                    # begin cycling points and clear other team's temp score
-                    self.homeTeam.cycle_score()
-                    self.awayTeam.temp_points = 0
-                    # display both team scores
-                    self.update_score_widget(self.homeTeam, showTempPoints=True)
-                    self.update_score_widget(self.awayTeam, showTempPoints=True)
+                if self.game_in_progress():
+                    if not self.add_points_mode:
+                        # home is in
+                        self.homeTeam.ballFlag.toggle_in(True)
+                        self.awayTeam.ballFlag.toggle_in(False)
+                        self.draw_ball_indicator(self.homeTeam)
+                        self.draw_ball_indicator(self.awayTeam)
+                        self.label_logoadvertisement.clear()
+                        self.label_logoadvertisement.repaint()
+                    elif self.add_points_mode:
+                        # begin cycling points and clear other team's temp score
+                        self.homeTeam.cycle_score()
+                        self.awayTeam.temp_points = 0
+                        # display both team scores
+                        self.update_score_widget(self.homeTeam, showTempPoints=True)
+                        self.update_score_widget(self.awayTeam, showTempPoints=True)
 
         elif event.key() == QtCore.Qt.Key_B:
-            if not self.game_in_progress():
-                self.court_and_games_idx -= 1
-                if self.court_and_games_idx <= 0:
-                    self.court_and_games_idx = len(self.court_and_games) - 1
-                try:
-                    self.label_court_and_game.setText("Court: {}, Time: {}, {} vs. {}".format(
-                        self.court_and_games[self.court_and_games_idx][0],
-                        self.court_and_games[self.court_and_games_idx][1],
-                        self.court_and_games[self.court_and_games_idx][2],
-                        self.court_and_games[self.court_and_games_idx][3]))
-                except Exception as e:
-                    print(str(e))
-                    pass
+            # must be in clock mode to edit teams
+            if self._prevButton == QtCore.Qt.Key_C:
+                if not self.game_in_progress():
+                    self.court_and_games_idx -= 1
+                    if self.court_and_games_idx < 0:
+                        self.court_and_games_idx = len(self.court_and_games) - 1
+                    try:
+                        self.display_game_info_at_bottom_of_screen()
+                    except:
+                        print("empty cell in list of games")
+                        return
+
             else:
-                if not self.add_points_mode:
-                    # home is in
-                    self.homeTeam.ballFlag.toggle_in(False)
-                    self.awayTeam.ballFlag.toggle_in(True)
-                    self.draw_ball_indicator(self.homeTeam)
-                    self.draw_ball_indicator(self.awayTeam)
-                    self.label_logoadvertisement.clear()
-                    self.label_logoadvertisement.repaint()
-                elif self.add_points_mode:
-                    # begin cycling points and clear other team's temp score
-                    self.awayTeam.cycle_score()
-                    self.homeTeam.temp_points = 0
-                    # display both team scores
-                    self.update_score_widget(self.homeTeam, showTempPoints=True)
-                    self.update_score_widget(self.awayTeam, showTempPoints=True)
+                if self.game_in_progress():
+                    if not self.add_points_mode:
+                        # home is in
+                        self.homeTeam.ballFlag.toggle_in(False)
+                        self.awayTeam.ballFlag.toggle_in(True)
+                        self.draw_ball_indicator(self.homeTeam)
+                        self.draw_ball_indicator(self.awayTeam)
+                        self.label_logoadvertisement.clear()
+                        self.label_logoadvertisement.repaint()
+                    elif self.add_points_mode:
+                        # begin cycling points and clear other team's temp score
+                        self.awayTeam.cycle_score()
+                        self.homeTeam.temp_points = 0
+                        # display both team scores
+                        self.update_score_widget(self.homeTeam, showTempPoints=True)
+                        self.update_score_widget(self.awayTeam, showTempPoints=True)
 
         elif event.key() == QtCore.Qt.Key_C:
             # wait for PWR
             if not self.clock_edit_mode:
                 self.clock_edit_mode = True
                 self.add_points_mode = False
+
+                # show the clock graphic
+                qImg = self.load_logo_qImg('views/oddball_graphics/clock.png', TOP_LEFT_LOGO_SIZE)
+                self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
                 # if the game isn't in session, wait for edit or start
                 if not self.game_in_progress():
@@ -362,22 +487,34 @@ class MainWindow(QtWidgets.QMainWindow):
             elif self.clock_edit_mode:
                 self.clock_edit_mode = False
                 self.wait_for_clock_edit_or_start = False
+                self.label_logoadvertisement.clear()
+                self.label_logoadvertisement.repaint()
 
 
         # pwr key
         elif event.key() == QtCore.Qt.Key_S:
-            # DOUBLE PRESS LOGIC
-            if self._prevButton == event.key():
-                # toggle the timer being paused
-                self.timer_paused = not self.timer_paused
-                self.clock_edit_mode = False
-                self.add_points_mode = False
+            if self.clock_edit_mode:
+                if not self.wait_for_clock_edit_or_start:
+                    if self.game_in_progress():
+                        # toggle the timer being paused
+                        self.timer_paused = not self.timer_paused
+                        self.clock_edit_mode = False
+                        self.add_points_mode = False
+                        if self.timer_paused:
+                            qImg = self.load_logo_qImg('views/oddball_graphics/paused.png', TOP_LEFT_LOGO_SIZE)
+                            self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
+                        elif not self.timer_paused:
+                            self.label_logoadvertisement.clear()
+                            self.label_logoadvertisement.repaint()
 
-            # SINGLE PRESS LOGIC
-            else:
-                if self.clock_edit_mode and self.wait_for_clock_edit_or_start:
+                elif self.wait_for_clock_edit_or_start:
                     # start the game
                     if not self.game_in_progress():
+                        self.play_entry_announcement(RFID_READER_CONNECTED)
+                        sleep(10)
+
+                        # todo play game start sound
+
                         self.start_game_timer(self.GAME_MINUTES)
 
                         # reset modes
@@ -389,31 +526,68 @@ class MainWindow(QtWidgets.QMainWindow):
                         self._prevButton = None
                         return
 
-                # if we're in add points mode, lock in the points
-                if self.add_points_mode:
+            # if we're in add points mode, lock in the points
+            elif self.add_points_mode:
                     self.lock_in_frame_score()
                     # reset mode
                     self.add_points_mode = False
 
-                # if we're not adding points, activate add points mode
-                elif not self.add_points_mode:
+            # if we're not adding points, activate add points mode
+            elif not self.add_points_mode:
                     self.add_points_mode = True
 
         elif event.key() == QtCore.Qt.Key_Return:
-            if self.timer_paused:
-                self.stop_game_timer()
-                return
+            # sequence: C + Return
+            if self._prevButton == QtCore.Qt.Key_C:
+                if self.down_and_back and self.game_in_progress():
+                    # pause the timer
+                    self.timer_paused = True
 
-            elif not self.timer_paused and self.game_in_progress():
-                # ball drawing bottom left and bottom right
-                self.homeTeam.ballFlag.toggle_in(False)
-                self.awayTeam.ballFlag.toggle_in(True, casino=True)
-                self.draw_ball_indicator(self.homeTeam)
-                self.draw_ball_indicator(self.awayTeam)
+                    # update g sheet
+                    self.update_gsheet_score()
 
-                # play a random sound and gif
-                play_random_sound("sounds/casino")
-                self.play_random_animation("animations/casino")
+                    # set g sheet icon in top leftr
+                    qImg = self.load_logo_qImg('views/oddball_graphics/gsheet_updated.png', TOP_LEFT_LOGO_SIZE)
+                    self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
+
+                    # stop the game
+                    self.down_and_back = False
+
+                    # clear the down and back indicator
+                    self.label_downandback.clear()
+                    self.label_downandback.repaint()
+
+                    # reset prev button and return
+                    self._prevButton = None
+
+                    # wait for 5 seconds
+                    sleep(5)
+
+                    # load graphic instruction to set game
+                    qImg = self.load_logo_qImg('views/oddball_graphics/select_game.png', TOP_LEFT_LOGO_SIZE)
+                    self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
+                    return
+            else:
+                if self.timer_paused:
+                    self.stop_game_timer()
+                    # draw the stopped graphic
+                    qImg = self.load_logo_qImg('views/oddball_graphics/stopped.png', TOP_LEFT_LOGO_SIZE)
+                    self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
+
+                    return
+
+                elif not self.timer_paused and self.game_in_progress():
+                    # ball drawing bottom left and bottom right
+                    self.homeTeam.ballFlag.toggle_in(False)
+                    self.awayTeam.ballFlag.toggle_in(True, casino=True)
+                    self.draw_ball_indicator(self.homeTeam)
+                    self.draw_ball_indicator(self.awayTeam)
+
+                    # play a random sound and gif
+                    play_random_sound("sounds/casino")
+                    self.play_random_animation("animations/casino")
+
+
 
 
         elif event.key() == QtCore.Qt.Key_Right:

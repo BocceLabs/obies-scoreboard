@@ -79,20 +79,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0" colspan="3">
-     <layout class="QHBoxLayout" name="horizontalLayout_score">
-      <item>
-       <widget class="QLabel" name="label_homeballindicator">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLCDNumber" name="lcdNumber_homescore">
+    <item row="0" column="1">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="2">
+       <widget class="QLCDNumber" name="lcdNumber_game_time_remaining_sec">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -102,7 +92,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>500</height>
+          <height>16777215</height>
          </size>
         </property>
         <property name="palette">
@@ -111,9 +101,9 @@
            <colorrole role="WindowText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>143</green>
-              <blue>0</blue>
+              <red>255</red>
+              <green>255</green>
+              <blue>255</blue>
              </color>
             </brush>
            </colorrole>
@@ -122,9 +112,9 @@
            <colorrole role="WindowText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>143</green>
-              <blue>0</blue>
+              <red>255</red>
+              <green>255</green>
+              <blue>255</blue>
              </color>
             </brush>
            </colorrole>
@@ -147,8 +137,8 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLCDNumber" name="lcdNumber_awayscore">
+      <item row="0" column="0">
+       <widget class="QLCDNumber" name="lcdNumber_game_time_remaining_min">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -158,7 +148,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>500</height>
+          <height>16777215</height>
          </size>
         </property>
         <property name="palette">
@@ -168,8 +158,8 @@
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>255</red>
-              <green>38</green>
-              <blue>0</blue>
+              <green>255</green>
+              <blue>255</blue>
              </color>
             </brush>
            </colorrole>
@@ -179,8 +169,8 @@
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>255</red>
-              <green>38</green>
-              <blue>0</blue>
+              <green>255</green>
+              <blue>255</blue>
              </color>
             </brush>
            </colorrole>
@@ -203,10 +193,61 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLabel" name="label_awayballindicator">
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_timercolon">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="palette">
+         <palette>
+          <active>
+           <colorrole role="WindowText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>255</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </active>
+          <inactive>
+           <colorrole role="WindowText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>255</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </inactive>
+          <disabled>
+           <colorrole role="WindowText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="63">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </disabled>
+         </palette>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>80</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string>:</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -214,6 +255,79 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_logoadvertisement">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="5" column="0" colspan="3">
+     <widget class="QLabel" name="label_bottomadvertisement">
+      <property name="palette">
+       <palette>
+        <active>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>148</red>
+            <green>33</green>
+            <blue>146</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </active>
+        <inactive>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>148</red>
+            <green>33</green>
+            <blue>146</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </inactive>
+        <disabled>
+         <colorrole role="WindowText">
+          <brush brushstyle="SolidPattern">
+           <color alpha="63">
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </brush>
+         </colorrole>
+        </disabled>
+       </palette>
+      </property>
+      <property name="font">
+       <font>
+        <family>Luckiest Guy</family>
+        <pointsize>60</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0" colspan="3">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -554,10 +668,20 @@ WordWrapping</string>
       </item>
      </layout>
     </item>
-    <item row="0" column="1">
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="2">
-       <widget class="QLCDNumber" name="lcdNumber_game_time_remaining_sec">
+    <item row="2" column="0" colspan="3">
+     <layout class="QHBoxLayout" name="horizontalLayout_score">
+      <item>
+       <widget class="QLabel" name="label_homeballindicator">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLCDNumber" name="lcdNumber_homescore">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -567,7 +691,7 @@ WordWrapping</string>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>16777215</height>
+          <height>500</height>
          </size>
         </property>
         <property name="palette">
@@ -576,9 +700,9 @@ WordWrapping</string>
            <colorrole role="WindowText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
+              <red>0</red>
+              <green>143</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -587,9 +711,9 @@ WordWrapping</string>
            <colorrole role="WindowText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
+              <red>0</red>
+              <green>143</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -612,8 +736,8 @@ WordWrapping</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLCDNumber" name="lcdNumber_game_time_remaining_min">
+      <item>
+       <widget class="QLCDNumber" name="lcdNumber_awayscore">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -623,7 +747,7 @@ WordWrapping</string>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>16777215</height>
+          <height>500</height>
          </size>
         </property>
         <property name="palette">
@@ -633,8 +757,8 @@ WordWrapping</string>
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
+              <green>38</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -644,8 +768,8 @@ WordWrapping</string>
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
+              <green>38</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -668,13 +792,34 @@ WordWrapping</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_timercolon">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item>
+       <widget class="QLabel" name="label_awayballindicator">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_court_and_game">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>60</height>
+         </size>
         </property>
         <property name="palette">
          <palette>
@@ -715,11 +860,12 @@ WordWrapping</string>
         </property>
         <property name="font">
          <font>
-          <pointsize>80</pointsize>
+          <family>Luckiest Guy</family>
+          <pointsize>40</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>:</string>
+         <string/>
         </property>
         <property name="scaledContents">
          <bool>false</bool>
@@ -727,43 +873,8 @@ WordWrapping</string>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="label_logoadvertisement">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_court_and_game">
-        <property name="text">
-         <string/>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -919,59 +1030,6 @@ WordWrapping</string>
       </item>
      </layout>
     </item>
-    <item row="4" column="0" colspan="3">
-     <widget class="QLabel" name="label_bottomadvertisement">
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>148</red>
-            <green>33</green>
-            <blue>146</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>148</red>
-            <green>33</green>
-            <blue>146</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="63">
-            <red>0</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="font">
-       <font>
-        <family>Luckiest Guy</family>
-        <pointsize>60</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -980,7 +1038,7 @@ WordWrapping</string>
      <x>0</x>
      <y>0</y>
      <width>1868</width>
-     <height>44</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuObie_s_Scoreboard">
