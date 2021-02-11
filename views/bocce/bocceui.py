@@ -38,10 +38,10 @@ import random
 import threading
 
 # INDICATOR AND GRAPHIC SIZES
-BALL_INDICATOR_SIZE = 250
-TOP_LEFT_LOGO_SIZE = 350
-BOTTOM_LOGO_WIDTH = 800
-TOP_RIGHT_LOGO_SIZE = 200
+BALL_INDICATOR_SIZE = 200
+TOP_LEFT_LOGO_SIZE = 200
+BOTTOM_LOGO_WIDTH = 500
+TOP_RIGHT_LOGO_SIZE = 150
 
 # DEFAULT MINUTES
 DEFAULT_GAME_MINUTES = 20
@@ -89,7 +89,7 @@ class Animation():
         self.dlg = QDialog()
         self.dlg.setWindowTitle("animation")
         self.dlg.setWindowModality(False)
-        self.dlg.setFixedSize(1250, 1250)
+        self.dlg.setFixedSize(800, 800)
         self.dlg.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint)
         self.label_animation = QLabel(self.dlg)
         self.movie = QMovie(gif_path)
@@ -178,7 +178,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # update the top left corner logo to indicating that the pallino needs to be thrown
         qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png', TOP_LEFT_LOGO_SIZE)
         self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
-
+        
+        # draw ball indicators
+        self.draw_rgba_qimg(self.label_homeballindicator, self.cv2img_to_qImg(self.make_ball(color=(0, 0, 0)), BALL_INDICATOR_SIZE))
+        self.draw_rgba_qimg(self.label_awayballindicator, self.cv2img_to_qImg(self.make_ball(color=(0, 0, 0)), BALL_INDICATOR_SIZE))
+        
         # draw the bottom logo
         qImg = self.load_logo_qImg('views/packaworldintegration/long_white.png', BOTTOM_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_bottomadvertisement, qImg)

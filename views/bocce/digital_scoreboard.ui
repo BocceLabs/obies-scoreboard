@@ -240,7 +240,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>80</pointsize>
+          <pointsize>65</pointsize>
          </font>
         </property>
         <property name="text">
@@ -390,7 +390,7 @@
           <property name="font">
            <font>
             <family>BPdotsDiamond</family>
-            <pointsize>80</pointsize>
+            <pointsize>55</pointsize>
            </font>
           </property>
           <property name="text">
@@ -465,7 +465,7 @@ WordWrapping</string>
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>70</pointsize>
+            <pointsize>60</pointsize>
            </font>
           </property>
           <property name="text">
@@ -530,7 +530,7 @@ WordWrapping</string>
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>70</pointsize>
+            <pointsize>60</pointsize>
            </font>
           </property>
           <property name="text">
@@ -611,7 +611,7 @@ WordWrapping</string>
           <property name="font">
            <font>
             <family>BPdotsDiamond</family>
-            <pointsize>80</pointsize>
+            <pointsize>55</pointsize>
            </font>
           </property>
           <property name="text">
@@ -1038,7 +1038,7 @@ WordWrapping</string>
      <x>0</x>
      <y>0</y>
      <width>1868</width>
-     <height>24</height>
+     <height>44</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuObie_s_Scoreboard">
