@@ -761,6 +761,13 @@ WordWrapping</string>
        </layout>
       </item>
       <item>
+       <widget class="QLabel" name="label_court_and_game">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_downandback">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -973,7 +980,7 @@ WordWrapping</string>
      <x>0</x>
      <y>0</y>
      <width>1868</width>
-     <height>22</height>
+     <height>44</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuObie_s_Scoreboard">

@@ -191,7 +191,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # load team name data from Google Sheet
         self.gs = GSheet()
-        self.team_name_values = self.gs.get_values(1)
+        self.team_name_values = self.gs.get_values("teams!A:A")
+        self.court_and_games = self.gs.get_values("2020-02-11_games!A2:D")
+        self.court_and_games_idx = 0
         self.value_idx = 0
 
         # display the game clock value
@@ -287,11 +289,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if event.key() == QtCore.Qt.Key_A:
             if not self.game_in_progress():
-                self.value_idx += 1
-                if self.value_idx >= len(self.team_name_values):
-                    self.value_idx = 1
+                self.court_and_games_idx += 1
+                if self.court_and_games_idx >= len(self.court_and_games):
+                    self.court_and_games_idx = 0
                 try:
-                    self.set_team_name(self.homeTeam, str(self.team_name_values[self.value_idx])[2:-2])
+                    self.label_court_and_game.setText("Court: {}, Time: {}, {} vs. {}".format(
+                        self.court_and_games[self.court_and_games_idx][0],
+                        self.court_and_games[self.court_and_games_idx][1],
+                        self.court_and_games[self.court_and_games_idx][2],
+                        self.court_and_games[self.court_and_games_idx][3]))
                 except Exception as e:
                     print(str(e))
                     pass
@@ -314,11 +320,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         elif event.key() == QtCore.Qt.Key_B:
             if not self.game_in_progress():
-                self.value_idx += 1
-                if self.value_idx >= len(self.team_name_values):
-                    self.value_idx = 1
+                self.court_and_games_idx -= 1
+                if self.court_and_games_idx <= 0:
+                    self.court_and_games_idx = len(self.court_and_games) - 1
                 try:
-                    self.set_team_name(self.awayTeam, str(self.team_name_values[self.value_idx])[2:-2])
+                    self.label_court_and_game.setText("Court: {}, Time: {}, {} vs. {}".format(
+                        self.court_and_games[self.court_and_games_idx][0],
+                        self.court_and_games[self.court_and_games_idx][1],
+                        self.court_and_games[self.court_and_games_idx][2],
+                        self.court_and_games[self.court_and_games_idx][3]))
                 except Exception as e:
                     print(str(e))
                     pass
