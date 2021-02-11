@@ -234,12 +234,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 pass
             event.accept()
 
-    def play_random_animation(self, gif_dir):
+    def play_random_animation(self, gif_dir, timeout=5):
         animations = list_animations(gif_dir)
         if len(animations)== 0:
             return
         gif_filename = random.choice(animations)
-        self.load_animation(gif_path=gif_filename, timeout=5)
+        self.load_animation(gif_path=gif_filename, timeout=timeout)
+
+    def play_animation(self, path, timeout=5):
+        gif_filename = path
+        self.load_animation(gif_path=gif_filename, timeout=timeout)
 
     def _stop_animation(self, button_str):
         if self._prevButton_str == button_str:
@@ -345,10 +349,21 @@ class MainWindow(QtWidgets.QMainWindow):
         def play_team_player_name(team_player_name):
             for player in player_info:
                 if player[NAME_COLUMN] == team_player_name:
+                    # play sound
                     sound_filename = os.path.join("sounds", "player_announcement", player[AUDIO_COLUMN])
-                    #threading.Thread(target=playsound, args=(sound_filename,)).start()
-                    playsound(sound_filename)
-                    sleep(1)
+                    threading.Thread(target=playsound, args=(sound_filename,)).start()
+
+                    # play animation
+                    if player[GIF_COLUMN] == "random":
+                        self.play_random_animation(os.path.join("animations", "player_announcement"), timeout=2.4)
+                    else:
+                        gif_path = os.path.join("animations", "player_announcement", player[GIF_COLUMN])
+                        self.play_animation(gif_path, timeout=2.2)
+
+                    sleep(1.5)
+
+
+
 
         # go ahead and play player names
         if not RFID_READER_CONNECTED:
@@ -511,7 +526,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     # start the game
                     if not self.game_in_progress():
                         self.play_entry_announcement(RFID_READER_CONNECTED)
-                        sleep(10)
+                        sleep(4)
 
                         # todo play game start sound
 
