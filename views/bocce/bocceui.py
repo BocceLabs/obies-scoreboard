@@ -529,7 +529,10 @@ class MainWindow(QtWidgets.QMainWindow):
                         sleep(4)
 
                         # todo play game start sound
+                        sound_filename = os.path.join("sounds", "game_status", "lets_roll.m4a")
+                        threading.Thread(target=playsound, args=(sound_filename,)).start()
 
+                        # start the timer
                         self.start_game_timer(self.GAME_MINUTES)
 
                         # reset modes
@@ -557,6 +560,56 @@ class MainWindow(QtWidgets.QMainWindow):
                 if self.down_and_back and self.game_in_progress():
                     # pause the timer
                     self.timer_paused = True
+
+                    # lookup name in players sheet, and determine audio and gif
+                    NAME_COLUMN = 0
+                    RFID_COLUMN = 1
+                    NICKNAME_COLUMN = 3
+                    GIF_COLUMN = 4
+                    AUDIO_COLUMN = 5
+                    player_info = self.gs.get_values("players!A2:F")
+
+                    def play_team_player_name(team_player_name):
+                        for player in player_info:
+                            if player[NAME_COLUMN] == team_player_name:
+                                # play sound
+                                sound_filename = os.path.join("sounds", "player_announcement", player[AUDIO_COLUMN])
+                                threading.Thread(target=playsound, args=(sound_filename,)).start()
+
+                                # play animation
+                                if player[GIF_COLUMN] == "random":
+                                    self.play_random_animation(os.path.join("animations", "player_announcement"), timeout=2.4)
+                                else:
+                                    gif_path = os.path.join("animations", "player_announcement", player[GIF_COLUMN])
+                                    self.play_animation(gif_path, timeout=2.2)
+
+                                sleep(1.5)
+
+                    # play the tie game
+                    if self.homeTeam.score == self.awayTeam.score:
+                        sound_filename = os.path.join("sounds", "game_status", "finishedinatie.m4a")
+                        threading.Thread(target=playsound, args=(sound_filename,)).start()
+
+                    # home team wins
+                    elif self.homeTeam.score > self.awayTeam.score:
+                        p1 = str(self.homeTeam).split(" & ")[0]
+                        p2 = str(self.homeTeam).split(" & ")[1]
+                        sound_filename = os.path.join("sounds", "game_status", "winnerwinnerchickendinner.m4a")
+                        threading.Thread(target=playsound, args=(sound_filename,)).start()
+                        sleep(4)
+                        play_team_player_name(p1)
+                        play_team_player_name(p2)
+
+
+                    # away team wins
+                    elif self.awayTeam.score > self.homeTeam.score:
+                        p1 = str(self.awayTeam).split(" & ")[0]
+                        p2 = str(self.awayTeam).split(" & ")[1]
+                        sound_filename = os.path.join("sounds", "game_status", "winnerwinnerchickendinner.m4a")
+                        threading.Thread(target=playsound, args=(sound_filename,)).start()
+                        sleep(.5)
+                        play_team_player_name(p1)
+                        play_team_player_name(p2)
 
                     # update g sheet
                     self.update_gsheet_score()
