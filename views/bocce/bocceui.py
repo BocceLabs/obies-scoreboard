@@ -198,7 +198,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # load team name data from Google Sheet
         self.gs = GSheet()
         self.team_name_values = self.gs.get_values("teams!A:A")
-        self.court_and_games = self.gs.get_values("2020-02-11_games!A2:F")
+        self.court_and_games = self.gs.get_values("2020-02-12_games!A14:F19")
         self.court_and_games_idx = 0
         self.display_game_info_at_bottom_of_screen()
         self.value_idx = 0
@@ -308,10 +308,15 @@ class MainWindow(QtWidgets.QMainWindow):
             [self.homeTeam.score, self.awayTeam.score]
         ]
 
-        self.gs.set_values("2020-02-11_games!E{}:F{}".format(ROW, ROW), values)
+        self.gs.set_values("2020-02-12_games!E{}:F{}".format(ROW, ROW), values)
 
     def display_game_info_at_bottom_of_screen(self):
         try:
+            self.court_and_games = self.gs.get_values("2020-02-12_games!A14:F19")
+            # set g sheet icon in top leftr
+            qImg = self.load_logo_qImg('views/oddball_graphics/cloud.png',
+                                       TOP_LEFT_LOGO_SIZE)
+            self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
             court = self.court_and_games[self.court_and_games_idx][0]
             ttime = self.court_and_games[self.court_and_games_idx][1]
             ta = self.court_and_games[self.court_and_games_idx][2]
@@ -462,7 +467,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         elif event.key() == QtCore.Qt.Key_B:
             # must be in clock mode to edit teams
-            if self._prevButton == QtCore.Qt.Key_C:
+            if self.clock_edit_mode:
                 if not self.game_in_progress():
                     self.court_and_games_idx -= 1
                     if self.court_and_games_idx < 0:
@@ -563,8 +568,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         elif event.key() == QtCore.Qt.Key_Return:
             # sequence: C + Return
-            if self._prevButton == QtCore.Qt.Key_C:
-                if self.down_and_back and self.game_in_progress():
+            if self.clock_edit_mode and self._prevButton == QtCore.Qt.Key_C:
+                if not self.game_in_progress():
                     # pause the timer
                     self.timer_paused = True
 
@@ -656,26 +661,30 @@ class MainWindow(QtWidgets.QMainWindow):
                     return
 
                 elif not self.timer_paused and self.game_in_progress():
-                    # ball drawing bottom left and bottom right
-                    self.homeTeam.ballFlag.toggle_in(False)
-                    self.awayTeam.ballFlag.toggle_in(True, casino=True)
-                    self.draw_ball_indicator(self.homeTeam)
-                    self.draw_ball_indicator(self.awayTeam)
-
+                    try:
+                        self.stop_animation()
+                    except:
+                        pass
+                    # play "shot_clock_warning"
                     # play a random sound and gif
-                    play_random_sound("sounds/casino")
-                    self.play_random_animation("animations/casino")
-
-
-
+                    play_random_sound("sounds/shot_clock_warning")
+                    self.play_random_animation("animations/shot_clock_warning")
 
         elif event.key() == QtCore.Qt.Key_Right:
+            try:
+                self.stop_animation()
+            except:
+                pass
             # play "good shot"
             # play a random sound and gif
             play_random_sound("sounds/good_shot")
             self.play_random_animation("animations/good_shot")
 
         elif event.key() == QtCore.Qt.Key_Left:
+            try:
+                self.stop_animation()
+            except:
+                pass
             # play "bad shot"
             # play a random sound and gif
             play_random_sound("sounds/bad_shot")
@@ -693,6 +702,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # play "too long"
             else:
+                try:
+                    self.stop_animation()
+                except:
+                    pass
                 # play a random sound and gif
                 play_random_sound("sounds/too_long")
                 self.play_random_animation("animations/too_long")
@@ -710,6 +723,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # play "too short"
             else:
+                try:
+                    self.stop_animation()
+                except:
+                    pass
                 # play a random sound and gif
                 play_random_sound("sounds/too_short")
                 self.play_random_animation("animations/too_short")
@@ -949,6 +966,28 @@ class MainWindow(QtWidgets.QMainWindow):
         return False
 
     def lock_in_frame_score(self):
+        if self.homeTeam.temp_points == 4:
+            # ball drawing bottom left and bottom right
+            self.homeTeam.ballFlag.toggle_in(True, casino=True)
+            self.awayTeam.ballFlag.toggle_in(False)
+            self.draw_ball_indicator(self.homeTeam)
+            self.draw_ball_indicator(self.awayTeam)
+
+            # play a random sound and gif
+            play_random_sound("sounds/casino")
+            self.play_random_animation("animations/casino")
+
+        elif self.awayTeam.temp_points == 4:
+            # ball drawing bottom left and bottom right
+            self.homeTeam.ballFlag.toggle_in(False)
+            self.awayTeam.ballFlag.toggle_in(True, casino=True)
+            self.draw_ball_indicator(self.homeTeam)
+            self.draw_ball_indicator(self.awayTeam)
+
+            # play a random sound and gif
+            play_random_sound("sounds/casino")
+            self.play_random_animation("animations/casino")
+
         self.homeTeam.add_points()
         self.awayTeam.add_points()
 
@@ -957,6 +996,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # increment the frame count
         self.increment_frame_count()
+
+
+        # display lightning user feedback
+        qImg = self.load_logo_qImg('views/oddball_graphics/lightning.png',
+                                   TOP_LEFT_LOGO_SIZE)
+        self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
         # repaint
         self.label_homeballindicator.clear()
@@ -1261,6 +1306,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def stop_game_timer(self):
         if self.gameTimer.isActive():
             self.gameTimer.stop()
+            self.timer_paused = True
             self.time_min_left = 0
             self.time_sec_left = 0
             self.game_time_ui_update()
