@@ -216,10 +216,12 @@ class MainWindow(QtWidgets.QMainWindow):
     def load_animation(self, gif_path, timeout=8):
         self.animation = Animation(gif_path, timeout)
         self.animation.start()
+        self.setFocus()
 
     def stop_animation(self):
         self.animation.quit()
         self.animation = None
+        self.setFocus()
 
     def closeEvent(self, event) -> None:
         """
