@@ -526,6 +526,7 @@ class MainWindow(QtWidgets.QMainWindow):
                             self.label_logoadvertisement.clear()
                             self.label_logoadvertisement.repaint()
 
+
                 elif self.wait_for_clock_edit_or_start:
                     # start the game
                     if not self.game_in_progress():
@@ -624,6 +625,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
                     # stop the game
                     self.down_and_back = False
+                    self.clock_edit_mode = False
+                    self.add_points_mode = False
+                    self.time_min_left = DEFAULT_GAME_MINUTES
+                    self.stop_game_timer()
 
                     # clear the down and back indicator
                     self.label_downandback.clear()
