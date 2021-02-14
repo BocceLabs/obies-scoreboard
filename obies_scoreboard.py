@@ -6,9 +6,12 @@ import os
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-g", "--game", default="bocce", help="what game are you playing?")
-ap.add_argument("-v", "--view", required=True, help="which ui do you want to run?")
-ap.add_argument("-r", "--remote", required=True, help="which remote do you want to use")
+ap.add_argument("-g", "--game", default="bocce", choices=["bocce", "curling"],
+    help="what game are you playing?")
+ap.add_argument("-v", "--view", default="digital", choices=["digital", "leelanau"],
+    help="which ui do you want to run?")
+ap.add_argument("-r", "--remote", default="sparkfun", choices=["ati", "sparkfun"],
+    help="which remote do you want to use")
 args = vars(ap.parse_args())
 
 # initialize ui
