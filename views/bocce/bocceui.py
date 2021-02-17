@@ -303,10 +303,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.thread = QThread()
 
             # Step 3: Create a worker object
-            if remote.lower() == "ati":
-                self.worker = ATI()
-            elif remote.lower() == "sparkfun":
-                self.worker = Sparkfun()
+            self.worker = ATI()
 
             self.worker.connect()
 

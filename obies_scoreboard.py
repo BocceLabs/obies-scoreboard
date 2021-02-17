@@ -37,7 +37,11 @@ elif args["game"] == "axethrowing":
 elif args["game"] == "croquet":
     raise NotImplementedError
 elif args["game"] == "curling":
-    raise NotImplementedError
+    from views.curling.curlingui import MainWindow
+    if args["view"] == "leelanau":
+        ui = os.path.join(os.getcwd(), "views", "curling", "curlingui_leelanau.ui")
+    else:
+        raise NotImplementedError
 elif args["game"] == "kubb":
     raise NotImplementedError
 elif args["game"] == "shuffleboard":
