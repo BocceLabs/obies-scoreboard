@@ -121,6 +121,9 @@
             <pointsize>30</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -145,6 +148,9 @@
             <family>Luckiest Guy</family>
             <pointsize>30</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -173,6 +179,9 @@
             <family>Luckiest Guy</family>
             <pointsize>30</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -4172,6 +4181,9 @@
             <pointsize>30</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -4196,6 +4208,9 @@
             <family>Luckiest Guy</family>
             <pointsize>30</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -4224,6 +4239,9 @@
             <family>Luckiest Guy</family>
             <pointsize>30</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
