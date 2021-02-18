@@ -25,6 +25,8 @@ class End:
 
 class Score:
     def __init__(self, hammer=False):
+
+        # todo maybe implement this as a stack
         self.ends = (
             None,
             End(1, hammer),
@@ -39,6 +41,7 @@ class Score:
             End(10, False),
         )
         self.score = None
+        self.current_end = 1
 
     def update_total_score(self):
         total_points = 0
@@ -76,7 +79,8 @@ class Score:
 
     def set_hammer(self, end_num):
         for end in self.ends:
-            if end.end_num == end_num:
-                end.hammer = True
+            # todo
+            if self.ends[end_num].end_num == end_num:
+                self.ends[end_num].hammer = True
             else:
-                end.hammer = False
+                self.ends[end_num].hammer = False

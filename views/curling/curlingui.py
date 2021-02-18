@@ -641,8 +641,6 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.prev_label = self.teamA_end_cards[self.end_num]
                     logging.log(logging.INFO, "finally clause ran")
 
-
-
     def handle_key_B(self):
         print("B")
         # must be in clock mode to edit teams
@@ -941,6 +939,23 @@ class MainWindow(QtWidgets.QMainWindow):
             self.other_team(team).score.ends[self.end_num].locked = True
 
             self.end_num += 1
+
+            # update current end in score model
+            team.score.current_end += 1
+            self.other_team(team).score.current_end += 1
+
+            # place the hammer on the other team and display it
+            self.other_team(team).score.set_hammer(self.other_team(team).score.current_end)
+
+            if self.other_team(team) is self.teamA:
+                hammer_icon_spot = self.teamA_points_place_labels[team.score.current_end]
+            elif self.other_team(team) is self.teamB:
+                hammer_icon_spot = self.teamB_points_place_labels[team.score.current_end]
+            qImg = self.load_logo_qImg('views/curling/graphics/hammer.png', 100)
+            self.draw_rgba_qimg(hammer_icon_spot, qImg)
+
+
+
             self.add_points_mode = False
 
             # todo place the hammer
@@ -1205,7 +1220,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def show_team_change_popup(self, team):
         teamText = None
         labelTeamName = None
-        if team is self.teamA:
+        if team ise self.teamA:
             teamText = "Team A"
             labelTeamName = self.label_teamA_name
         elif team is self.teamB:
