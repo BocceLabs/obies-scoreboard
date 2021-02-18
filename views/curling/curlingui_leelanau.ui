@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2273</width>
-    <height>1310</height>
+    <width>2246</width>
+    <height>1176</height>
    </rect>
   </property>
   <property name="palette">
@@ -110,13 +110,19 @@
         <item>
          <widget class="QLabel" name="label_sponsor_top_left">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Luckiest Guy</family>
+            <pointsize>30</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Sponsor Logo</string>
+           <string> </string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -129,7 +135,7 @@
         <item>
          <widget class="QLabel" name="label_sponsor_top_center">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -137,11 +143,11 @@
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>60</pointsize>
+            <pointsize>30</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>Sponsor Logo</string>
+           <string> </string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -157,13 +163,19 @@
         <item>
          <widget class="QLabel" name="label_sponsor_top_right">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Luckiest Guy</family>
+            <pointsize>30</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Sponsor Logo</string>
+           <string> </string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -302,6 +314,16 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
+         <widget class="QLabel" name="label_teamA_graphic">
+          <property name="text">
+           <string>Graphic A</string>
+          </property>
+          <property name="margin">
+           <number>15</number>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="label_teamA_name">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -370,8 +392,11 @@
           <property name="wordWrap">
            <bool>true</bool>
           </property>
+          <property name="margin">
+           <number>15</number>
+          </property>
           <property name="indent">
-           <number>30</number>
+           <number>-1</number>
           </property>
          </widget>
         </item>
@@ -827,7 +852,7 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="9">
+        <item row="0" column="9">
          <widget class="QLabel" name="label_teamA_points7">
           <property name="palette">
            <palette>
@@ -883,7 +908,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="0" column="1">
          <widget class="QLabel" name="label_teamA_points1">
           <property name="palette">
            <palette>
@@ -939,7 +964,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="5">
+        <item row="1" column="5">
          <widget class="QLabel" name="label_points3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -970,7 +995,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="10">
+        <item row="0" column="10">
          <widget class="QLabel" name="label_teamA_points8">
           <property name="palette">
            <palette>
@@ -1026,7 +1051,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="8">
+        <item row="1" column="8">
          <widget class="QLabel" name="label_points6">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1057,7 +1082,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="15">
+        <item row="2" column="15">
          <widget class="QLabel" name="label_teamB_points13">
           <property name="palette">
            <palette>
@@ -1113,7 +1138,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="6">
+        <item row="2" column="6">
          <widget class="QLabel" name="label_teamB_points4">
           <property name="palette">
            <palette>
@@ -1169,7 +1194,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="14">
+        <item row="2" column="14">
          <widget class="QLabel" name="label_teamB_points12">
           <property name="palette">
            <palette>
@@ -1225,7 +1250,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="14">
+        <item row="0" column="14">
          <widget class="QLabel" name="label_teamA_points12">
           <property name="palette">
            <palette>
@@ -1281,7 +1306,14 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="12">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_points">
+          <property name="text">
+           <string>Points:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="12">
          <widget class="QLabel" name="label_teamA_points10">
           <property name="palette">
            <palette>
@@ -1337,7 +1369,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="1" column="1">
          <widget class="QLabel" name="label_points1">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1368,7 +1400,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="13">
+        <item row="1" column="13">
          <widget class="QLabel" name="label_points11">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1393,7 +1425,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="6">
+        <item row="1" column="6">
          <widget class="QLabel" name="label_points4">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1424,7 +1456,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="2" column="1">
          <widget class="QLabel" name="label_teamB_points1">
           <property name="palette">
            <palette>
@@ -1480,7 +1512,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="0" column="2">
          <widget class="QLabel" name="label_teamA_points2">
           <property name="palette">
            <palette>
@@ -1536,7 +1568,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="6">
+        <item row="0" column="6">
          <widget class="QLabel" name="label_teamA_points4">
           <property name="palette">
            <palette>
@@ -1592,7 +1624,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="10">
+        <item row="2" column="10">
          <widget class="QLabel" name="label_teamB_points8">
           <property name="palette">
            <palette>
@@ -1648,7 +1680,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="15">
+        <item row="1" column="15">
          <widget class="QLabel" name="label_points13">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1673,7 +1705,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="5">
+        <item row="0" column="5">
          <widget class="QLabel" name="label_teamA_points3">
           <property name="palette">
            <palette>
@@ -1729,7 +1761,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="10">
+        <item row="1" column="10">
          <widget class="QLabel" name="label_points8">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1760,7 +1792,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="2" column="2">
          <widget class="QLabel" name="label_teamB_points2">
           <property name="palette">
            <palette>
@@ -1816,7 +1848,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="16">
+        <item row="1" column="16">
          <widget class="QLabel" name="label_points14">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -1841,7 +1873,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="8">
+        <item row="2" column="8">
          <widget class="QLabel" name="label_teamB_points6">
           <property name="palette">
            <palette>
@@ -1897,7 +1929,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="7">
+        <item row="2" column="7">
          <widget class="QLabel" name="label_teamB_points5">
           <property name="palette">
            <palette>
@@ -1953,63 +1985,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="9">
-         <widget class="QLabel" name="label_teamB_points7">
-          <property name="palette">
-           <palette>
-            <active>
-             <colorrole role="WindowText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>30</red>
-                <green>126</green>
-                <blue>18</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </active>
-            <inactive>
-             <colorrole role="WindowText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>30</red>
-                <green>126</green>
-                <blue>18</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </inactive>
-            <disabled>
-             <colorrole role="WindowText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="63">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </disabled>
-           </palette>
-          </property>
-          <property name="font">
-           <font>
-            <family>Luckiest Guy</family>
-            <pointsize>60</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string> </string>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="15">
+        <item row="0" column="15">
          <widget class="QLabel" name="label_teamA_points13">
           <property name="palette">
            <palette>
@@ -2065,7 +2041,63 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="7">
+        <item row="2" column="9">
+         <widget class="QLabel" name="label_teamB_points7">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>30</red>
+                <green>126</green>
+                <blue>18</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>30</red>
+                <green>126</green>
+                <blue>18</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
+          <property name="font">
+           <font>
+            <family>Luckiest Guy</family>
+            <pointsize>60</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
          <widget class="QLabel" name="label_teamA_points5">
           <property name="palette">
            <palette>
@@ -2121,10 +2153,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="verticalLayout_3"/>
-        </item>
-        <item row="2" column="12">
+        <item row="1" column="12">
          <widget class="QLabel" name="label_points10">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -2155,7 +2184,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="11">
+        <item row="2" column="11">
          <widget class="QLabel" name="label_teamB_points9">
           <property name="palette">
            <palette>
@@ -2211,7 +2240,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="8">
+        <item row="0" column="8">
          <widget class="QLabel" name="label_teamA_points6">
           <property name="palette">
            <palette>
@@ -2267,7 +2296,32 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="12">
+        <item row="1" column="14">
+         <widget class="QLabel" name="label_points12">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>55</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>12</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="12">
          <widget class="QLabel" name="label_teamB_points10">
           <property name="palette">
            <palette>
@@ -2323,32 +2377,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="14">
-         <widget class="QLabel" name="label_points12">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>55</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>12</string>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="16">
+        <item row="2" column="16">
          <widget class="QLabel" name="label_teamB_points14">
           <property name="palette">
            <palette>
@@ -2404,7 +2433,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="16">
+        <item row="0" column="16">
          <widget class="QLabel" name="label_teamA_points14">
           <property name="palette">
            <palette>
@@ -2460,7 +2489,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="11">
+        <item row="1" column="11">
          <widget class="QLabel" name="label_points9">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -2491,7 +2520,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="11">
+        <item row="0" column="11">
          <widget class="QLabel" name="label_teamA_points9">
           <property name="palette">
            <palette>
@@ -2547,7 +2576,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="1" column="2">
          <widget class="QLabel" name="label_points2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -2578,7 +2607,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="5">
+        <item row="2" column="5">
          <widget class="QLabel" name="label_teamB_points3">
           <property name="palette">
            <palette>
@@ -2634,7 +2663,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="13">
+        <item row="2" column="13">
          <widget class="QLabel" name="label_teamB_points11">
           <property name="palette">
            <palette>
@@ -2690,7 +2719,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="9">
+        <item row="1" column="9">
          <widget class="QLabel" name="label_points7">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -2721,7 +2750,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="7">
+        <item row="1" column="7">
          <widget class="QLabel" name="label_points5">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -2752,7 +2781,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="13">
+        <item row="0" column="13">
          <widget class="QLabel" name="label_teamA_points11">
           <property name="palette">
            <palette>
@@ -2808,17 +2837,20 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Points:</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_teamB_graphic">
+          <property name="text">
+           <string>Graphic B</string>
+          </property>
+          <property name="margin">
+           <number>15</number>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QLabel" name="label_teamB_name">
           <property name="sizePolicy">
@@ -2888,8 +2920,11 @@
           <property name="wordWrap">
            <bool>true</bool>
           </property>
+          <property name="margin">
+           <number>15</number>
+          </property>
           <property name="indent">
-           <number>30</number>
+           <number>-1</number>
           </property>
          </widget>
         </item>
@@ -3346,7 +3381,44 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="label_blank_ends">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>Blank Ends:</string>
           </property>
@@ -3356,7 +3428,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="label_blank_end1">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>1</string>
           </property>
@@ -3366,7 +3475,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="label_blank_end2">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>2</string>
           </property>
@@ -3376,7 +3522,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_11">
+         <widget class="QLabel" name="label_blank_end3">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>3</string>
           </property>
@@ -3386,7 +3569,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_10">
+         <widget class="QLabel" name="label_blank_end4">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>4</string>
           </property>
@@ -3396,7 +3616,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_9">
+         <widget class="QLabel" name="label_blank_end5">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>5</string>
           </property>
@@ -3406,7 +3663,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="label_blank_end6">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>6</string>
           </property>
@@ -3416,7 +3710,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_7">
+         <widget class="QLabel" name="label_blank_end7">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>7</string>
           </property>
@@ -3426,7 +3757,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="label_blank_end8">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>8</string>
           </property>
@@ -3436,7 +3804,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_blank_end9">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>9</string>
           </property>
@@ -3446,7 +3851,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_12">
+         <widget class="QLabel" name="label_blank_end10">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>10</string>
           </property>
@@ -3456,7 +3898,44 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_13">
+         <widget class="QLabel" name="label_blank_end11">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>204</red>
+                <green>204</green>
+                <blue>204</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
           <property name="text">
            <string>11</string>
           </property>
@@ -3472,13 +3951,19 @@
         <item>
          <widget class="QLabel" name="label_sponsor_bottom_left">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Luckiest Guy</family>
+            <pointsize>30</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Sponsor Logo</string>
+           <string> </string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -3491,7 +3976,7 @@
         <item>
          <widget class="QLabel" name="label_sponsor_bottom_center">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -3499,11 +3984,11 @@
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>80</pointsize>
+            <pointsize>30</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>Sponsor Logo</string>
+           <string> </string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -3519,13 +4004,19 @@
         <item>
          <widget class="QLabel" name="label_sponsor_bottom_right">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="font">
+           <font>
+            <family>Luckiest Guy</family>
+            <pointsize>30</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Sponsor Logo</string>
+           <string> </string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -3546,7 +4037,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2273</width>
+     <width>2246</width>
      <height>24</height>
     </rect>
    </property>
