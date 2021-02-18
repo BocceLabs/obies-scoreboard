@@ -191,6 +191,18 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label_end_cards">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
           <property name="text">
            <string>END CARDS:</string>
           </property>
@@ -201,6 +213,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card1">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -211,6 +226,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card2">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -221,6 +239,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card3">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -231,6 +252,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card4">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -241,6 +265,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card5">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -251,6 +278,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card6">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -261,6 +291,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card7">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -271,6 +304,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card8">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -281,6 +317,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card9">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -291,6 +330,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card10">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -301,6 +343,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card11">
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -315,6 +360,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label_teamA_graphic">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -381,7 +432,7 @@
            </font>
           </property>
           <property name="text">
-           <string>TEAM A (&quot;Team A&quot; is default)</string>
+           <string>Team A</string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -897,6 +948,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -910,6 +964,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="label_teamA_points1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -952,6 +1018,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1040,6 +1109,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1127,6 +1199,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1182,6 +1257,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1239,6 +1317,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1294,6 +1375,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1357,6 +1441,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1458,6 +1545,18 @@
         </item>
         <item row="2" column="1">
          <widget class="QLabel" name="label_teamB_points1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1500,6 +1599,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1557,6 +1659,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1613,6 +1718,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1668,6 +1776,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1749,6 +1860,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -1837,6 +1951,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1918,6 +2035,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -1973,6 +2093,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -2030,6 +2153,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2086,6 +2212,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2141,6 +2270,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -2229,6 +2361,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2284,6 +2419,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -2366,6 +2504,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2422,6 +2563,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2477,6 +2621,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -2565,6 +2712,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2652,6 +2802,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2707,6 +2860,9 @@
             <family>Luckiest Guy</family>
             <pointsize>60</pointsize>
            </font>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -2826,6 +2982,9 @@
             <pointsize>60</pointsize>
            </font>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2843,6 +3002,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="label_teamB_graphic">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -2909,7 +3074,7 @@
            </font>
           </property>
           <property name="text">
-           <string>TEAM B (&quot;Team B&quot; is default)</string>
+           <string>Team B</string>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -3382,6 +3547,18 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QLabel" name="label_blank_ends">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3466,6 +3643,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -3512,6 +3692,9 @@
              </colorrole>
             </disabled>
            </palette>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -3560,6 +3743,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -3606,6 +3792,9 @@
              </colorrole>
             </disabled>
            </palette>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -3654,6 +3843,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -3700,6 +3892,9 @@
              </colorrole>
             </disabled>
            </palette>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -3748,6 +3943,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -3794,6 +3992,9 @@
              </colorrole>
             </disabled>
            </palette>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
@@ -3842,6 +4043,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -3889,6 +4093,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string> </string>
           </property>
@@ -3935,6 +4142,9 @@
              </colorrole>
             </disabled>
            </palette>
+          </property>
+          <property name="acceptDrops">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string> </string>
