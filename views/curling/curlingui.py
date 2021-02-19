@@ -47,6 +47,9 @@ BOTTOM_LEFT_LOGO_WIDTH = 300
 BOTTOM_CENTER_LOGO_WIDTH = 800
 BOTTOM_RIGHT_LOGO_WIDTH = 300
 
+# CARD WIDTH
+CARD_WIDTH = 300
+
 # DEFAULT MINUTES
 DEFAULT_GAME_MINUTES = 20
 DEFAULT_WARMUP_MINUTES = 5
@@ -146,7 +149,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # TOP LOGOS
         # draw the top left logo
-        qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-2C-Pink.png',
+        qImg = self.load_png_qImg('views/oddball_graphics/cut_assets/Mark-2C-Pink.png',
                                    TOP_LEFT_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_top_left, qImg)
 
@@ -154,23 +157,23 @@ class MainWindow(QtWidgets.QMainWindow):
         self.label_sponsor_top_center.setText("Leelanau Curling Club")
 
         # draw the top right logo
-        qImg = self.load_logo_qImg('views/curling/graphics/LCC_Final_LOGO_small-1.png',
+        qImg = self.load_png_qImg('views/curling/graphics/LCC_Final_LOGO_small-1.png',
                                    TOP_RIGHT_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_top_right, qImg)
 
         # BOTTOM LOGOS
         # draw the bottom left logo
-        # qImg = self.load_logo_qImg('views/curling/long_white.png',
+        # qImg = self.load_png_qImg('views/curling/long_white.png',
         #                            BOTTOM_LEFT_LOGO_WIDTH)
         # self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
 
         # draw the bottom center logo
-        qImg = self.load_logo_qImg('views/oddball_graphics/ODDBALLSPORTS.TV.png',
+        qImg = self.load_png_qImg('views/oddball_graphics/ODDBALLSPORTS.TV.png',
                                    BOTTOM_CENTER_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_bottom_center, qImg)
 
         # draw the bottom right logo
-        # qImg = self.load_logo_qImg('views/curling/long_white.png',
+        # qImg = self.load_png_qImg('views/curling/long_white.png',
         #                            BOTTOM_RIGHT_LOGO_WIDTH)
         # self.draw_rgba_qimg(self.label_sponsor_bottom_right, qImg)
 
@@ -178,10 +181,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.teamB = Team(teamName="tbd")
         self.team_edit_mode = False
 
-        # place the end card in the points place
-        self.end_num = 0 # ends start at 1
         self.teamA_points_place_labels = [
-            None, # not used
             self.label_teamA_points1,
             self.label_teamA_points2,
             self.label_teamA_points3,
@@ -192,14 +192,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.label_teamA_points8,
             self.label_teamA_points9,
             self.label_teamA_points10,
-            self.label_teamA_points11,
-            self.label_teamA_points12,
-            self.label_teamA_points13,
-            self.label_teamA_points14,
-            self.label_teamA_points15
+            self.label_teamA_points11
         ]
         self.teamB_points_place_labels = [
-            None, # not used
             self.label_teamB_points1,
             self.label_teamB_points2,
             self.label_teamB_points3,
@@ -210,50 +205,22 @@ class MainWindow(QtWidgets.QMainWindow):
             self.label_teamB_points8,
             self.label_teamB_points9,
             self.label_teamB_points10,
-            self.label_teamB_points11,
-            self.label_teamB_points12,
-            self.label_teamB_points13,
-            self.label_teamB_points14,
-            self.label_teamB_points15
+            self.label_teamB_points11
         ]
-        self.prev_label = self.label_teamA_points1
 
-        # cards map to a label
-        self.teamA_end_cards = {
-            0: None, # not used
-            1: None,
-            2: None,
-            3: None,
-            4: None,
-            5: None,
-            6: None,
-            7: None,
-            8: None,
-            9: None,
-            10: None,
-            11: None,
-            12: None,
-            13: None,
-            14: None,
-            15: None
-        }
-        self.teamB_end_cards = {
-            0: None,
-            1: None,
-            2: None,
-            3: None,
-            4: None,
-            5: None,
-            6: None,
-            7: None,
-            8: None,
-            9: None,
-            10: None,
-            11: None,
-            12: None,
-            13: None,
-            14: None,
-            15: None
+        # maps end card to a location
+        # these are the initial positions for each card
+        self.card_place_color_map = {
+            1: [self.label_end_card1, "white"],
+            2: [self.label_end_card2, "white"],
+            3: [self.label_end_card3, "white"],
+            4: [self.label_end_card4, "white"],
+            5: [self.label_end_card5, "white"],
+            6: [self.label_end_card6, "white"],
+            7: [self.label_end_card7, "white"],
+            8: [self.label_end_card8, "white"],
+            9: [self.label_end_card9, "white"],
+            10: [self.label_end_card10, "white"]
         }
 
 
@@ -282,9 +249,212 @@ class MainWindow(QtWidgets.QMainWindow):
         self.buttonHistory = deque(maxlen=BUTTON_HISTORY_LENGTH)
         self.waitForRemoteButtonPressSignal(clargs["remote"])
 
+        self.ignore_keys = []
+
+        self.NUM_ENDS = 8
+        self.ends_chosen = False
+        self.selected_card = self.NUM_ENDS
 
         # set the window focus
         self.setFocus()
+
+    def game_launch_steps(self):
+
+        # step #0 - wait for PWR key
+
+        # step #1 - choose ends
+        self.choose_ends()
+
+        # step #2 - input team names
+        self.input_team_names()
+
+        # step #3 - rfid
+        #self.input_player_rfid()
+
+        # step #4 - start game
+        self.game_in_progress = True
+
+        pass
+
+
+    def choose_ends(self):
+        # display all end cards
+        self.display_all_end_cards_at_top()
+
+        # set keys to ignore
+        self.ignore_keys = [
+            QtCore.Qt.Key_S,
+            QtCore.Qt.Key_A,
+            QtCore.Qt.Key_B,
+            QtCore.Qt.Key_C,
+            QtCore.Qt.Key_Up,
+            QtCore.Qt.Key_Down
+        ]
+
+        # select the default
+        self.select_card(self.NUM_ENDS, ignore_prev=True)
+
+        # blink ends label
+        text = self.label_end_cards.text()
+        print(text)
+        while not self.ends_chosen:
+            sleep(.4)
+            self.label_end_cards.setText("")
+            sleep(.4)
+            self.label_end_cards.setText(text)
+        self.label_end_cards.setText(text)
+
+        if self.ends_chosen:
+            self.NUM_ENDS = self.selected_card
+
+            # clear other cards
+            for card_num, label_color in self.card_place_color_map.items():
+                label = label_color[0]
+                if card_num <= self.NUM_ENDS:
+                    self.draw_card(card_num, "white", label)
+                else:
+                    self.draw_card(card_num, "clear_it", label)
+
+        # clear ignored keys
+        self.ignore_keys = []
+
+    def select_card(self, card_num, ignore_prev=False):
+        logging.info("selecting card {}".format(card_num))
+        if self.ends_chosen:
+            if not card_num <= self.NUM_ENDS and not card_num >= 1:
+                raise ValueError("card_num invalid")
+        else:
+            if card_num > max(self.card_place_color_map.keys()):
+                card_num = 1
+            if card_num < 1:
+                card_num = max(self.card_place_color_map.keys())
+
+        prev_selected_card = self.selected_card
+        self.selected_card = card_num
+        label, _ = self.get_card(card_num)
+        color = "blue"
+        self.draw_card(card_num, color, label)
+
+        if not ignore_prev:
+            label, color = self.card_place_color_map[prev_selected_card]
+            self.card_place_color_map[prev_selected_card] = [label, "white"]
+            self.draw_card(prev_selected_card, "white", label)
+
+    def get_card(self, card_num):
+        return self.card_place_color_map[card_num]
+
+    def draw_card(self, card_num, color, label):
+        if color == "white":
+            letter = ""
+        elif color == "gray":
+            letter = "x"
+        elif color == "blue":
+            letter = "b"
+        elif color == "clear_it":
+            label.clear()
+            label.repaint()
+            self.card_place_color_map[card_num] = [label, "clear"]
+            return
+        else:
+            raise ValueError("invalid card color")
+
+        logging.info("drawing end card {} {}".format(str(card_num), color))
+        filename = "{}{}.png".format(str(card_num), letter)
+        print(filename)
+        path = os.path.join("views", "curling", "graphics", "cards", filename)
+        logging.info("attempting to draw card at {}".format(path))
+        qImg = self.load_png_qImg(path, width=CARD_WIDTH)
+        self.draw_rgba_qimg(label, qImg)
+        logging.info("success: drew card at {}".format(path))
+
+    def display_all_end_cards_at_top(self):
+        logging.info("drawing all end cards at top")
+        try:
+            print(self.card_place_color_map.items())
+            for card_num, place_color in self.card_place_color_map.items():
+                print("DEBUG {}".format(card_num))
+                label = place_color[0]
+                color = place_color[1]
+                print(place_color)
+                self.draw_card(card_num, color, label)
+                logging.info("END card {} loaded into top position".format(str(card_num)))
+        except Exception as e:
+            logging.critical("card not loaded")
+            print(str(e))
+            return
+        logging.info("success: drew all end cards at top")
+
+    def input_team_names(self):
+        self.show_team_change_popup(self.teamA)
+        self.show_team_change_popup(self.teamB)
+
+    def input_player_rfid(self):
+        def wait_for_four_players():
+            # import the RFID reader
+            import RPi.GPIO as GPIO
+            from mfrc522 import SimpleMFRC522
+            GPIO.setwarnings(False)
+
+            # initialize the reader
+            reader = SimpleMFRC522()
+
+            # set the previous id and previous read time
+            prevID = None
+            prevReadTime = time.time()
+
+            # loop until everyone is present
+            names = []
+            while len(names) < 4:
+                try:
+                    ID, name = reader.read()
+                    readTime = time.time()
+                    elapsed = readTime - prevReadTime
+                    if elapsed < 5:
+                        continue
+                    ID = str(ID).zfill(16)
+                    name = name.strip()
+                    names.append(name)
+
+                    # play specific media
+                    try:
+                        lastname_firstname = name.strip(" ")[1] + name.strip(" ")[0]
+
+                        media_path = os.path.join("..", "media-leelanaucurlingclub",
+                            "announcement_enters_venue", "lastname_firstname",
+                            lastname_firstname, ".mp4")
+
+                        # todo determine length of video
+
+                        self.load_animation(media_path, timeout=8)
+
+                    # if error, play random media
+                    except:
+                        logging.WARNING("entry media not found, playing random entry media")
+                        media_path = os.path.join("..", "media-leelanaucurlingclub",
+                                                  "announcement_enters_venue",
+                                                  "random")
+
+                        media_path = random.choice(list_animations(media_path))
+
+                        # todo determine length of video
+
+                        self.load_animation(media_path, timeout=8)
+
+                    prevReadTime = readTime
+                except Exception as e:
+                    print(str(e))
+                    prevReadTime = 0
+                    continue
+            return names
+
+
+        teamA_players = wait_for_four_players()
+        teamB_players = wait_for_four_players()
+
+
+
+
+
 
     def initialize_team(self, team, teamName, players=None):
         team.change_team_name(teamName)
@@ -391,49 +561,7 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.info("using Sparkfun remote")
             self.enableKeyPressEventHandler = True
 
-    def update_gsheet_score(self):
-        # grab game
-        ROW = self.court_and_games_idx + 2
-        A_SCORE_COLUMN = 4
-        B_SCORE_COLUMN = 5
-
-        values = [
-            [self.homeTeam.score, self.awayTeam.score]
-        ]
-
-        self.gs.set_values("2020-02-12_games!E{}:F{}".format(ROW, ROW), values)
-
-    def display_game_info_at_bottom_of_screen(self):
-        try:
-            self.court_and_games = self.gs.get_values("2020-02-12_games!A14:F19")
-            # set g sheet icon in top leftr
-            qImg = self.load_logo_qImg('views/oddball_graphics/cloud.png',
-                                       TOP_LEFT_LOGO_WIDTH)
-            self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
-            court = self.court_and_games[self.court_and_games_idx][0]
-            ttime = self.court_and_games[self.court_and_games_idx][1]
-            ta = self.court_and_games[self.court_and_games_idx][2]
-            tb = self.court_and_games[self.court_and_games_idx][3]
-            self.homeTeam.change_team_name(ta)
-            self.awayTeam.change_team_name(tb)
-            self.label_hometeam.setText(str(self.homeTeam))
-            self.label_awayteam.setText(str(self.awayTeam))
-            print("Court: {}, Time: {}, {} vs. {}".format(court, ttime, ta, tb))
-            self.label_court_and_game.setText("Court: {}, Time: {}".format(court, ttime)) #, {} vs. {}".format(court, ttime, ta, tb))
-        except:
-            print("empty cell in list of games")
-            return
-
     def play_entry_announcement(self, RFID_READER_CONNECTED):
-        NAME_COLUMN = 0
-        RFID_COLUMN = 1
-        NICKNAME_COLUMN = 3
-        GIF_COLUMN = 4
-        AUDIO_COLUMN = 5
-
-        TEAM_A_COLUMN = 2
-        TEAM_B_COLUMN = 3
-
         # grab Team A player names
         ta = self.court_and_games[self.court_and_games_idx][TEAM_A_COLUMN]
         print(ta)
@@ -508,36 +636,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # grab rfids required
             rfids_required = grab_RFIDs_required()
 
-            # import the RFID reader
-            import RPi.GPIO as GPIO
-            from mfrc522 import SimpleMFRC522
-            GPIO.setwarnings(False)
 
-            # initialize the reader
-            reader = SimpleMFRC522()
-
-            # set the previous id and previous read time
-            prevID = None
-            prevReadTime = time.time()
-
-            # loop until everyone is present
-            while True:
-                try:
-                    ID, name = reader.read()
-                    readTime = time.time()
-                    elapsed = readTime - prevReadTime
-                    ID = str(ID).zfill(16)
-                    name = name.strip()
-                    for requiredID, isPresent in rfids_required.items():
-                        if ID == requiredID and not isPresent:
-                            rfids_required[ID] = True
-                    if False in rfids_required.values():
-                        continue
-                    else:
-                        break
-                except Exception as e:
-                    print(str(e))
-                    continue
 
             # everyone badged in, so play the names!
             play_team_player_name(tap1)
@@ -548,49 +647,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-        # # place the card on the board
-        # if self.end_num == 0 or self.end_num == 1:
-        #     prev_total_score = 0
-        # else:
-        #     prev_total_score = team.score.score_through_ends(self.end_num-1)
-        #
-        # score_spot = prev_total_score + team.score.ends[self.end_num].points
-        #
-        # if score_spot != 0:
-        #     label[score_spot - 1].setText(str(self.end_num))
-        #
-        # # clear the previous spot on the board
-        # if self.prev_spot is not None and not self.prev_spot < 0:
-        #     label[self.prev_spot].setText(str(""))
-        #
-        # # keep the prev spot for next time
-        # prev_spot = score_spot - 1
+
 
     # KEYPRESSES ##################################################################
     def handle_key_PWR(self):
         if not self.game_in_progress:
-            # play game start sound
-            sound_filename = os.path.join("sounds", "game_status",
-                                          "lets_roll.m4a")
-            threading.Thread(target=playsound, args=(sound_filename,)).start()
-
-            # clear modes
-            self.add_points_mode = False
-            self.clock_edit_mode = False
-
-            self.label_sponsor_bottom_left.clear()
-            self.label_sponsor_bottom_left.repaint()
-            self.team_edit_mode = False
-
-            # indicate game is in progress
-            self.game_in_progress = True
-
-            # start game on end num 1
-            self.end_num = 1
-
-            # clear the previous key
-            self._prevButton = None
-            return
+            self.game_launch_steps()
 
         # # if we're in add points mode, lock in the points
         elif self.game_in_progress:
@@ -606,7 +668,7 @@ class MainWindow(QtWidgets.QMainWindow):
             elif not self.add_points_mode:
                 self.add_points_mode = True
                 # show the team graphic
-                qImg = self.load_logo_qImg('views/oddball_graphics/numbers.png',
+                qImg = self.load_png_qImg('views/oddball_graphics/numbers.png',
                                            BOTTOM_LEFT_LOGO_WIDTH)
                 self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
 
@@ -680,7 +742,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.add_points_mode = False
 
                 # show the team graphic
-                qImg = self.load_logo_qImg('views/oddball_graphics/team.png',
+                qImg = self.load_png_qImg('views/oddball_graphics/team.png',
                                            BOTTOM_LEFT_LOGO_WIDTH)
                 self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
                 # press a or b for team popup
@@ -690,8 +752,11 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.team_edit_mode = False
 
     def handle_key_RETURN(self):
-        # sequence: C + Return
-        if self.clock_edit_mode and self._prevButton == QtCore.Qt.Key_C:
+
+        if not self.ends_chosen:
+            self.ends_chosen = True
+
+        elif self.clock_edit_mode and self._prevButton == QtCore.Qt.Key_C:
             if not self.game_in_progress():
                 # pause the timer
                 self.timer_paused = True
@@ -759,7 +824,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.update_gsheet_score()
 
                 # set g sheet icon in top leftr
-                qImg = self.load_logo_qImg('views/oddball_graphics/gsheet_updated.png',
+                qImg = self.load_png_qImg('views/oddball_graphics/gsheet_updated.png',
                                            TOP_LEFT_LOGO_WIDTH)
                 self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
@@ -781,7 +846,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 sleep(5)
 
                 # load graphic instruction to set game
-                qImg = self.load_logo_qImg('views/oddball_graphics/select_game.png',
+                qImg = self.load_png_qImg('views/oddball_graphics/select_game.png',
                                            TOP_LEFT_LOGO_WIDTH)
                 self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
                 return
@@ -789,7 +854,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if self.timer_paused:
                 self.stop_game_timer()
                 # draw the stopped graphic
-                qImg = self.load_logo_qImg('views/oddball_graphics/stopped.png',
+                qImg = self.load_png_qImg('views/oddball_graphics/stopped.png',
                                            TOP_LEFT_LOGO_WIDTH)
                 self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
 
@@ -836,12 +901,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.play_random_animation("animations/too_short")
 
     def handle_key_LEFT(self):
-        if self.clock_edit_mode and not self.game_in_progress():
-            self.clock_count_up = False
-            self.clock_count_down = True
-            self.GAME_MINUTES = DEFAULT_GAME_MINUTES
-            self.time_min_left = self.GAME_MINUTES
-            self.game_time_ui_update()
+        if not self.ends_chosen:
+            self.select_card(self.selected_card - 1)
 
         else:
             try:
@@ -854,13 +915,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.play_random_animation("animations/bad_shot")
 
     def handle_key_RIGHT(self):
-        if self.clock_edit_mode and not self.game_in_progress():
-            self.clock_count_up = True
-            self.clock_count_down = False
-            self.GAME_MINUTES = 0
-            self.time_min_left = 0
-            self.game_time_ui_update()
-
+        if not self.ends_chosen:
+            self.select_card(self.selected_card + 1)
 
         else:
             try:
@@ -874,30 +930,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # END KEYPRESSES ##################################################################
 
-    def clock_increment_minute(self):
-        if self.clock_count_down:
-            self.GAME_MINUTES += 1
-            if self.GAME_MINUTES >= 99:
-                self.GAME_MINUTES = 99
-                logging.info("game minutes pegged at 99")
-            self.time_min_left = self.GAME_MINUTES
-            self.game_time_ui_update()
-
-    def clock_decrement_minute(self):
-        if self.clock_count_down:
-            self.GAME_MINUTES -= 1
-            if self.GAME_MINUTES <= 0:
-                self.GAME_MINUTES = 0
-                logging.info("game minutes pegged at 1")
-            self.time_min_left = self.GAME_MINUTES
-            self.game_time_ui_update()
-
     def keyPressEvent(self, event):
         logging.info("key pressed: {}".format(str(event.key())))
         self.buttonHistory.append(event.key())
 
         if not self.enableKeyPressEventHandler:
-            logging.CRITICAL("key is not being handled")
+            logging.critical("key is not being handled")
+            return
+
+        if event.key() in self.ignore_keys:
+            logging.info("key ignored!")
             return
 
         # play a beep
@@ -927,11 +969,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # set the previous button
         self._prevButton = event.key()
 
-
     def lock_in_end_score(self, team):
         # display lightning user feedback
         if self.add_points_mode:
-            qImg = self.load_logo_qImg('views/oddball_graphics/lightning.png',
+            qImg = self.load_png_qImg('views/oddball_graphics/lightning.png',
                                        TOP_LEFT_LOGO_WIDTH)
             self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
 
@@ -951,7 +992,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 hammer_icon_spot = self.teamA_points_place_labels[team.score.current_end]
             elif self.other_team(team) is self.teamB:
                 hammer_icon_spot = self.teamB_points_place_labels[team.score.current_end]
-            qImg = self.load_logo_qImg('views/curling/graphics/hammer.png', 100)
+            qImg = self.load_png_qImg('views/curling/graphics/hammer.png', 100)
             self.draw_rgba_qimg(hammer_icon_spot, qImg)
 
 
@@ -960,34 +1001,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # todo place the hammer
 
-    def cancel_previous_frame_score(self):
-        # todo there is a bug in here that needs to be resolved (previous frame points are
-        # todo not removed
-        # clear teams' temp score
-        self.homeTeam.temp_points = 0
-        self.awayTeam.temp_points = 0
-
-        # remove previous points
-        self.homeTeam.remove_points()
-        self.awayTeam.remove_points()
-
-        # decrement the frame count
-        self.decrement_frame_count()
-
-        # update score widget
-        self.update_score_widget(self.homeTeam, cancelPreviousPoints=True)
-        self.update_score_widget(self.awayTeam, cancelPreviousPoints=True)
-        print("canceled previous frame points")
-
-        # repaint
-        self.label_homeballindicator.clear()
-        self.label_homeballindicator.repaint()
-        self.label_awayballindicator.clear()
-        self.label_awayballindicator.repaint()
-        self.label_logoadvertisement.clear()
-        self.label_logoadvertisement.repaint()
-
-
     def other_team(self, team):
         """convenience function returns the opposite team of what is provided"""
         if team is self.teamA:
@@ -995,28 +1008,6 @@ class MainWindow(QtWidgets.QMainWindow):
         elif team is self.teamB:
             team = self.teamA
         return team
-
-    def update_score_widget(self, team, showTempPoints=False, cancelPreviousPoints=False):
-        widget = None
-        # get the widget
-        if team is self.homeTeam:
-            widget = self.lcdNumber_homescore
-        elif team is self.awayTeam:
-            widget = self.lcdNumber_awayscore
-
-        # if points are temporary
-        if showTempPoints:
-            widget.display(str(team.score + team.temp_points))
-            return
-
-        # or if we need to remove points
-        if not cancelPreviousPoints:
-            # otherwise we'll add points
-            # add team points
-            team.add_points()
-
-        # display the points
-        widget.display(str(team.score))
 
     def set_widget_font_foreground_color(self, widget, color):
         # create a QColor and swap BGR to RGB
@@ -1029,7 +1020,8 @@ class MainWindow(QtWidgets.QMainWindow):
         palette.setColor(palette.WindowText, color)
         widget.setPalette(palette)
 
-    def load_logo_qImg(self, pngPath, width):
+    # formerly load_png_qImg
+    def load_png_qImg(self, pngPath, width):
         """
         load the Obie logo
         """
@@ -1076,151 +1068,10 @@ class MainWindow(QtWidgets.QMainWindow):
         label.setPixmap(QPixmap(qImg))
         label.repaint()
 
-    def time_tick(self):
-        """
-        this method is called each time a second passes and updates the timer if it is not
-        paused
-        """
-        # subtract a second
-        if not self.timer_paused:
-            # counting down
-            if self.clock_count_down and not self.clock_count_up:
-                self.time_sec_left -= 1
-
-                # if the seconds < 0, we need to account for minutes
-                if self.time_sec_left < 0:
-                    # subtract a minute
-                    self.time_min_left -= 1
-
-                    # if there are no more minutes
-                    if self.time_min_left < 0:
-                        self.time_is_out = True
-                        self.time_min_left = 0
-                        self.time_sec_left = 0
-
-                        # play beeping sound
-                        sound_filename = os.path.join("sounds", "beeping.wav")
-                        threading.Thread(target=playsound, args=(sound_filename,)).start()
-
-                        # we will now be counting up
-                        self.clock_count_up = True
-                        self.clock_count_down = False
-
-                    # otherwise, the seconds are set to 59
-                    else:
-                        self.time_sec_left = 59
-
-            # counting up
-            elif self.time_is_out and self.clock_count_up and not self.clock_count_down:
-                self.time_sec_left += 1
-
-                # if the seconds < 0, we need to account for minutes
-                if self.time_sec_left >= 59:
-                    # add a minute
-                    self.time_min_left += 1
-
-                    # set seconds to 0
-                    self.time_sec_left = 0
-
-                    # if we hit 99 minutes
-                    if self.time_min_left >= 99:
-                        self.timer_paused = True
-                        self.time_min_left = 0
-                        self.time_sec_left = 0
-
-            # update the timer on the UI
-            self.game_time_ui_update()
-
-    def game_time_ui_update(self):
-        """
-        this method updates the time indicator on the GUI
-        :return:
-        """
-        self.lcdNumber_game_time_remaining_min.display(str(self.time_min_left).zfill(2))
-        self.lcdNumber_game_time_remaining_sec.display(str(self.time_sec_left).zfill(2))
-
-    def start_game_timer(self, MINUTES, MODE="down"):
-        if MODE == "down":
-            self.clock_count_down = True
-            self.clock_count_up = False
-        elif MODE == "up":
-            self.clock_count_down = False
-            self.clock_count_up = True
-
-        # repaint the down and back area
-        self.down_and_back = False
-        self.label_downandback.repaint()
-
-        # reset the score at the start of a game
-        self.homeTeam.score = 0
-        self.awayTeam.score = 0
-        self.update_score_widget(self.homeTeam)
-        self.update_score_widget(self.awayTeam)
-
-        # clear ball indicators (just in case a game just finished)
-        self.label_homeballindicator.clear()
-        self.label_homeballindicator.repaint()
-        self.label_awayballindicator.clear()
-        self.label_awayballindicator.repaint()
-
-
-        # repaint the top left logo to Yello
-        # update the top left corner logo to indicate who is in
-        # update the top left corner logo to indicating that the pallino needs to be thrown
-        qImg = self.load_logo_qImg('views/oddball_graphics/cut_assets/Mark-1C-Yellow.png',
-                                   TOP_LEFT_LOGO_WIDTH)
-        self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
-
-        # start timer
-        self.timer_paused = False
-        self.gameTimer.start()
-        if self.clock_count_down:
-            self.time_min_left = MINUTES - 1
-
-        # set the frame count
-        self.frame_count = 1
-        self.lcdNumber_framenumber.display(str(self.frame_count))
-
-        # clear the down and back top right image
-        self.label_downandback.clear()
-
-    def increment_frame_count(self):
-        self.frame_count += 1
-        self.lcdNumber_framenumber.display(str(self.frame_count))
-
-    def decrement_frame_count(self):
-        self.frame_count -= 1
-        if self.frame_count <= 0:
-            self.frame_count = 0
-        self.lcdNumber_framenumber.display(str(self.frame_count))
-
-    def stop_game_timer(self):
-        if self.gameTimer.isActive():
-            self.gameTimer.stop()
-            self.timer_paused = True
-            self.clock_count_down = True
-            self.clock_count_up = False
-            self.time_min_left = 0
-            self.time_sec_left = 0
-            self.game_time_ui_update()
-            self.GAME_MINUTES = DEFAULT_GAME_MINUTES
-            self.label_homeballindicator.clear()
-            self.label_homeballindicator.repaint()
-            self.label_awayballindicator.clear()
-            self.label_awayballindicator.repaint()
-            self.frame_count = 0
-            self.lcdNumber_framenumber.display(str(self.frame_count))
-
-    def draw_down_and_back(self):
-        self.down_and_back = True
-        qImg = self.load_logo_qImg('views/oddball_graphics/down_and_back.png', TOP_RIGHT_LOGO_SIZE)
-        self.draw_rgba_qimg(self.label_downandback, qImg)
-
-
     def show_team_change_popup(self, team):
         teamText = None
         labelTeamName = None
-        if team ise self.teamA:
+        if team is self.teamA:
             teamText = "Team A"
             labelTeamName = self.label_teamA_name
         elif team is self.teamB:
