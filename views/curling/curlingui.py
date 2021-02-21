@@ -9,9 +9,9 @@ sys.path.append(os.path.abspath(os.pardir))
 # PyQt imports
 from PyQt5 import QtCore, QtWidgets
 from PyQt5 import uic, QtGui, QtTest
-from PyQt5.QtGui import QImage, QPixmap, QColor, QPainter, QMovie
+from PyQt5.QtGui import QImage, QPixmap, QColor, QPainter, QMovie, QFont
 from PyQt5.QtCore import QThread, QTimer, QRect, Qt, QSize
-from PyQt5.QtWidgets import QInputDialog, QWidget, QDialog, QLabel, QMessageBox
+from PyQt5.QtWidgets import QInputDialog, QWidget, QDialog, QLabel, QMessageBox, QGridLayout, QVBoxLayout, QLineEdit
 
 # bocce game imports
 from model.games.curling.team import Team
@@ -46,6 +46,7 @@ TOP_RIGHT_LOGO_WIDTH = 100
 BOTTOM_LEFT_LOGO_WIDTH = 300
 BOTTOM_CENTER_LOGO_WIDTH = 800
 BOTTOM_RIGHT_LOGO_WIDTH = 300
+RFID_INDICATOR_WIDTH = 70
 
 # CARD WIDTH
 CARD_WIDTH = 300
@@ -99,6 +100,53 @@ def sleep(timeout):
     """PyQt friendly non-blocking sleep (alternative to `time.sleep()`)"""
     QtTest.QTest.qWait(timeout * 1000)
 
+def load_png_qImg(pngPath, width):
+    """
+    load the Obie logo
+    """
+    # load the logo and read all channels (including alpha transparency)
+    logo = cv2.imread(pngPath, cv2.IMREAD_UNCHANGED)
+
+    # swap color channels for Qt
+    logo = cv2.cvtColor(logo, cv2.COLOR_BGRA2RGBA)
+
+    # resize to a known width maintaining aspect ratio
+    logo = imutils.resize(logo, width=width)
+
+    # extract the dimensions of the image and set the bytes per line
+    height, width, channel = logo.shape
+    bytesPerLine = channel * width
+
+    # create a QImage and ensure to use the alpha transparency format
+    qImg = QImage(logo.data, width, height, bytesPerLine, QImage.Format_RGBA8888)
+
+    return qImg
+
+def cv2img_to_qImg(image, width):
+    """
+    converts a BGRA OpenCV image to qImage RGBA format (A is the alpha transparency
+    channel
+    """
+    # swap color channels for Qt
+    image = cv2.cvtColor(image, cv2.COLOR_BGRA2RGBA)
+
+    # resize to a known width maintaining aspect ratio
+    image = imutils.resize(image, width=width)
+
+    # extract the dimensions of the image and set the bytes per line
+    height, width, channel = image.shape
+    bytesPerLine = channel * width
+
+    # create a QImage and ensure to use the alpha transparency format
+    qImg = QImage(image.data, width, height, bytesPerLine, QImage.Format_RGBA8888)
+
+    return qImg
+
+def draw_rgba_qimg(label, qImg):
+    # set the logo in the GUI
+    label.setPixmap(QPixmap(qImg))
+    label.repaint()
+
 class Animation():
     """Plays GIF animations nearly fullscreen"""
     # todo grab screen resolution and adjust the window size programmatically
@@ -128,6 +176,130 @@ class Animation():
     def quit(self):
         self.movie.stop()
         self.dlg.done(0)
+
+class PlayerRFID():
+    """Waits for Num Players and displays names"""
+    # todo grab screen resolution and adjust the window size programmatically
+
+    PLAYERS = {
+        # "RFID": ("Name", Hammer?)
+        "e4bce79c": ("Laura Haugen", True),
+        "d7acdcef": ("Jennifer Alderman", False),
+        "1ab03e86": ("Jay Rosenblum", False),
+        "b0e751fd": ("Wes Joseph", False)
+    }
+
+    def __init__(self, team, num_players):
+        self.team = team
+        self.num_players = num_players
+        self.dlg = QDialog()
+        self.dlg.setWindowTitle("players")
+        self.dlg.setWindowModality(False)
+        self.dlg.setFixedSize(800, 800)
+        self.dlg.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint)
+
+        # creat num_players indicators and names
+        self.indicators = [QLabel() for x in range(num_players)]
+        self.names = ["" for x in range(num_players)]
+
+        # build the grid
+        self.grid = QGridLayout()
+        for (i, (indicator, name)) in enumerate(zip(self.indicators, self.names)):
+            self.grid.addWidget(indicator, i, 0)
+            qImg = load_png_qImg(os.path.join("views", "oddball_graphics", "cut_assets", "Mark-Primary.png"), RFID_INDICATOR_WIDTH)
+            draw_rgba_qimg(indicator, qImg)
+            label = QLabel(name)
+            label.setFont(QFont("Luckiest Guy", 20))
+            self.grid.addWidget(label, i, 1)
+
+        # vertical layout
+        layout = QVBoxLayout()
+
+        # add the rfid text endtry box
+        self.id = QLineEdit()
+        self.id.setEchoMode(QLineEdit.Password)
+        self.id.returnPressed.connect(self.rfid_entered)
+
+        # add message to players
+        self.teamLabel = QLabel(str(self.team))
+        self.teamLabel.setAlignment(Qt.AlignCenter)
+        self.teamLabel.setFont(QFont("Luckiest Guy", 56))
+        instructionLabel = QLabel("players: Please badge in!")
+        instructionLabel.setAlignment(Qt.AlignCenter)
+        instructionLabel.setFont(QFont("Luckiest Guy", 32))
+
+        # add the indicator / name grid
+        layout.addWidget(self.id)
+        layout.addWidget(self.teamLabel)
+        layout.addWidget(instructionLabel)
+        layout.addLayout(self.grid)
+
+        # set the dialog layout
+        self.dlg.setLayout(layout)
+
+        # index of grid will increment up to num_players
+        self.name_idx = 0
+
+
+    def start(self):
+        self.run()
+
+    def run(self):
+        self.dlg.show()
+
+
+        #sleep(self.timeout)
+        #self.quit()
+
+    def rfid_entered(self):
+        # grab the rfid string and set the text box back to empty
+        rfid_string = self.id.text()
+        self.id.setText("")
+
+        # lookup the string in the players list
+        try:
+            name = self.PLAYERS[rfid_string][0]
+            hammer = self.PLAYERS[rfid_string][1]
+        except KeyError:
+            self.teamLabel.setStyleSheet("QLabel { color : red }")
+            for i in range(8):
+                self.teamLabel.setText("INVALID")
+                sleep(.25)
+                self.teamLabel.setText("")
+                sleep(.25)
+            self.teamLabel.setText(str(self.team))
+            self.teamLabel.setStyleSheet("QLabel { color : black }")
+            return
+
+
+        # grab the icon and name label widget
+        iconLabel_widget = self.grid.itemAtPosition(self.name_idx, 0).widget()
+        nameLabel_widget = self.grid.itemAtPosition(self.name_idx, 1).widget()
+
+        # set the name Label
+        print(type(nameLabel_widget))
+        nameLabel_widget.setText(name)
+
+        # set the icon
+        if hammer:
+            qImg = load_png_qImg(os.path.join("views", "curling", "graphics",
+                                              "hammer.png"), RFID_INDICATOR_WIDTH)
+            draw_rgba_qimg(iconLabel_widget, qImg)
+        else:
+            qImg = load_png_qImg(os.path.join("views", "oddball_graphics", "cut_assets",
+                                              "Mark-2C-Teal.png"), RFID_INDICATOR_WIDTH)
+            draw_rgba_qimg(iconLabel_widget, qImg)
+
+        self.name_idx += 1
+
+        if self.name_idx >= self.num_players:
+            sleep(3)
+            self.quit()
+
+
+    def quit(self):
+        self.dlg.done(0)
+
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -269,7 +441,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.input_team_names()
 
         # step #3 - rfid
-        #self.input_player_rfid()
+        self.input_player_rfid_USB()
+        #self.input_player_rfid_SimpleMFRC522()
 
         # step #4 - start game
         self.game_in_progress = True
@@ -388,7 +561,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.show_team_change_popup(self.teamA)
         self.show_team_change_popup(self.teamB)
 
-    def input_player_rfid(self):
+    def input_player_rfid_SimpleMFRC522(self):
         def wait_for_four_players():
             # import the RFID reader
             import RPi.GPIO as GPIO
@@ -452,7 +625,16 @@ class MainWindow(QtWidgets.QMainWindow):
         teamB_players = wait_for_four_players()
 
 
+    def input_player_rfid_USB(self):
+        a = PlayerRFID(self.teamA, 4)
+        a.start()
+        logging.info("starting to collect TeamA names via RFID")
+        sleep(15)
+        #a.quit()
 
+
+        teamA_players = None
+        teamB_players = None
 
 
 
