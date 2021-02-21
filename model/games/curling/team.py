@@ -14,7 +14,16 @@ class Team:
         self.teamName = str(name)
 
     def add_player(self, player):
+        print(self.players)
+        print(type(self.players))
         if type(player) == Player:
+            # ensure the player isn't already on the team
+            if self.players:
+                for p in self.players:
+                    if str(p) == str(player):
+                        raise ValueError("Duplicate")
+
+            # if we reach this point the player wasn't already detected on the team
             self.players.append(player)
         else:
             raise TypeError

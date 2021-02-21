@@ -14,7 +14,7 @@ from PyQt5.QtCore import QThread, QTimer, QRect, Qt, QSize
 from PyQt5.QtWidgets import QInputDialog, QWidget, QDialog, QLabel, QMessageBox, QGridLayout, QVBoxLayout, QLineEdit
 
 # bocce game imports
-from model.games.curling.team import Team
+from model.games.curling.team import Team, Player
 
 # remote
 from model.remotes.ati import ATI
@@ -46,7 +46,7 @@ TOP_RIGHT_LOGO_WIDTH = 100
 BOTTOM_LEFT_LOGO_WIDTH = 300
 BOTTOM_CENTER_LOGO_WIDTH = 800
 BOTTOM_RIGHT_LOGO_WIDTH = 300
-RFID_INDICATOR_WIDTH = 70
+RFID_INDICATOR_WIDTH = 90
 
 # CARD WIDTH
 CARD_WIDTH = 300
@@ -182,7 +182,7 @@ class PlayerRFID():
     # todo grab screen resolution and adjust the window size programmatically
 
     PLAYERS = {
-        # "RFID": ("Name", Hammer?)
+        # "RFID": ("Name", Skip?)
         "e4bce79c": ("Laura Haugen", True),
         "d7acdcef": ("Jennifer Alderman", False),
         "1ab03e86": ("Jay Rosenblum", False),
@@ -195,7 +195,7 @@ class PlayerRFID():
         self.dlg = QDialog()
         self.dlg.setWindowTitle("players")
         self.dlg.setWindowModality(False)
-        self.dlg.setFixedSize(800, 800)
+        self.dlg.setFixedSize(1000, 1000)
         self.dlg.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint)
 
         # creat num_players indicators and names
@@ -259,10 +259,10 @@ class PlayerRFID():
         # lookup the string in the players list
         try:
             name = self.PLAYERS[rfid_string][0]
-            hammer = self.PLAYERS[rfid_string][1]
+            skip = self.PLAYERS[rfid_string][1]
         except KeyError:
             self.teamLabel.setStyleSheet("QLabel { color : red }")
-            for i in range(8):
+            for i in range(5):
                 self.teamLabel.setText("INVALID")
                 sleep(.25)
                 self.teamLabel.setText("")
@@ -271,6 +271,22 @@ class PlayerRFID():
             self.teamLabel.setStyleSheet("QLabel { color : black }")
             return
 
+        # create a player
+        player = Player(name, skip)
+
+        # attempt to add the player to the team if the player isn't already on the team
+        try:
+            self.team.add_player(player)
+        except ValueError:
+            self.teamLabel.setStyleSheet("QLabel { color : red }")
+            for i in range(5):
+                self.teamLabel.setText("DUPLICATE")
+                sleep(.25)
+                self.teamLabel.setText("")
+                sleep(.25)
+            self.teamLabel.setText(str(self.team))
+            self.teamLabel.setStyleSheet("QLabel { color : black }")
+            return
 
         # grab the icon and name label widget
         iconLabel_widget = self.grid.itemAtPosition(self.name_idx, 0).widget()
@@ -281,9 +297,9 @@ class PlayerRFID():
         nameLabel_widget.setText(name)
 
         # set the icon
-        if hammer:
+        if skip:
             qImg = load_png_qImg(os.path.join("views", "curling", "graphics",
-                                              "hammer.png"), RFID_INDICATOR_WIDTH)
+                                              "skip.png"), RFID_INDICATOR_WIDTH)
             draw_rgba_qimg(iconLabel_widget, qImg)
         else:
             qImg = load_png_qImg(os.path.join("views", "oddball_graphics", "cut_assets",
@@ -629,7 +645,7 @@ class MainWindow(QtWidgets.QMainWindow):
         a = PlayerRFID(self.teamA, 4)
         a.start()
         logging.info("starting to collect TeamA names via RFID")
-        sleep(15)
+        sleep(40)
         #a.quit()
 
 
@@ -638,15 +654,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-    def initialize_team(self, team, teamName, players=None):
+    def initialize_team(self, team, teamName):
         team.change_team_name(teamName)
-        if players is None:
-            team.players = None
-        else:
-            for player in players:
-                team.add_player(player)
-
-
 
         return team
 
