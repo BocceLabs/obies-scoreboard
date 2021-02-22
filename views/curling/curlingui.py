@@ -42,12 +42,12 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 # INDICATOR AND GRAPHIC SIZES
-TOP_LEFT_LOGO_WIDTH = 100
+TOP_LEFT_LOGO_WIDTH = 200
 TOP_CENTER_LOGO_WIDTH = 800
-TOP_RIGHT_LOGO_WIDTH = 100
-BOTTOM_LEFT_LOGO_WIDTH = 300
-BOTTOM_CENTER_LOGO_WIDTH = 800
-BOTTOM_RIGHT_LOGO_WIDTH = 300
+TOP_RIGHT_LOGO_WIDTH = 200
+BOTTOM_LEFT_LOGO_WIDTH = 200
+BOTTOM_CENTER_LOGO_WIDTH = 700
+BOTTOM_RIGHT_LOGO_WIDTH = 200
 RFID_INDICATOR_WIDTH = 90
 
 # CARD WIDTH
@@ -211,8 +211,11 @@ class VideoPlayer(QWidget):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
             self.mediaPlayer.pause()
         else:
-            self.mediaPlayer.play()
+            self.errorLabel.setText("")
+            self.playButton.setEnabled(True)
             self.error = False
+            self.mediaPlayer.play()
+
 
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -290,7 +293,7 @@ class PlayerRFID(QWidget):
             qImg = load_png_qImg(os.path.join("views", "oddball_graphics", "cut_assets", "Mark-Primary.png"), RFID_INDICATOR_WIDTH)
             draw_rgba_qimg(indicator, qImg)
             label = QLabel(name)
-            label.setFont(QFont("Luckiest Guy", 20))
+            label.setFont(QFont("Luckiest Guy", 40))
             self.grid.addWidget(label, i, 1)
 
         # layout HBox contains VBox
@@ -305,7 +308,7 @@ class PlayerRFID(QWidget):
         # add message to players
         self.teamLabel = QLabel(str(self.team))
         self.teamLabel.setAlignment(Qt.AlignCenter)
-        self.teamLabel.setFont(QFont("Luckiest Guy", 56))
+        self.teamLabel.setFont(QFont("Luckiest Guy", 70))
         instructionLabel = QLabel("players: Please badge in!")
         instructionLabel.setAlignment(Qt.AlignCenter)
         instructionLabel.setFont(QFont("Luckiest Guy", 32))
@@ -332,7 +335,10 @@ class PlayerRFID(QWidget):
 
     def run(self):
         self.show()
+        self.setFocus()
 
+        while self.name_idx <= self.num_players:
+            sleep(4)
 
         #sleep(self.timeout)
         #self.quit()
@@ -436,7 +442,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # TOP LOGOS
         # draw the top left logo
-        qImg = self.load_png_qImg('views/oddball_graphics/cut_assets/Mark-2C-Pink.png',
+        qImg = self.load_png_qImg(os.path.join(MEDIA_DIR, "graphics", "broomstack_logo.png"),
                                    TOP_LEFT_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_top_left, qImg)
 
@@ -444,25 +450,28 @@ class MainWindow(QtWidgets.QMainWindow):
         self.label_sponsor_top_center.setText("Leelanau Curling Club")
 
         # draw the top right logo
-        qImg = self.load_png_qImg('views/curling/graphics/LCC_Final_LOGO_small-1.png',
-                                   TOP_RIGHT_LOGO_WIDTH)
+        qImg = self.load_png_qImg(
+            os.path.join(MEDIA_DIR, "graphics", "leelanau_logo.png"), TOP_RIGHT_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_top_right, qImg)
 
         # BOTTOM LOGOS
-        # draw the bottom left logo
-        # qImg = self.load_png_qImg('views/curling/long_white.png',
-        #                            BOTTOM_LEFT_LOGO_WIDTH)
-        # self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
+        #draw the bottom left logo
+        path = os.path.join(os.getcwd(), "views", "oddball_graphics", "cut_assets", "Mark-2C-Pink.png")
+        print(path)
+        qImg = self.load_png_qImg(path, BOTTOM_LEFT_LOGO_WIDTH)
+        self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
 
         # draw the bottom center logo
-        qImg = self.load_png_qImg('views/oddball_graphics/ODDBALLSPORTS.TV.png',
+        qImg = self.load_png_qImg(
+            os.path.join(os.getcwd(), "views", "oddball_graphics", "ODDBALLSPORTS.TV.png"),
                                    BOTTOM_CENTER_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_bottom_center, qImg)
 
         # draw the bottom right logo
-        # qImg = self.load_png_qImg('views/curling/long_white.png',
-        #                            BOTTOM_RIGHT_LOGO_WIDTH)
-        # self.draw_rgba_qimg(self.label_sponsor_bottom_right, qImg)
+        qImg = self.load_png_qImg(
+            os.path.join(os.getcwd(), "views", "oddball_graphics", "cut_assets", "Mark-2C-Teal.png"),
+            BOTTOM_LEFT_LOGO_WIDTH)
+        self.draw_rgba_qimg(self.label_sponsor_bottom_right, qImg)
 
         self.teamA = Team(teamName="tbd")
         self.teamB = Team(teamName="tbd")
@@ -559,7 +568,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # step #3 - rfid
         self.input_player_rfid_USB(self.teamA)
-        #self.input_player_rfid_USB(self.teamB)
+        self.input_player_rfid_USB(self.teamB)
 
         #self.input_player_rfid_SimpleMFRC522()
 
@@ -749,15 +758,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.rfid_window = PlayerRFID(team, 4)
             self.rfid_window.start()
             logging.info("starting to collect {} names via RFID".format(str(team)))
-            sleep(40)
+            #sleep(10)
         else:
             self.rfid_window.close()
             self.rfid_window = None
-
-
-        teamA_players = None
-        teamB_players = None
-
 
 
     def initialize_team(self, team, teamName):
