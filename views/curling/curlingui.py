@@ -10,8 +10,10 @@ sys.path.append(os.path.abspath(os.pardir))
 from PyQt5 import QtCore, QtWidgets
 from PyQt5 import uic, QtGui, QtTest
 from PyQt5.QtGui import QImage, QPixmap, QColor, QPainter, QMovie, QFont
-from PyQt5.QtCore import QThread, QTimer, QRect, Qt, QSize
-from PyQt5.QtWidgets import QInputDialog, QWidget, QDialog, QLabel, QMessageBox, QGridLayout, QVBoxLayout, QLineEdit
+from PyQt5.QtCore import QThread, QTimer, QRect, Qt, QSize, QUrl
+from PyQt5.QtWidgets import QInputDialog, QWidget, QDialog, QLabel, QMessageBox, QGridLayout, QVBoxLayout, QLineEdit, QHBoxLayout, QPushButton, QSizePolicy, QSlider, QStyle
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5.QtMultimediaWidgets import QVideoWidget
 
 # bocce game imports
 from model.games.curling.team import Team, Player
@@ -61,7 +63,15 @@ BUTTON_HISTORY_LENGTH = 20
 # todo move sound and animation convenience functions to a helpers file
 
 # MEDIA for ABC
-MEDIA_DIR = os.path.join("..", "media-abc")
+MEDIA_DIR = os.path.join(os.getcwd(), "..", "media-leelanaucurlingclub")
+ANNOUNCEMENT_DIR = os.path.join(MEDIA_DIR, "announcement_game", "lastname_firstname")
+PLAYERS = {
+    # "RFID": ("Name", Skip?, entry_video.mp4)
+    "e4bce79c": ("Michael Scott", True, os.path.join(ANNOUNCEMENT_DIR, "Scott_Michael.mp4")),
+    "d7acdcef": ("Dwight Schrute", False, os.path.join(ANNOUNCEMENT_DIR, "Schrute_Dwight.mp4")),
+    "1ab03e86": ("Pam Beesley", False, os.path.join(ANNOUNCEMENT_DIR, "Beesley_Pam.mp4")),
+    "b0e751fd": ("Jim Halpert", False, os.path.join(ANNOUNCEMENT_DIR, "Jim_Halpert.mp4"))
+}
 
 # SOUND FILE TYPES
 SOUND_TYPES = (".m4a", ".mp3", ".wav", ".WAV")
@@ -147,6 +157,88 @@ def draw_rgba_qimg(label, qImg):
     label.setPixmap(QPixmap(qImg))
     label.repaint()
 
+
+class VideoPlayer(QWidget):
+
+    def __init__(self, parent=None):
+        super(VideoPlayer, self).__init__(parent)
+
+        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+
+        videoWidget = QVideoWidget()
+
+        self.playButton = QPushButton()
+        self.playButton.setEnabled(False)
+        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.playButton.clicked.connect(self.play)
+
+        self.positionSlider = QSlider(Qt.Horizontal)
+        self.positionSlider.setRange(0, 0)
+        self.positionSlider.sliderMoved.connect(self.setPosition)
+
+        self.errorLabel = QLabel()
+        self.errorLabel.setSizePolicy(QSizePolicy.Preferred,
+                QSizePolicy.Maximum)
+
+        controlLayout = QHBoxLayout()
+        controlLayout.setContentsMargins(0, 0, 0, 0)
+        controlLayout.addWidget(self.playButton)
+        controlLayout.addWidget(self.positionSlider)
+
+        layout = QVBoxLayout()
+        layout.addWidget(videoWidget)
+        layout.addLayout(controlLayout)
+        layout.addWidget(self.errorLabel)
+
+        self.setLayout(layout)
+
+        self.mediaPlayer.setVideoOutput(videoWidget)
+        self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
+        self.mediaPlayer.positionChanged.connect(self.positionChanged)
+        self.mediaPlayer.durationChanged.connect(self.durationChanged)
+        self.mediaPlayer.error.connect(self.handleError)
+
+        # set size
+        self.resize(1280, 720)
+        self.error = False
+
+    def openFile(self, video_path):
+        self.mediaPlayer.setMedia(
+                QMediaContent(QUrl.fromLocalFile(video_path)))
+        self.playButton.setEnabled(True)
+
+    def play(self):
+        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.mediaPlayer.pause()
+        else:
+            self.mediaPlayer.play()
+            self.error = False
+
+    def mediaStateChanged(self, state):
+        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPause))
+        else:
+            self.playButton.setIcon(
+                    self.style().standardIcon(QStyle.SP_MediaPlay))
+
+    def positionChanged(self, position):
+        self.positionSlider.setValue(position)
+
+    def durationChanged(self, duration):
+        self.positionSlider.setRange(0, duration)
+
+    def setPosition(self, position):
+        self.mediaPlayer.setPosition(position)
+
+    def handleError(self):
+        self.playButton.setEnabled(False)
+        self.errorLabel.setText("Error: " + self.mediaPlayer.errorString())
+        self.error = True
+
+    def sizeHint(self):
+        return QSize(1280, 720)
+
 class Animation():
     """Plays GIF animations nearly fullscreen"""
     # todo grab screen resolution and adjust the window size programmatically
@@ -177,26 +269,15 @@ class Animation():
         self.movie.stop()
         self.dlg.done(0)
 
-class PlayerRFID():
+class PlayerRFID(QWidget):
     """Waits for Num Players and displays names"""
     # todo grab screen resolution and adjust the window size programmatically
 
-    PLAYERS = {
-        # "RFID": ("Name", Skip?)
-        "e4bce79c": ("Laura Haugen", True),
-        "d7acdcef": ("Jennifer Alderman", False),
-        "1ab03e86": ("Jay Rosenblum", False),
-        "b0e751fd": ("Wes Joseph", False)
-    }
-
     def __init__(self, team, num_players):
+        super().__init__()
         self.team = team
         self.num_players = num_players
-        self.dlg = QDialog()
-        self.dlg.setWindowTitle("players")
-        self.dlg.setWindowModality(False)
-        self.dlg.setFixedSize(1000, 1000)
-        self.dlg.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.CustomizeWindowHint)
+        self.setWindowTitle("{} players".format(str(team)))
 
         # creat num_players indicators and names
         self.indicators = [QLabel() for x in range(num_players)]
@@ -212,7 +293,8 @@ class PlayerRFID():
             label.setFont(QFont("Luckiest Guy", 20))
             self.grid.addWidget(label, i, 1)
 
-        # vertical layout
+        # layout HBox contains VBox
+        winLayout = QHBoxLayout()
         layout = QVBoxLayout()
 
         # add the rfid text endtry box
@@ -234,18 +316,22 @@ class PlayerRFID():
         layout.addWidget(instructionLabel)
         layout.addLayout(self.grid)
 
+        self.v = VideoPlayer()
+
+
         # set the dialog layout
-        self.dlg.setLayout(layout)
+        winLayout.addLayout(layout)
+        winLayout.addWidget(self.v)
+        self.setLayout(winLayout)
 
         # index of grid will increment up to num_players
         self.name_idx = 0
-
 
     def start(self):
         self.run()
 
     def run(self):
-        self.dlg.show()
+        self.show()
 
 
         #sleep(self.timeout)
@@ -258,8 +344,9 @@ class PlayerRFID():
 
         # lookup the string in the players list
         try:
-            name = self.PLAYERS[rfid_string][0]
-            skip = self.PLAYERS[rfid_string][1]
+            name = PLAYERS[rfid_string][0]
+            skip = PLAYERS[rfid_string][1]
+            video_path = PLAYERS[rfid_string][2]
         except KeyError:
             self.teamLabel.setStyleSheet("QLabel { color : red }")
             for i in range(5):
@@ -306,15 +393,27 @@ class PlayerRFID():
                                               "Mark-2C-Teal.png"), RFID_INDICATOR_WIDTH)
             draw_rgba_qimg(iconLabel_widget, qImg)
 
-        self.name_idx += 1
 
+        # play the video
+        self.v.openFile(video_path)
+        print(os.getcwd())
+        print(video_path)
+        self.v.play()
+        self.id.setFocus()
+
+        # when there is not an error and the video is playing, keep playing until it is done
+        while not self.v.error and self.v.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            sleep(1)
+
+        # increement the name index and test that it doesn't exceed the number of players
+        self.name_idx += 1
         if self.name_idx >= self.num_players:
             sleep(3)
             self.quit()
 
 
     def quit(self):
-        self.dlg.done(0)
+        self.close()
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -443,6 +542,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ends_chosen = False
         self.selected_card = self.NUM_ENDS
 
+        self.rfid_window = None
+
         # set the window focus
         self.setFocus()
 
@@ -457,7 +558,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.input_team_names()
 
         # step #3 - rfid
-        self.input_player_rfid_USB()
+        self.input_player_rfid_USB(self.teamA)
+        #self.input_player_rfid_USB(self.teamB)
+
         #self.input_player_rfid_SimpleMFRC522()
 
         # step #4 - start game
@@ -641,12 +744,15 @@ class MainWindow(QtWidgets.QMainWindow):
         teamB_players = wait_for_four_players()
 
 
-    def input_player_rfid_USB(self):
-        a = PlayerRFID(self.teamA, 4)
-        a.start()
-        logging.info("starting to collect TeamA names via RFID")
-        sleep(40)
-        #a.quit()
+    def input_player_rfid_USB(self, team):
+        if self.rfid_window is None:
+            self.rfid_window = PlayerRFID(team, 4)
+            self.rfid_window.start()
+            logging.info("starting to collect {} names via RFID".format(str(team)))
+            sleep(40)
+        else:
+            self.rfid_window.close()
+            self.rfid_window = None
 
 
         teamA_players = None
@@ -689,6 +795,10 @@ class MainWindow(QtWidgets.QMainWindow):
         if result == QMessageBox.Yes:
             try:
                 self.animation.quit()
+            except AttributeError:
+                pass
+            try:
+                self.rfid.quit()
             except AttributeError:
                 pass
             event.accept()
