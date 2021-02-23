@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2246</width>
-    <height>1176</height>
+    <width>1680</width>
+    <height>997</height>
    </rect>
   </property>
   <property name="palette">
@@ -201,15 +201,15 @@
         <item>
          <widget class="QLabel" name="label_end_cards">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>100</height>
+            <width>300</width>
+            <height>125</height>
            </size>
           </property>
           <property name="text">
@@ -222,11 +222,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -235,11 +250,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -248,11 +278,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -261,11 +306,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -274,11 +334,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card5">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -287,11 +362,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card6">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -300,11 +390,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -313,11 +418,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -326,11 +446,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -339,11 +474,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card10">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -352,11 +502,26 @@
         </item>
         <item>
          <widget class="QLabel" name="label_end_card11">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="acceptDrops">
            <bool>true</bool>
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -370,10 +535,22 @@
         <item>
          <widget class="QLabel" name="label_teamA_graphic">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>150</height>
+           </size>
           </property>
           <property name="text">
            <string/>
@@ -437,14 +614,14 @@
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>50</pointsize>
+            <pointsize>90</pointsize>
            </font>
           </property>
           <property name="text">
            <string>Team A</string>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -463,10 +640,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -519,10 +702,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -575,10 +764,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -631,10 +826,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone4">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -687,10 +888,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone5">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -743,10 +950,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone6">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -799,10 +1012,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone7">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -855,10 +1074,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone8">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -914,75 +1139,16 @@
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="9">
          <widget class="QLabel" name="label_teamA_points7">
-          <property name="palette">
-           <palette>
-            <active>
-             <colorrole role="WindowText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>28</red>
-                <green>37</green>
-                <blue>66</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </active>
-            <inactive>
-             <colorrole role="WindowText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>28</red>
-                <green>37</green>
-                <blue>66</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </inactive>
-            <disabled>
-             <colorrole role="WindowText">
-              <brush brushstyle="SolidPattern">
-               <color alpha="63">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </disabled>
-           </palette>
-          </property>
-          <property name="font">
-           <font>
-            <family>Luckiest Guy</family>
-            <pointsize>60</pointsize>
-           </font>
-          </property>
-          <property name="acceptDrops">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="scaledContents">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_teamA_points1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize">
+          <property name="maximumSize">
            <size>
-            <width>0</width>
-            <height>100</height>
+            <width>100</width>
+            <height>125</height>
            </size>
           </property>
           <property name="palette">
@@ -1035,7 +1201,84 @@
            <string/>
           </property>
           <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_teamA_points1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>28</red>
+                <green>37</green>
+                <blue>66</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>28</red>
+                <green>37</green>
+                <blue>66</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled>
+             <colorrole role="WindowText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="63">
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </disabled>
+           </palette>
+          </property>
+          <property name="font">
+           <font>
+            <family>Luckiest Guy</family>
+            <pointsize>60</pointsize>
+           </font>
+          </property>
+          <property name="acceptDrops">
            <bool>true</bool>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1075,6 +1318,18 @@
         </item>
         <item row="0" column="10">
          <widget class="QLabel" name="label_teamA_points8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1125,7 +1380,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1165,6 +1420,18 @@
         </item>
         <item row="2" column="15">
          <widget class="QLabel" name="label_teamB_points13">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1215,7 +1482,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1224,6 +1491,18 @@
         </item>
         <item row="2" column="6">
          <widget class="QLabel" name="label_teamB_points4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1274,7 +1553,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1283,6 +1562,18 @@
         </item>
         <item row="2" column="14">
          <widget class="QLabel" name="label_teamB_points12">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1333,7 +1624,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1342,6 +1633,18 @@
         </item>
         <item row="0" column="14">
          <widget class="QLabel" name="label_teamA_points12">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1392,7 +1695,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1404,10 +1707,25 @@
           <property name="text">
            <string>Points:</string>
           </property>
+          <property name="indent">
+           <number>20</number>
+          </property>
          </widget>
         </item>
         <item row="0" column="12">
          <widget class="QLabel" name="label_teamA_points10">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1458,7 +1776,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1555,7 +1873,7 @@
         <item row="2" column="1">
          <widget class="QLabel" name="label_teamB_points1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -1564,6 +1882,12 @@
            <size>
             <width>0</width>
             <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
            </size>
           </property>
           <property name="palette">
@@ -1616,7 +1940,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1625,6 +1949,18 @@
         </item>
         <item row="0" column="2">
          <widget class="QLabel" name="label_teamA_points2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1675,7 +2011,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1684,6 +2020,18 @@
         </item>
         <item row="0" column="6">
          <widget class="QLabel" name="label_teamA_points4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1734,7 +2082,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1743,6 +2091,18 @@
         </item>
         <item row="2" column="10">
          <widget class="QLabel" name="label_teamB_points8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1793,7 +2153,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1827,6 +2187,18 @@
         </item>
         <item row="0" column="5">
          <widget class="QLabel" name="label_teamA_points3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1877,7 +2249,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1917,6 +2289,18 @@
         </item>
         <item row="2" column="2">
          <widget class="QLabel" name="label_teamB_points2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -1967,7 +2351,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2001,6 +2385,18 @@
         </item>
         <item row="2" column="8">
          <widget class="QLabel" name="label_teamB_points6">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2051,7 +2447,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2060,6 +2456,18 @@
         </item>
         <item row="2" column="7">
          <widget class="QLabel" name="label_teamB_points5">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2110,7 +2518,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2119,6 +2527,18 @@
         </item>
         <item row="0" column="15">
          <widget class="QLabel" name="label_teamA_points13">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2169,7 +2589,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2178,6 +2598,18 @@
         </item>
         <item row="2" column="9">
          <widget class="QLabel" name="label_teamB_points7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2228,7 +2660,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2237,6 +2669,18 @@
         </item>
         <item row="0" column="7">
          <widget class="QLabel" name="label_teamA_points5">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2287,7 +2731,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2327,6 +2771,18 @@
         </item>
         <item row="2" column="11">
          <widget class="QLabel" name="label_teamB_points9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2377,7 +2833,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2386,6 +2842,18 @@
         </item>
         <item row="0" column="8">
          <widget class="QLabel" name="label_teamA_points6">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2436,7 +2904,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2470,6 +2938,18 @@
         </item>
         <item row="2" column="12">
          <widget class="QLabel" name="label_teamB_points10">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2520,7 +3000,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2529,6 +3009,18 @@
         </item>
         <item row="2" column="16">
          <widget class="QLabel" name="label_teamB_points14">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2579,7 +3071,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2588,6 +3080,18 @@
         </item>
         <item row="0" column="16">
          <widget class="QLabel" name="label_teamA_points14">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2638,7 +3142,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2678,6 +3182,18 @@
         </item>
         <item row="0" column="11">
          <widget class="QLabel" name="label_teamA_points9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2728,7 +3244,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2768,6 +3284,18 @@
         </item>
         <item row="2" column="5">
          <widget class="QLabel" name="label_teamB_points3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2818,7 +3346,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2827,6 +3355,18 @@
         </item>
         <item row="2" column="13">
          <widget class="QLabel" name="label_teamB_points11">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2877,7 +3417,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2948,6 +3488,18 @@
         </item>
         <item row="0" column="13">
          <widget class="QLabel" name="label_teamA_points11">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -2998,7 +3550,7 @@
            <string/>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3012,10 +3564,22 @@
         <item>
          <widget class="QLabel" name="label_teamB_graphic">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>150</height>
+           </size>
           </property>
           <property name="text">
            <string/>
@@ -3079,14 +3643,14 @@
           <property name="font">
            <font>
             <family>Luckiest Guy</family>
-            <pointsize>50</pointsize>
+            <pointsize>90</pointsize>
            </font>
           </property>
           <property name="text">
            <string>Team B</string>
           </property>
           <property name="scaledContents">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3105,10 +3669,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3161,10 +3731,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3217,10 +3793,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3273,10 +3855,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone4">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3329,10 +3917,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone5">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3385,10 +3979,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone6">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3441,10 +4041,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone7">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3497,10 +4103,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone8">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="palette">
            <palette>
@@ -3557,15 +4169,15 @@
         <item>
          <widget class="QLabel" name="label_blank_ends">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>100</height>
+            <width>300</width>
+            <height>125</height>
            </size>
           </property>
           <property name="palette">
@@ -3615,6 +4227,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3657,6 +4281,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3665,6 +4292,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3707,6 +4346,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3715,6 +4357,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3757,6 +4411,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3765,6 +4422,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3807,6 +4476,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3815,6 +4487,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end5">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3857,6 +4541,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3865,6 +4552,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end6">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3907,6 +4606,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3915,6 +4617,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -3957,6 +4671,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -3965,6 +4682,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -4007,6 +4736,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -4015,6 +4747,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -4057,6 +4801,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -4065,6 +4812,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end10">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -4107,6 +4866,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -4115,6 +4877,18 @@
         </item>
         <item>
          <widget class="QLabel" name="label_blank_end11">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -4157,6 +4931,9 @@
           </property>
           <property name="text">
            <string/>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -4265,7 +5042,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2246</width>
+     <width>1680</width>
      <height>24</height>
     </rect>
    </property>

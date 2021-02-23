@@ -42,16 +42,16 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 # INDICATOR AND GRAPHIC SIZES
-TOP_LEFT_LOGO_WIDTH = 200
-TOP_CENTER_LOGO_WIDTH = 800
-TOP_RIGHT_LOGO_WIDTH = 200
+TOP_LEFT_LOGO_WIDTH = 150
+TOP_CENTER_LOGO_WIDTH = 400
+TOP_RIGHT_LOGO_WIDTH = 150
 BOTTOM_LEFT_LOGO_WIDTH = 200
-BOTTOM_CENTER_LOGO_WIDTH = 700
+BOTTOM_CENTER_LOGO_WIDTH = 400
 BOTTOM_RIGHT_LOGO_WIDTH = 200
 RFID_INDICATOR_WIDTH = 90
 
 # CARD WIDTH
-CARD_WIDTH = 300
+CARD_WIDTH = 75
 
 # DEFAULT MINUTES
 DEFAULT_GAME_MINUTES = 20
@@ -326,6 +326,7 @@ class PlayerRFID(QWidget):
         winLayout.addLayout(layout)
         winLayout.addWidget(self.v)
         self.setLayout(winLayout)
+        self.showMaximized()
 
         # index of grid will increment up to num_players
         self.name_idx = 0
@@ -336,8 +337,10 @@ class PlayerRFID(QWidget):
     def run(self):
         self.show()
         self.setFocus()
+        self.id.setFocus()
 
         while self.name_idx <= self.num_players:
+            logging.info("sleeping")
             sleep(4)
 
         #sleep(self.timeout)
@@ -386,7 +389,6 @@ class PlayerRFID(QWidget):
         nameLabel_widget = self.grid.itemAtPosition(self.name_idx, 1).widget()
 
         # set the name Label
-        print(type(nameLabel_widget))
         nameLabel_widget.setText(name)
 
         # set the icon
@@ -402,8 +404,6 @@ class PlayerRFID(QWidget):
 
         # play the video
         self.v.openFile(video_path)
-        print(os.getcwd())
-        print(video_path)
         self.v.play()
         self.id.setFocus()
 
@@ -447,31 +447,33 @@ class MainWindow(QtWidgets.QMainWindow):
         self.draw_rgba_qimg(self.label_sponsor_top_left, qImg)
 
         # draw the top center logo
-        self.label_sponsor_top_center.setText("Leelanau Curling Club")
+        qImg = self.load_png_qImg(
+            os.path.join(os.getcwd(), "views", "oddball_graphics", "ODDBALLSPORTS.TV.png"),
+                                   TOP_CENTER_LOGO_WIDTH)
+        self.draw_rgba_qimg(self.label_sponsor_top_center, qImg)
 
         # draw the top right logo
         qImg = self.load_png_qImg(
             os.path.join(MEDIA_DIR, "graphics", "leelanau_logo.png"), TOP_RIGHT_LOGO_WIDTH)
         self.draw_rgba_qimg(self.label_sponsor_top_right, qImg)
 
-        # BOTTOM LOGOS
-        #draw the bottom left logo
-        path = os.path.join(os.getcwd(), "views", "oddball_graphics", "cut_assets", "Mark-2C-Pink.png")
-        print(path)
-        qImg = self.load_png_qImg(path, BOTTOM_LEFT_LOGO_WIDTH)
-        self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
-
-        # draw the bottom center logo
-        qImg = self.load_png_qImg(
-            os.path.join(os.getcwd(), "views", "oddball_graphics", "ODDBALLSPORTS.TV.png"),
-                                   BOTTOM_CENTER_LOGO_WIDTH)
-        self.draw_rgba_qimg(self.label_sponsor_bottom_center, qImg)
-
-        # draw the bottom right logo
-        qImg = self.load_png_qImg(
-            os.path.join(os.getcwd(), "views", "oddball_graphics", "cut_assets", "Mark-2C-Teal.png"),
-            BOTTOM_LEFT_LOGO_WIDTH)
-        self.draw_rgba_qimg(self.label_sponsor_bottom_right, qImg)
+        # # BOTTOM LOGOS
+        # #draw the bottom left logo
+        # path = os.path.join(os.getcwd(), "views", "oddball_graphics", "cut_assets", "Mark-2C-Pink.png")
+        # qImg = self.load_png_qImg(path, BOTTOM_LEFT_LOGO_WIDTH)
+        # self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
+        #
+        # # draw the bottom center logo
+        # qImg = self.load_png_qImg(
+        #     os.path.join(os.getcwd(), "views", "oddball_graphics", "ODDBALLSPORTS.TV.png"),
+        #                            BOTTOM_CENTER_LOGO_WIDTH)
+        # self.draw_rgba_qimg(self.label_sponsor_bottom_center, qImg)
+        #
+        # # draw the bottom right logo
+        # qImg = self.load_png_qImg(
+        #     os.path.join(os.getcwd(), "views", "oddball_graphics", "cut_assets", "Mark-2C-Teal.png"),
+        #     BOTTOM_LEFT_LOGO_WIDTH)
+        # self.draw_rgba_qimg(self.label_sponsor_bottom_right, qImg)
 
         self.teamA = Team(teamName="tbd")
         self.teamB = Team(teamName="tbd")
@@ -502,6 +504,30 @@ class MainWindow(QtWidgets.QMainWindow):
             self.label_teamB_points9,
             self.label_teamB_points10,
             self.label_teamB_points11
+        ]
+        self.card_start_positions = [
+            self.label_end_card1,
+            self.label_end_card2,
+            self.label_end_card3,
+            self.label_end_card4,
+            self.label_end_card5,
+            self.label_end_card6,
+            self.label_end_card7,
+            self.label_end_card8,
+            self.label_end_card9,
+            self.label_end_card10
+        ]
+        self.blank_end_positions = [
+            self.label_blank_end1,
+            self.label_blank_end2,
+            self.label_blank_end3,
+            self.label_blank_end4,
+            self.label_blank_end5,
+            self.label_blank_end6,
+            self.label_blank_end7,
+            self.label_blank_end8,
+            self.label_blank_end9,
+            self.label_blank_end10
         ]
 
         # maps end card to a location
@@ -567,7 +593,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.input_team_names()
 
         # step #3 - rfid
+        logging.info("inputting team A via RFID")
         self.input_player_rfid_USB(self.teamA)
+        logging.info("inputting team B via RFID")
+        self.rfid_window.close()
+        self.rfid_window = None
         self.input_player_rfid_USB(self.teamB)
 
         #self.input_player_rfid_SimpleMFRC522()
@@ -597,7 +627,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # blink ends label
         text = self.label_end_cards.text()
-        print(text)
         while not self.ends_chosen:
             sleep(.4)
             self.label_end_cards.setText("")
@@ -661,7 +690,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         logging.info("drawing end card {} {}".format(str(card_num), color))
         filename = "{}{}.png".format(str(card_num), letter)
-        print(filename)
         path = os.path.join("views", "curling", "graphics", "cards", filename)
         logging.info("attempting to draw card at {}".format(path))
         qImg = self.load_png_qImg(path, width=CARD_WIDTH)
@@ -671,12 +699,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def display_all_end_cards_at_top(self):
         logging.info("drawing all end cards at top")
         try:
-            print(self.card_place_color_map.items())
             for card_num, place_color in self.card_place_color_map.items():
-                print("DEBUG {}".format(card_num))
                 label = place_color[0]
                 color = place_color[1]
-                print(place_color)
                 self.draw_card(card_num, color, label)
                 logging.info("END card {} loaded into top position".format(str(card_num)))
         except Exception as e:
@@ -754,14 +779,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def input_player_rfid_USB(self, team):
-        if self.rfid_window is None:
-            self.rfid_window = PlayerRFID(team, 4)
-            self.rfid_window.start()
-            logging.info("starting to collect {} names via RFID".format(str(team)))
-            #sleep(10)
-        else:
-            self.rfid_window.close()
-            self.rfid_window = None
+        logging.info("starting to collect {} names via RFID".format(str(team)))
+        self.rfid_window = PlayerRFID(team, 4)
+        self.rfid_window.start()
+        logging.info("finished collecting {} names via RFID".format(str(team)))
+        #sleep(10)
 
 
     def initialize_team(self, team, teamName):
@@ -866,89 +888,6 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.info("using Sparkfun remote")
             self.enableKeyPressEventHandler = True
 
-    def play_entry_announcement(self, RFID_READER_CONNECTED):
-        # grab Team A player names
-        ta = self.court_and_games[self.court_and_games_idx][TEAM_A_COLUMN]
-        print(ta)
-        tap1 = ta.split(" & ")[0]
-        tap2 = ta.split(" & ")[1]
-
-        # grab Team B player names
-        tb = self.court_and_games[self.court_and_games_idx][TEAM_B_COLUMN]
-        tbp1 = tb.split(" & ")[0]
-        tbp2 = tb.split(" & ")[1]
-
-        # lookup name in players sheet, and determine audio and gif
-        player_info = self.gs.get_values("players!A2:F")
-
-        def grab_RFIDs_required(team_player_name):
-            rfids_required = {}
-            for player in player_info:
-                if player[NAME_COLUMN] == team_player_name:
-                    rfids_required[player[RFID_COLUMN]] = False
-            return rfids_required
-
-        def play_team_player_name(team_player_name):
-            for player in player_info:
-                if player[NAME_COLUMN] == team_player_name:
-                    # play sound
-                    seconds = None
-                    try:
-                        if player[AUDIO_COLUMN] == "random":
-                            logging.info("playing random game announcement")
-                            sound_filepath = os.path.join(MEDIA_DIR, "announcement_game", "random")
-                            seconds = soundfile_duration(sound_filepath)
-                            play_random_sound(sound_filepath)
-                        else:
-                            logging.info("playing {} game announcement".format(player[AUDIO_COLUMN]))
-                            sound_filepath = os.path.join(MEDIA_DIR, "announcement_game", "lastname_firstname", player[AUDIO_COLUMN])
-                            seconds = soundfile_duration(sound_filepath)
-                            threading.Thread(target=playsound, args=(sound_filepath,)).start()
-                    except:
-                        logging.WARNING("couldn't find sound media file")
-
-                    # play animation
-                    try:
-                        if seconds is not None:
-                            timeout = seconds
-                        else:
-                            timeout = 3
-                        if player[GIF_COLUMN] == "random":
-                            logging.info("playing random game announcement gif")
-                            self.play_random_animation(os.path.join(MEDIA_DIR, "announcement_game", "random"), timeout=timeout)
-                        else:
-                            logging.info("playing {} game announcement gif".format(player[GIF_COLUMN]))
-                            gif_path = os.path.join(MEDIA_DIR, "announcement_game", "lastname_firstname", player[GIF_COLUMN])
-                            self.play_animation(gif_path, timeout=3)
-                    except:
-                        logging.WARNING("couldn't find gif media file")
-
-                    # wait N seconds before playing the next sound
-                    sleep(2.3)
-
-
-
-
-        # go ahead and play player names
-        if not RFID_READER_CONNECTED:
-            play_team_player_name(tap1)
-            play_team_player_name(tap2)
-            play_team_player_name(tbp1)
-            play_team_player_name(tbp2)
-
-        # otherwise, wait for them to badge in
-        elif RFID_READER_CONNECTED:
-            # grab rfids required
-            rfids_required = grab_RFIDs_required()
-
-
-
-            # everyone badged in, so play the names!
-            play_team_player_name(tap1)
-            play_team_player_name(tap2)
-            play_team_player_name(tbp1)
-            play_team_player_name(tbp2)
-
 
 
 
@@ -978,260 +917,45 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
 
     def handle_key_A(self):
-        # must be in clock mode to edit teams
-        if not self.game_in_progress:
-            if self.team_edit_mode:
-                self.show_team_change_popup(self.teamA)
-
-        else:
-            if not self.add_points_mode:
-                pass
-            elif self.add_points_mode:
-                self.teamA.score.cycle_end_points(self.end_num)
-                try:
-                    self.teamB.score.ends[self.end_num].temp_points = 0
-                    logging.log(logging.INFO, "{} end {} temp points {}".format(str(self.teamA), self.end_num, self.teamA.score.ends[self.end_num].temp_points))
-
-                    # determine which points place the end card needs to go in
-
-
-
-                    self.teamA_end_cards[self.end_num] = self.teamA_points_place_labels[self.teamA.score.ends[self.end_num].temp_points]
-
-                    print(type(self.teamA_end_cards[self.end_num]))
-                    self.teamA_end_cards[self.end_num].setText(str(self.end_num))
-                    self.prev_label.setText("")
-                except Exception as e:
-                    logging.log(logging.WARNING, "EXCEPTION {}".format(str(e)))
-                finally:
-                    #self.prev_label.setText("")
-                    self.prev_label = self.teamA_end_cards[self.end_num]
-                    logging.log(logging.INFO, "finally clause ran")
+        pass
 
     def handle_key_B(self):
-        print("B")
         # must be in clock mode to edit teams
         if not self.game_in_progress:
             if self.team_edit_mode:
                 self.show_team_change_popup(self.teamB)
-
         else:
-            if not self.add_points_mode:
-                pass
-            elif self.add_points_mode:
-                self.teamB.score.cycle_end_points(self.end_num)
-                try:
-                    self.teamA.score.ends[self.end_num].temp_points = 0
-                    logging.log(logging.INFO, "{} end {} temp points {}".format(str(self.teamB), self.end_num, self.teamB.score.ends[self.end_num].temp_points))
-
-                    # determine which points place the end card needs to go in
-
-
-
-                    self.teamB_end_cards[self.end_num] = self.teamB_points_place_labels[self.teamB.score.ends[self.end_num].temp_points]
-                    print(type(self.teamB_end_cards[self.end_num]))
-                    self.teamB_end_cards[self.end_num].setText(str(self.end_num))
-                    print("here")
-                    self.prev_label.setText("")
-                except Exception as e:
-                    logging.log(logging.WARNING, "EXCEPTION {}".format(str(e)))
-                finally:
-                    #self.prev_label.setText("")
-                    self.prev_label = self.teamB_end_cards[self.end_num]
-                    logging.log(logging.INFO, "finally clause ran")
+            pass
 
     def handle_key_C(self):
-        if not self.game_in_progress:
-            if not self.team_edit_mode:
-                self.team_edit_mode = True
-                self.add_points_mode = False
-
-                # show the team graphic
-                qImg = self.load_png_qImg('views/oddball_graphics/team.png',
-                                           BOTTOM_LEFT_LOGO_WIDTH)
-                self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
-                # press a or b for team popup
-            elif self.team_edit_mode:
-                self.label_sponsor_bottom_left.clear()
-                self.label_sponsor_bottom_left.repaint()
-                self.team_edit_mode = False
+        pass
 
     def handle_key_RETURN(self):
 
         if not self.ends_chosen:
             self.ends_chosen = True
 
-        elif self.clock_edit_mode and self._prevButton == QtCore.Qt.Key_C:
-            if not self.game_in_progress():
-                # pause the timer
-                self.timer_paused = True
 
-                # lookup name in players sheet, and determine audio and gif
-                NAME_COLUMN = 0
-                RFID_COLUMN = 1
-                NICKNAME_COLUMN = 3
-                GIF_COLUMN = 4
-                AUDIO_COLUMN = 5
-                player_info = self.gs.get_values("players!A2:F")
-
-                def play_team_player_name(team_player_name):
-                    for player in player_info:
-                        if player[NAME_COLUMN] == team_player_name:
-                            # play sound
-                            sound_filename = os.path.join("sounds", "player_announcement",
-                                                          player[AUDIO_COLUMN])
-                            threading.Thread(target=playsound,
-                                             args=(sound_filename,)).start()
-
-                            # play animation
-                            if player[GIF_COLUMN] == "random":
-                                self.play_random_animation(
-                                    os.path.join("animations", "player_announcement"),
-                                    timeout=2.4)
-                            else:
-                                gif_path = os.path.join("animations",
-                                                        "player_announcement",
-                                                        player[GIF_COLUMN])
-                                self.play_animation(gif_path, timeout=2.2)
-
-                            sleep(1.5)
-
-                # play the tie game
-                if self.homeTeam.score == self.awayTeam.score:
-                    sound_filename = os.path.join("sounds", "game_status",
-                                                  "finishedinatie.m4a")
-                    threading.Thread(target=playsound, args=(sound_filename,)).start()
-
-                # home team wins
-                elif self.homeTeam.score > self.awayTeam.score:
-                    p1 = str(self.homeTeam).split(" & ")[0]
-                    p2 = str(self.homeTeam).split(" & ")[1]
-                    sound_filename = os.path.join("sounds", "game_status",
-                                                  "winnerwinnerchickendinner.m4a")
-                    threading.Thread(target=playsound, args=(sound_filename,)).start()
-                    sleep(4)
-                    play_team_player_name(p1)
-                    play_team_player_name(p2)
-
-
-                # away team wins
-                elif self.awayTeam.score > self.homeTeam.score:
-                    p1 = str(self.awayTeam).split(" & ")[0]
-                    p2 = str(self.awayTeam).split(" & ")[1]
-                    sound_filename = os.path.join("sounds", "game_status",
-                                                  "winnerwinnerchickendinner.m4a")
-                    threading.Thread(target=playsound, args=(sound_filename,)).start()
-                    sleep(.5)
-                    play_team_player_name(p1)
-                    play_team_player_name(p2)
-
-                # update g sheet
-                self.update_gsheet_score()
-
-                # set g sheet icon in top leftr
-                qImg = self.load_png_qImg('views/oddball_graphics/gsheet_updated.png',
-                                           TOP_LEFT_LOGO_WIDTH)
-                self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
-
-                # stop the game
-                self.down_and_back = False
-                self.clock_edit_mode = False
-                self.add_points_mode = False
-                self.time_min_left = DEFAULT_GAME_MINUTES
-                self.stop_game_timer()
-
-                # clear the down and back indicator
-                self.label_downandback.clear()
-                self.label_downandback.repaint()
-
-                # reset prev button and return
-                self._prevButton = None
-
-                # wait for 5 seconds
-                sleep(5)
-
-                # load graphic instruction to set game
-                qImg = self.load_png_qImg('views/oddball_graphics/select_game.png',
-                                           TOP_LEFT_LOGO_WIDTH)
-                self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
-                return
-        else:
-            if self.timer_paused:
-                self.stop_game_timer()
-                # draw the stopped graphic
-                qImg = self.load_png_qImg('views/oddball_graphics/stopped.png',
-                                           TOP_LEFT_LOGO_WIDTH)
-                self.draw_rgba_qimg(self.label_logoadvertisement, qImg)
-
-                return
-
-            elif not self.timer_paused and self.game_in_progress():
-                try:
-                    self.stop_animation()
-                except:
-                    pass
-                # play "shot_clock_warning"
-                # play a random sound and gif
-                play_random_sound("sounds/shot_clock_warning")
-                self.play_random_animation("animations/shot_clock_warning")
 
     def handle_key_UP(self):
-        # increment minutes in clock edit mode
-        if self.clock_edit_mode and not self.game_in_progress():
-            self.clock_increment_minute()
-
-        # play "too long"
-        else:
-            try:
-                self.stop_animation()
-            except:
-                pass
-            # play a random sound and gif
-            play_random_sound("sounds/too_long")
-            self.play_random_animation("animations/too_long")
+        pass
 
     def handle_key_DOWN(self):
-        # decrement minutes in clock edit mode
-        if self.clock_edit_mode and not self.game_in_progress():
-            self.clock_decrement_minute()
-
-        # play "too short"
-        else:
-            try:
-                self.stop_animation()
-            except:
-                pass
-            # play a random sound and gif
-            play_random_sound("sounds/too_short")
-            self.play_random_animation("animations/too_short")
+        pass
 
     def handle_key_LEFT(self):
         if not self.ends_chosen:
             self.select_card(self.selected_card - 1)
 
         else:
-            try:
-                self.stop_animation()
-            except:
-                pass
-            # play "bad shot"
-            # play a random sound and gif
-            play_random_sound("sounds/bad_shot")
-            self.play_random_animation("animations/bad_shot")
+            pass
 
     def handle_key_RIGHT(self):
         if not self.ends_chosen:
             self.select_card(self.selected_card + 1)
 
         else:
-            try:
-                self.stop_animation()
-            except:
-                pass
-            # play "good shot"
-            # play a random sound and gif
-            play_random_sound("sounds/good_shot")
-            self.play_random_animation("animations/good_shot")
+            pass
 
     # END KEYPRESSES ##################################################################
 
