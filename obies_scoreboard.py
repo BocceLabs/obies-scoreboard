@@ -28,6 +28,7 @@ if args["game"] == "bocce":
         #ui = "views/bocce/traditional_scoreboard.ui"
     else:
         raise NotImplementedError
+    stylesheet = ""
 
 # future sports
 elif args["game"] == "shuffleboard":
@@ -40,6 +41,15 @@ elif args["game"] == "curling":
     from views.curling.curlingui import MainWindow
     if args["view"] == "leelanau":
         ui = os.path.join(os.getcwd(), "views", "curling", "curlingui_leelanau.ui")
+        stylesheet = """
+            MainWindow {
+                background-image: url("views/curling/graphics/ICE.jpg"); 
+                background-repeat: no-repeat; 
+                background-position: center;
+                font-family: "Luckiest Guy";font-size: 40pt;
+            }
+            QLabel{font-family: "Luckiest Guy";font-size: 40pt;};
+        """
     else:
         raise NotImplementedError
 elif args["game"] == "kubb":
@@ -54,6 +64,9 @@ else:
 # start application with windows for each camera
 app = QApplication([])
 
+# set the stylesheet
+app.setStyleSheet(stylesheet)
+
 # load and set the application icon (Obie)
 app.setWindowIcon(QtGui.QIcon("views/oddball_graphics/obie.png"))
 
@@ -62,6 +75,8 @@ app.setApplicationName("Obie's Scoreboard")
 
 # start windows
 win = MainWindow(ui, args)
+
+
 
 # show windows
 win.show()

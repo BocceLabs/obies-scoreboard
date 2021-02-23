@@ -67,8 +67,8 @@ MEDIA_DIR = os.path.join(os.getcwd(), "..", "media-leelanaucurlingclub")
 ANNOUNCEMENT_DIR = os.path.join(MEDIA_DIR, "announcement_game", "lastname_firstname")
 PLAYERS = {
     # "RFID": ("Name", Skip?, entry_video.mp4)
-    "e4bce79c": ("Michael Scott", True, os.path.join(ANNOUNCEMENT_DIR, "Scott_Michael.mp4")),
-    "d7acdcef": ("Dwight Schrute", False, os.path.join(ANNOUNCEMENT_DIR, "Schrute_Dwight.mp4")),
+    "e4bce79c": ("David Gersenson", True, os.path.join(ANNOUNCEMENT_DIR, "Gersenson_David.mp4")),
+    "d7acdcef": ("Dwight Schrute", False, os.path.join(ANNOUNCEMENT_DIR, "Gersenson_David_2.mp4")),
     "1ab03e86": ("Pam Beesley", False, os.path.join(ANNOUNCEMENT_DIR, "Beesley_Pam.mp4")),
     "b0e751fd": ("Jim Halpert", False, os.path.join(ANNOUNCEMENT_DIR, "Jim_Halpert.mp4"))
 }
@@ -420,6 +420,8 @@ class PlayerRFID(QWidget):
 
     def quit(self):
         self.close()
+
+
 
 
 class MainWindow(QtWidgets.QMainWindow):
