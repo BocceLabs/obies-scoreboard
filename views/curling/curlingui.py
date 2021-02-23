@@ -36,6 +36,7 @@ import random
 import threading
 from collections import deque
 import time
+import json
 
 # logging
 import logging
@@ -65,13 +66,18 @@ BUTTON_HISTORY_LENGTH = 20
 # MEDIA for ABC
 MEDIA_DIR = os.path.join(os.getcwd(), "..", "media-leelanaucurlingclub")
 ANNOUNCEMENT_DIR = os.path.join(MEDIA_DIR, "announcement_game", "lastname_firstname")
-PLAYERS = {
-    # "RFID": ("Name", Skip?, entry_video.mp4)
-    "e4bce79c": ("David Gersenson", True, os.path.join(ANNOUNCEMENT_DIR, "Gersenson_David.mp4")),
-    "d7acdcef": ("Dwight Schrute", False, os.path.join(ANNOUNCEMENT_DIR, "Gersenson_David_2.mp4")),
-    "1ab03e86": ("Pam Beesley", False, os.path.join(ANNOUNCEMENT_DIR, "Beesley_Pam.mp4")),
-    "b0e751fd": ("Jim Halpert", False, os.path.join(ANNOUNCEMENT_DIR, "Jim_Halpert.mp4"))
-}
+# PLAYERS = {
+#     # "RFID": ("Name", Skip?, entry_video.mp4)
+#     "e4bce79c": ("David Gersenson", True, os.path.join(ANNOUNCEMENT_DIR, "Gersenson_David.mp4")),
+#     "d7acdcef": ("Dwight Schrute", False, os.path.join(ANNOUNCEMENT_DIR, "Gersenson_David_2.mp4")),
+#     "1ab03e86": ("Pam Beesley", False, os.path.join(ANNOUNCEMENT_DIR, "Beesley_Pam.mp4")),
+#     "b0e751fd": ("Jim Halpert", False, os.path.join(ANNOUNCEMENT_DIR, "Jim_Halpert.mp4"))
+# }
+
+# load the json file
+PLAYERS = None
+with open(os.path.join(MEDIA_DIR, "players.json")) as f:
+  PLAYERS = json.load(f)
 
 # SOUND FILE TYPES
 SOUND_TYPES = (".m4a", ".mp3", ".wav", ".WAV")
@@ -353,9 +359,11 @@ class PlayerRFID(QWidget):
 
         # lookup the string in the players list
         try:
+            with open(os.path.join(MEDIA_DIR, "players.json")) as f:
+                PLAYERS = json.load(f)
             name = PLAYERS[rfid_string][0]
             skip = PLAYERS[rfid_string][1]
-            video_path = PLAYERS[rfid_string][2]
+            video_path = os.path.join(MEDIA_DIR, "announcement_game", "lastname_firstname", PLAYERS[rfid_string][2])
         except KeyError:
             self.teamLabel.setStyleSheet("QLabel { color : red }")
             for i in range(5):
