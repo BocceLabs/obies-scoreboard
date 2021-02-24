@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1680</width>
+    <width>1718</width>
     <height>997</height>
    </rect>
   </property>
@@ -535,21 +535,21 @@
         <item>
          <widget class="QLabel" name="label_teamA_graphic">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>300</width>
-            <height>0</height>
+            <width>200</width>
+            <height>125</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>300</width>
-            <height>150</height>
+            <width>200</width>
+            <height>200</height>
            </size>
           </property>
           <property name="text">
@@ -563,15 +563,21 @@
         <item>
          <widget class="QLabel" name="label_teamA_name">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>600</width>
-            <height>0</height>
+            <width>350</width>
+            <height>125</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>350</width>
+            <height>200</height>
            </size>
           </property>
           <property name="palette">
@@ -640,10 +646,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -702,10 +714,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -764,10 +782,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -826,10 +850,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone4">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -888,10 +918,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone5">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -950,10 +986,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone6">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -1012,10 +1054,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone7">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -1074,10 +1122,16 @@
         <item>
          <widget class="QLabel" name="label_teamA_stone8">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -3564,21 +3618,21 @@
         <item>
          <widget class="QLabel" name="label_teamB_graphic">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>300</width>
-            <height>0</height>
+            <width>200</width>
+            <height>125</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>300</width>
-            <height>150</height>
+            <width>200</width>
+            <height>200</height>
            </size>
           </property>
           <property name="text">
@@ -3592,15 +3646,21 @@
         <item>
          <widget class="QLabel" name="label_teamB_name">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>600</width>
-            <height>0</height>
+            <width>350</width>
+            <height>125</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>350</width>
+            <height>200</height>
            </size>
           </property>
           <property name="palette">
@@ -3669,10 +3729,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -3731,10 +3797,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -3793,10 +3865,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -3855,10 +3933,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone4">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -3917,10 +4001,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone5">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -3979,10 +4069,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone6">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -4041,10 +4137,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone7">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -4103,10 +4205,16 @@
         <item>
          <widget class="QLabel" name="label_teamB_stone8">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>125</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -4186,9 +4294,9 @@
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>230</red>
-                <green>230</green>
-                <blue>230</blue>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
@@ -4197,9 +4305,9 @@
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>230</red>
-                <green>230</green>
-                <blue>230</blue>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
                </color>
               </brush>
              </colorrole>
@@ -5042,7 +5150,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1680</width>
+     <width>1718</width>
      <height>24</height>
     </rect>
    </property>

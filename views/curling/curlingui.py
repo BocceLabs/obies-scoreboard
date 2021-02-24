@@ -54,6 +54,12 @@ RFID_INDICATOR_WIDTH = 90
 # CARD WIDTH
 CARD_WIDTH = 75
 
+# STONE WIDTH
+STONE_WIDTH = 80
+
+# HAMMER WIDTH
+HAMMER_WIDTH = 150
+
 # DEFAULT MINUTES
 DEFAULT_GAME_MINUTES = 20
 DEFAULT_WARMUP_MINUTES = 5
@@ -345,12 +351,13 @@ class PlayerRFID(QWidget):
         self.setFocus()
         self.id.setFocus()
 
-        while self.name_idx <= self.num_players:
-            logging.info("sleeping")
-            sleep(4)
+        while not self.name_idx >= self.num_players:
+            num_remaining = self.num_players - self.name_idx
+            logging.info("waiting for {} more players to badge in".format(num_remaining))
+            sleep(1)
 
-        #sleep(self.timeout)
-        #self.quit()
+        sleep(2)
+        self.quit()
 
     def rfid_entered(self):
         # grab the rfid string and set the text box back to empty
@@ -417,6 +424,7 @@ class PlayerRFID(QWidget):
 
         # when there is not an error and the video is playing, keep playing until it is done
         while not self.v.error and self.v.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.id.setEnabled(False)
             sleep(1)
 
         # increement the name index and test that it doesn't exceed the number of players
@@ -425,6 +433,8 @@ class PlayerRFID(QWidget):
             sleep(3)
             self.quit()
 
+        self.id.setEnabled(True)
+        self.id.setFocus()
 
     def quit(self):
         self.close()
@@ -586,6 +596,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.NUM_ENDS = 8
         self.ends_chosen = False
         self.selected_card = self.NUM_ENDS
+        self.current_end = 1
+
+        # stones
+        self.teamA_num_stones = 8
+        self.teamB_num_stones = 8
 
         self.rfid_window = None
 
@@ -603,19 +618,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.input_team_names()
 
         # step #3 - rfid
-        logging.info("inputting team A via RFID")
-        self.input_player_rfid_USB(self.teamA)
-        logging.info("inputting team B via RFID")
-        self.rfid_window.close()
-        self.rfid_window = None
-        self.input_player_rfid_USB(self.teamB)
+        # logging.info("inputting team A via RFID")
+        # self.input_player_rfid_USB(self.teamA)
+        # logging.info("inputting team B via RFID")
+        # self.input_player_rfid_USB(self.teamB)
 
         #self.input_player_rfid_SimpleMFRC522()
 
         # step #4 - start game
         self.game_in_progress = True
-
-        pass
+        self.current_end = 1
+        self.teamA_num_stones = 8
+        self.teamB_num_stones = 8
+        self.draw_stones(self.teamA)
+        self.draw_stones(self.teamB)
 
 
     def choose_ends(self):
@@ -793,7 +809,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.rfid_window = PlayerRFID(team, 4)
         self.rfid_window.start()
         logging.info("finished collecting {} names via RFID".format(str(team)))
-        #sleep(10)
+        self.rfid_window = None
 
 
     def initialize_team(self, team, teamName):
@@ -900,7 +916,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 
-
+    def increment_end(self):
+        self.current_end += 1
+        self.hammer_set = False
+        if self.current_end >= self.NUM_ENDS:
+            self.game_in_progress = False
 
 
     # KEYPRESSES ##################################################################
@@ -927,13 +947,29 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
 
     def handle_key_A(self):
-        pass
+        if self.game_in_progress:
+            self.teamA_num_stones -= 1
+            self.draw_stones(self.teamA)
+            if self.current_end == 1:
+                hammer_path = os.path.join("views", "curling", "graphics", "hammer.png")
+                qImg = load_png_qImg(hammer_path, width=HAMMER_WIDTH)
+                draw_rgba_qimg(self.label_teamB_graphic, qImg)
+                self.label_teamA_graphic.clear()
+                self.label_teamA_graphic.repaint()
+                self.hammer_set = True
 
     def handle_key_B(self):
         # must be in clock mode to edit teams
-        if not self.game_in_progress:
-            if self.team_edit_mode:
-                self.show_team_change_popup(self.teamB)
+        if self.game_in_progress:
+            self.teamB_num_stones -=1
+            self.draw_stones(self.teamB)
+            if self.current_end == 1 and not self.hammer_set:
+                hammer_path = os.path.join("views", "curling", "graphics", "hammer.png")
+                qImg = load_png_qImg(hammer_path, width=HAMMER_WIDTH)
+                draw_rgba_qimg(self.label_teamA_graphic, qImg)
+                self.label_teamB_graphic.clear()
+                self.label_teamB_graphic.repaint()
+                self.hammer_set = True
         else:
             pass
 
@@ -1124,6 +1160,54 @@ class MainWindow(QtWidgets.QMainWindow):
         if ok:
             team = self.initialize_team(team, newTeamName)
             labelTeamName.setText(str(team))
+
+
+    def draw_stones(self, team):
+        # initialize vars
+        num_stones = None
+        stone_graphics = None
+        stone_png = None
+
+        # set vars depending on team
+        if team is self.teamA:
+            num_stones = self.teamA_num_stones
+            stone_graphics = [
+                self.label_teamA_stone1,
+                self.label_teamA_stone2,
+                self.label_teamA_stone3,
+                self.label_teamA_stone4,
+                self.label_teamA_stone5,
+                self.label_teamA_stone6,
+                self.label_teamA_stone7,
+                self.label_teamA_stone8
+            ]
+            stone_png = os.path.join("views", "curling", "graphics", "curling_stone_blue.png")
+        elif team is self.teamB:
+            num_stones = self.teamB_num_stones
+            stone_graphics = [
+                self.label_teamB_stone1,
+                self.label_teamB_stone2,
+                self.label_teamB_stone3,
+                self.label_teamB_stone4,
+                self.label_teamB_stone5,
+                self.label_teamB_stone6,
+                self.label_teamB_stone7,
+                self.label_teamB_stone8
+            ]
+            stone_png = os.path.join("views", "curling", "graphics", "curling_stone_green.png")
+
+        # logging
+        logging.info("drawing {} stones for {}".format(num_stones, str(team)))
+
+        # draw stones
+        for i, stone in enumerate(stone_graphics):
+            print(i)
+            if i < num_stones:
+                qImg = load_png_qImg(stone_png, width=STONE_WIDTH)
+                draw_rgba_qimg(stone, qImg)
+            else:
+                stone.clear()
+                stone.repaint()
 
 
 
