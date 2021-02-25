@@ -821,14 +821,28 @@ class MainWindow(QtWidgets.QMainWindow):
         
     def previous_open_team_card_position(self, team):
         if team is self.teamA:
-            self.teamA_card_idx -= 1
-            if self.teamA_card_idx <= 0:
-                self.teamA_card_idx = 0
+            # if the previous card is positioned there, you can go left
+            print("selected card: {}".format(self.selected_card))
+            print("selected card minus 1: {}".format(self.selected_card-1))
+            if not self.teamA_points_place_labels[self.teamA_card_idx-1] is self.card_place_color_map[self.selected_card - 1][0]:
+                self.teamA_card_idx -= 1
+                # the card gets pinned as far left as it can go
+                if self.teamA_card_idx <= 0:
+                    self.teamA_card_idx = 0
+            # otherwise, no change
+            else:
+                pass
             return self.teamA_points_place_labels[self.teamA_card_idx]
         elif team is self.teamB:
-            self.teamB_card_idx -= 1
-            if self.teamB_card_idx <= 0:
-                self.teamB_card_idx = 0
+            # if the previous card is not positioned there, you can go left
+            if not self.teamB_points_place_labels[self.teamB_card_idx - 1] is self.card_place_color_map[self.selected_card - 1][0]:
+                self.teamA_card_idx -= 1
+                # the card gets pinned as far left as it can go
+                if self.teamB_card_idx <= 0:
+                    self.teamB_card_idx = 0
+            # otherwise, no change
+            else:
+                    pass
             return self.teamB_points_place_labels[self.teamB_card_idx]
 
 
