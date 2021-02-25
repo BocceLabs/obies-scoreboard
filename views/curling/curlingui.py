@@ -714,6 +714,31 @@ class MainWindow(QtWidgets.QMainWindow):
             logging.info("drawing card")
             self.draw_card(card_num, "blue", self.card_place_color_map[card_num][0])
 
+    def move_card_up(self):
+        card_num = self.selected_card
+        logging.info("moving card down")
+        if not self.end_card_locked(card_num):
+            # if the card is in the blank end positions, then move it up to team B positions
+            if self.card_place_color_map[card_num][0] in self.blank_end_positions:
+                # set to the next open end card position
+                index_to_clear = self.blank_end_positions.index(self.card_place_color_map[card_num][0])
+                self.draw_card(card_num, "clear_it", self.blank_end_positions[index_to_clear])
+                self.card_place_color_map[card_num][0] = self.first_open_team_card_position(self.teamB)
+
+            # or if the card is in team B's positions, move it up to team A positions
+            elif self.card_place_color_map[card_num][0] in self.teamB_points_place_labels:
+                # set to the next open end card position
+                index_to_clear = self.teamB_points_place_labels.index(self.card_place_color_map[card_num][0])
+                self.draw_card(card_num, "clear_it", self.teamB_points_place_labels[index_to_clear])
+                self.card_place_color_map[card_num][0] = self.first_open_team_card_position(self.teamA)
+
+            else:
+                raise ValueError("can't move unlocked card back to start position")
+
+            logging.info("drawing card")
+            self.draw_card(card_num, "blue", self.card_place_color_map[card_num][0])
+
+
     def move_card_right(self):
         card_num = self.selected_card
         logging.info("moving card right")
@@ -741,11 +766,16 @@ class MainWindow(QtWidgets.QMainWindow):
         if not self.end_card_locked(card_num):
             # if the card is in team A's positions, move it right to next open position
             if self.card_place_color_map[card_num][0] in self.teamA_points_place_labels:
-                # set to the next open end card position
+                # set to the previous open end card position
+                index_to_clear = self.teamA_points_place_labels.index(self.card_place_color_map[card_num][0])
+                self.draw_card(card_num, "clear_it", self.teamA_points_place_labels[index_to_clear])
                 self.card_place_color_map[card_num][0] = self.previous_open_team_card_position(self.teamA)
+
             # or if the card is in team B's positions, move it right to next open position
             elif self.card_place_color_map[card_num][0] in self.teamB_points_place_labels:
-                # set to the next open end card position
+                # set to the previous open end card position
+                index_to_clear = self.teamB_points_place_labels.index(self.card_place_color_map[card_num][0])
+                self.draw_card(card_num, "clear_it", self.teamB_points_place_labels[index_to_clear])
                 self.card_place_color_map[card_num][0] = self.previous_open_team_card_position(self.teamB)
             logging.info("drawing card")
             self.draw_card(card_num, "blue", self.card_place_color_map[card_num][0])
@@ -765,31 +795,27 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def first_open_team_card_position(self, team):
         if team is self.teamA:
-            if self.previous_locked_card_teamA is not None:
-                self.teamA_card_idx = self.previous_locked_card_teamA + 1
-            else:
-                self.teamA_card_idx = 0
-            label =  self.teamA_points_place_labels[self.teamA_card_idx]
-            return label
+            self.teamA_card_idx += 1
+            if self.teamA_card_idx >= len(self.teamA_points_place_labels):
+                self.teamA_card_idx = len(self.teamA_points_place_labels) - 1
+            return self.teamA_points_place_labels[self.teamA_card_idx]
         elif team is self.teamB:
-            if self.previous_locked_card_teamB is not None:
-                self.teamB_card_idx = self.previous_locked_card_teamB + 1
-            else:
-                self.teamB_card_idx = 0
-            label = self.teamB_points_place_labels[self.teamB_card_idx]
-            return label
+            self.teamB_card_idx += 1
+            if self.teamB_card_idx >= len(self.teamB_points_place_labels):
+                self.teamB_card_idx = len(self.teamB_points_place_labels) - 1
+            return self.teamB_points_place_labels[self.teamB_card_idx]
         
     def previous_open_team_card_position(self, team):
         if team is self.teamA:
-            if self.teamA_card_idx - 1 >= 0:
-                self.teamA_card_idx -= 1
-                return self.teamA_points_place_labels[self.teamA_card_idx]
+            self.teamA_card_idx -= 1
+            if self.teamA_card_idx <= 0:
+                self.teamA_card_idx = 0
+            return self.teamA_points_place_labels[self.teamA_card_idx]
         elif team is self.teamB:
-            if self.teamB_card_idx - 1 >= 0:
-                self.teamB_card_idx -= 1
-                return self.teamB_points_place_labels[self.teamB_card_idx]
-
-        return None
+            self.teamB_card_idx -= 1
+            if self.teamB_card_idx <= 0:
+                self.teamB_card_idx = 0
+            return self.teamB_points_place_labels[self.teamB_card_idx]
 
 
     def choose_ends(self):
@@ -838,6 +864,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.draw_card(0, "clear_it", label)
         for label in self.teamB_points_place_labels:
             self.draw_card(0, "clear_it", label)
+        for label in self.blank_end_positions:
+            self.draw_card(0, "clear_it", label)
+
 
     def select_card(self, card_num, ignore_prev=False):
         logging.info("selecting card {}".format(card_num))
@@ -1167,8 +1196,11 @@ class MainWindow(QtWidgets.QMainWindow):
                 hammer_path = os.path.join("views", "curling", "graphics", "hammer.png")
                 qImg = load_png_qImg(hammer_path, width=HAMMER_WIDTH)
                 draw_rgba_qimg(self.label_teamB_graphic, qImg)
-                self.label_teamA_graphic.clear()
-                self.label_teamA_graphic.repaint()
+
+                # draw team logo A
+                qImg = load_png_qImg(TEAM_A_LOGO_PATH, TEAM_LOGO_SIZE)
+                draw_rgba_qimg(self.label_teamA_graphic, qImg)
+
                 self.hammer_set = True
 
     def handle_key_B(self):
@@ -1180,8 +1212,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 hammer_path = os.path.join("views", "curling", "graphics", "hammer.png")
                 qImg = load_png_qImg(hammer_path, width=HAMMER_WIDTH)
                 draw_rgba_qimg(self.label_teamA_graphic, qImg)
-                self.label_teamB_graphic.clear()
-                self.label_teamB_graphic.repaint()
+                # draw team logo B
+                qImg = load_png_qImg(TEAM_B_LOGO_PATH, TEAM_LOGO_SIZE)
+                draw_rgba_qimg(self.label_teamB_graphic, qImg)
                 self.hammer_set = True
         else:
             pass
@@ -1212,7 +1245,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def handle_key_UP(self):
-        pass
+        if self.game_in_progress:
+            try:
+                self.move_card_up()
+            except Exception as e:
+                print(str(e))
+                return
 
     def handle_key_DOWN(self):
         if self.game_in_progress:
@@ -1223,7 +1261,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.select_card(self.selected_card - 1)
 
         else:
-            pass
+            if self.game_in_progress:
+                self.move_card_left()
 
     def handle_key_RIGHT(self):
         if not self.ends_chosen:
@@ -1272,39 +1311,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.handle_key_RIGHT()
 
         # set the previous button
-        self._prevButton = event.key()
-
-    def lock_in_end_score(self, team):
-        # display lightning user feedback
-        if self.add_points_mode:
-            qImg = self.load_png_qImg('views/oddball_graphics/lightning.png',
-                                       TOP_LEFT_LOGO_WIDTH)
-            self.draw_rgba_qimg(self.label_sponsor_bottom_left, qImg)
-
-            team.score.ends[self.end_num].locked = True
-            self.other_team(team).score.ends[self.end_num].locked = True
-
-            self.end_num += 1
-
-            # update current end in score model
-            team.score.current_end += 1
-            self.other_team(team).score.current_end += 1
-
-            # place the hammer on the other team and display it
-            self.other_team(team).score.set_hammer(self.other_team(team).score.current_end)
-
-            if self.other_team(team) is self.teamA:
-                hammer_icon_spot = self.teamA_points_place_labels[team.score.current_end]
-            elif self.other_team(team) is self.teamB:
-                hammer_icon_spot = self.teamB_points_place_labels[team.score.current_end]
-            qImg = self.load_png_qImg('views/curling/graphics/hammer.png', 100)
-            self.draw_rgba_qimg(hammer_icon_spot, qImg)
-
-
-
-            self.add_points_mode = False
-
-            # todo place the hammer
+        self._prevButton = event.key
 
     def other_team(self, team):
         """convenience function returns the opposite team of what is provided"""
