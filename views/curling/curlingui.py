@@ -253,9 +253,13 @@ class VideoPlayer(QWidget):
         self.mediaPlayer.setPosition(position)
 
     def handleError(self):
-        self.playButton.setEnabled(False)
-        self.errorLabel.setText("Error: " + self.mediaPlayer.errorString())
-        self.error = True
+        video_path = os.path.join(MEDIA_DIR, "announcement_game",
+                                  "lastname_firstname", "Random_Curler.mp4")
+        self.openFile(video_path)
+        self.play()
+        # self.playButton.setEnabled(False)
+        # self.errorLabel.setText("Error: " + self.mediaPlayer.errorString())
+        # self.error = True
 
     def sizeHint(self):
         return QSize(1280, 720)
@@ -628,10 +632,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.input_team_names()
 
         # step #3 - rfid
-        # logging.info("inputting team A via RFID")
-        # self.input_player_rfid_USB(self.teamA)
-        # logging.info("inputting team B via RFID")
-        # self.input_player_rfid_USB(self.teamB)
+        logging.info("inputting team A via RFID")
+        self.input_player_rfid_USB(self.teamA)
+        logging.info("inputting team B via RFID")
+        self.input_player_rfid_USB(self.teamB)
 
         #self.input_player_rfid_SimpleMFRC522()
 
