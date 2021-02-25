@@ -449,7 +449,11 @@ class PlayerRFID(QWidget):
     def quit(self):
         self.close()
 
-
+    def closeEvent(self, event) -> None:
+        logging.info("close rfid window pressed")
+        self.name_idx = 4
+        self.quit()
+        event.accept()
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -520,7 +524,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.label_teamA_points8,
             self.label_teamA_points9,
             self.label_teamA_points10,
-            self.label_teamA_points11
+            self.label_teamA_points11,
+            self.label_teamA_points12,
+            self.label_teamA_points13,
+            self.label_teamA_points14
         ]
         self.teamB_points_place_labels = [
             self.label_teamB_points1,
@@ -533,7 +540,10 @@ class MainWindow(QtWidgets.QMainWindow):
             self.label_teamB_points8,
             self.label_teamB_points9,
             self.label_teamB_points10,
-            self.label_teamB_points11
+            self.label_teamB_points11,
+            self.label_teamB_points12,
+            self.label_teamB_points13,
+            self.label_teamB_points14
         ]
         self.card_start_positions = [
             self.label_end_card1,
@@ -648,11 +658,11 @@ class MainWindow(QtWidgets.QMainWindow):
     def start_game(self):
         self.game_in_progress = True
         self.current_end = 0
-        self.teamA_card_idx = 0
-        self.teamB_card_idx = 0
+        self.teamA_card_idx = -1
+        self.teamB_card_idx = -1
         self.previous_locked_card_teamA = None
         self.previous_locked_card_teamB = None
-        self.blank_end_idx = 0
+        self.blank_end_idx = -1
         self.selected_card = 1
 
     def game_runner(self):
@@ -1078,6 +1088,7 @@ class MainWindow(QtWidgets.QMainWindow):
             event.accept()
         logging.info("window closed")
         logging.info("most recent {} buttons = {}".format(str(len(self.buttonHistory)), str(self.buttonHistory)))
+        sys.exit()
 
     def play_random_animation(self, gif_dir, timeout=5):
         logging.info("playing random animation")
