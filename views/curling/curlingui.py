@@ -636,6 +636,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # step #1 - draw team logos by clearing hammer and choose ends
         self.clear_hammer()
         self.clear_cards()
+        self.ends_chosen = False
+        self.NUM_ENDS = 8
+        self.selected_card = self.NUM_ENDS
         self.choose_ends()
 
         # step #2 - input team names
@@ -656,6 +659,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.game_runner()
 
     def start_game(self):
+        logging.info("starting game")
         self.game_in_progress = True
         self.current_end = 0
         self.teamA_card_idx = -1
@@ -689,7 +693,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 ]
                 sleep(1)
             logging.info("end card {} is locked".format(str(self.current_end)))
-
+        logging.info("game is no longer in progress")
 
 
 
@@ -866,6 +870,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def choose_ends(self):
+        logging.info("choosing ends")
         # display all end cards
         self.display_all_end_cards_at_top()
 
@@ -976,6 +981,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # reposition all cards:
         # these are the initial positions for each card
+        self.card_place_color_map = None
         self.card_place_color_map = {
             1: [self.card_start_positions[0], "white", False],
             2: [self.card_start_positions[1], "white", False],
@@ -990,9 +996,11 @@ class MainWindow(QtWidgets.QMainWindow):
         }
 
         try:
-            for card_num, place_color in self.card_place_color_map.items():
-                label = place_color[0]
-                color = place_color[1]
+            for card_num, place_color_locked in self.card_place_color_map.items():
+                label = place_color_locked[0]
+                color = place_color_locked[1]
+                locked = place_color_locked[2]
+                print(locked)
                 self.draw_card(card_num, color, label)
                 logging.info("END card {} loaded into top position".format(str(card_num)))
         except Exception as e:
