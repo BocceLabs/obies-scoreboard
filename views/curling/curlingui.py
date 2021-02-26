@@ -366,7 +366,7 @@ class PlayerRFID(QWidget):
             logging.info("waiting for {} more players to badge in".format(num_remaining))
             sleep(1)
 
-        sleep(2)
+        sleep(1)
         self.quit()
 
     def rfid_entered(self):
@@ -694,9 +694,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def end_card_locked(self, end):
-        print(end)
-        print(self.card_place_color_map[end])
-
         logging.debug("is end card {} locked: {}".format(str(end), str(self.card_place_color_map[end][2])))
         return self.card_place_color_map[end][2]
 
@@ -776,23 +773,37 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def move_card_left(self):
         card_num = self.selected_card
-        logging.info("moving card left")
+        logging.info("attempting moving card left")
         if not self.end_card_locked(card_num):
-            # if the card is in team A's positions, move it right to next open position
+            # if the card is in team A's positions, move it left to next open position
             if self.card_place_color_map[card_num][0] in self.teamA_points_place_labels:
-                # set to the previous open end card position
-                index_to_clear = self.teamA_points_place_labels.index(self.card_place_color_map[card_num][0])
-                self.draw_card(card_num, "clear_it", self.teamA_points_place_labels[index_to_clear])
-                self.card_place_color_map[card_num][0] = self.previous_open_team_card_position(self.teamA)
+                logging.info("the card is in team A points places")
 
-            # or if the card is in team B's positions, move it right to next open position
+                # try moving it left
+                if self.teamA_points_place_labels[self.teamA_card_idx - 1].pixmap() is None:
+                    # clear it from previous position
+                    logging.info("clearing previous card position")
+                    index_to_clear = self.teamA_points_place_labels.index(self.card_place_color_map[card_num][0])
+                    self.draw_card(card_num, "clear_it", self.teamA_points_place_labels[index_to_clear])
+                    # move it
+                    logging.info("moving card left")
+                    self.card_place_color_map[card_num][0] = self.teamA_points_place_labels[self.teamA_card_idx - 1]
+                    logging.info("drawing card")
+                    self.draw_card(card_num, "blue", self.card_place_color_map[card_num][0])
+                    self.teamA_card_idx -= 1
+            # or if the card is in team B's positions, move it left right to next open position
             elif self.card_place_color_map[card_num][0] in self.teamB_points_place_labels:
-                # set to the previous open end card position
-                index_to_clear = self.teamB_points_place_labels.index(self.card_place_color_map[card_num][0])
-                self.draw_card(card_num, "clear_it", self.teamB_points_place_labels[index_to_clear])
-                self.card_place_color_map[card_num][0] = self.previous_open_team_card_position(self.teamB)
-            logging.info("drawing card")
-            self.draw_card(card_num, "blue", self.card_place_color_map[card_num][0])
+                if self.teamB_points_place_labels[self.teamB_card_idx - 1].pixmap() is None:
+                    # clear it from previous position
+                    logging.info("clearing previous card position")
+                    index_to_clear = self.teamB_points_place_labels.index(self.card_place_color_map[card_num][0])
+                    self.draw_card(card_num, "clear_it", self.teamB_points_place_labels[index_to_clear])
+                    # move it
+                    logging.info("moving card left")
+                    self.card_place_color_map[card_num][0] = self.teamB_points_place_labels[self.teamB_card_idx - 1]
+                    logging.info("drawing card")
+                    self.draw_card(card_num, "blue", self.card_place_color_map[card_num][0])
+                    self.teamB_card_idx -= 1
 
     def lock_card(self, card_num):
         self.card_place_color_map[card_num][2] = True
@@ -822,20 +833,28 @@ class MainWindow(QtWidgets.QMainWindow):
     def previous_open_team_card_position(self, team):
         if team is self.teamA:
             # if the previous card is positioned there, you can go left
-            print("selected card: {}".format(self.selected_card))
-            print("selected card minus 1: {}".format(self.selected_card-1))
-            if not self.teamA_points_place_labels[self.teamA_card_idx-1] is self.card_place_color_map[self.selected_card - 1][0]:
-                self.teamA_card_idx -= 1
-                # the card gets pinned as far left as it can go
-                if self.teamA_card_idx <= 0:
-                    self.teamA_card_idx = 0
-            # otherwise, no change
-            else:
-                pass
-            return self.teamA_points_place_labels[self.teamA_card_idx]
+            logging.info("selected card: {}".format(self.selected_card))
+            logging.info("selected card minus 1: {}".format(self.selected_card-1))
+            # if not self.teamA_points_place_labels[self.teamA_card_idx-1] in [v[0] for v in self.card_place_color_map.values()]:
+            # if card is in team b, then need to check previous team A card because if statement fails
+            # maybe get index of last locked card and can't go left of there
+
+            logging.info("previous locked card: {}".format(self.previous_locked_card_teamA))
+
+
+            # if not self.teamA_points_place_labels[self.previous_locked_card_teamA] is self.card_place_color_map[self.selected_card - 1][0]:
+            #     self.teamA_card_idx -= 1
+            #     # the card gets pinned as far left as it can go
+            #     if self.teamA_card_idx <= 0:
+            #         self.teamA_card_idx = 0
+            # # otherwise, no change
+            # else:
+            #     pass
+            self.teamA_card_idx -= 1
+            return self.teamA_points_place_labels[self.previous_locked_card_teamA + 1]
         elif team is self.teamB:
             # if the previous card is not positioned there, you can go left
-            if not self.teamB_points_place_labels[self.teamB_card_idx - 1] is self.card_place_color_map[self.selected_card - 1][0]:
+            if not self.teamB_points_place_labels[self.previous_locked_card_teamB] is self.card_place_color_map[self.selected_card - 1][0]:
                 self.teamA_card_idx -= 1
                 # the card gets pinned as far left as it can go
                 if self.teamB_card_idx <= 0:
