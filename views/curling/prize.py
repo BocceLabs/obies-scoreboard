@@ -387,7 +387,7 @@ class PlayerRFID(QWidget):
                 sleep(.25)
                 self.teamLabel.setText("")
                 sleep(.25)
-            self.teamLabel.setText(str(self.team))
+            self.teamLabel.setText(str("Tap a fob..."))
             self.teamLabel.setStyleSheet("QLabel { color : black }")
             return
 
