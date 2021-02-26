@@ -421,6 +421,11 @@ class PlayerRFID(QWidget):
             self.id.setEnabled(False)
             sleep(1)
 
+        nameLabel_widget = self.grid.itemAtPosition(self.name_idx, 1).widget()
+
+        # set the name Label
+        nameLabel_widget.setText("")
+
         # increement the name index and test that it doesn't exceed the number of players
         sleep(1)
 
