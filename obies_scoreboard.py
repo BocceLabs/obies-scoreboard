@@ -6,9 +6,12 @@ import os
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-g", "--game", default="bocce", help="what game are you playing?")
-ap.add_argument("-v", "--view", required=True, help="which ui do you want to run?")
-ap.add_argument("-r", "--remote", required=True, help="which remote do you want to use")
+ap.add_argument("-g", "--game", default="bocce", choices=["bocce", "curling"],
+    help="what game are you playing?")
+ap.add_argument("-v", "--view", default="digital", choices=["digital", "leelanau"],
+    help="which ui do you want to run?")
+ap.add_argument("-r", "--remote", default="sparkfun", choices=["ati", "sparkfun"],
+    help="which remote do you want to use")
 args = vars(ap.parse_args())
 
 # initialize ui
@@ -25,6 +28,7 @@ if args["game"] == "bocce":
         #ui = "views/bocce/traditional_scoreboard.ui"
     else:
         raise NotImplementedError
+    stylesheet = ""
 
 # future sports
 elif args["game"] == "shuffleboard":
@@ -34,7 +38,20 @@ elif args["game"] == "axethrowing":
 elif args["game"] == "croquet":
     raise NotImplementedError
 elif args["game"] == "curling":
-    raise NotImplementedError
+    from views.curling.curlingui import MainWindow
+    if args["view"] == "leelanau":
+        ui = os.path.join(os.getcwd(), "views", "curling", "curlingui_leelanau.ui")
+        stylesheet = """
+            MainWindow {
+                background-image: url("views/curling/graphics/ICE.jpg"); 
+                background-repeat: no-repeat; 
+                background-position: center;
+                font-family: "Luckiest Guy";font-size: 40pt;
+            }
+            QLabel{font-family: "Luckiest Guy";font-size: 40pt;};
+        """
+    else:
+        raise NotImplementedError
 elif args["game"] == "kubb":
     raise NotImplementedError
 elif args["game"] == "shuffleboard":
@@ -47,6 +64,9 @@ else:
 # start application with windows for each camera
 app = QApplication([])
 
+# set the stylesheet
+app.setStyleSheet(stylesheet)
+
 # load and set the application icon (Obie)
 app.setWindowIcon(QtGui.QIcon("views/oddball_graphics/obie.png"))
 
@@ -55,6 +75,8 @@ app.setApplicationName("Obie's Scoreboard")
 
 # start windows
 win = MainWindow(ui, args)
+
+
 
 # show windows
 win.show()
