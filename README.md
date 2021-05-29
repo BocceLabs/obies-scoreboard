@@ -4,7 +4,7 @@ This is a PyQT Scoreboard that supports a wireless/infrared remote control and a
 
 ![obie's-scoreboard](https://github.com/OddballSports-tv/obies-scoreboard/blob/main/scoreboard.png)
 
-![obie's-curling-scoreboard](https://github.com/OddballSports-tv/obies-scoreboard/demo/curling_demo_video.mov.gif)
+<img src="https://github.com/OddballSports-tv/obies-scoreboard/blob/main/demo/curling_demo_video.mov.gif" width="800"/>
 
 
 # Architecture
